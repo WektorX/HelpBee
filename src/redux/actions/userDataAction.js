@@ -1,0 +1,34 @@
+export const userAuth = (user) => {
+    return {
+        type: 'USER_AUTH',
+        userAuth: user,
+    };
+};
+
+export const userEmail = (email) => {
+    return {
+        type: 'USER_EMAIL',
+        email: email,
+    };
+};
+
+export const userFirstName = (firstName) => {
+    return {
+        type: 'USER_FIRST_NAME',
+        firstName: firstName,
+    };
+};
+
+export const userLastName = (lastName) => {
+    return {
+        type: 'USER_LAST_NAME',
+        lastName: lastName,
+    };
+};
+
+export const userPhoneNumber = (phoneNumber) => {
+    return {
+        type: 'USER_PHONE_NUMER',
+        phoneNumber: phoneNumber,
+    };
+};

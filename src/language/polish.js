@@ -10,7 +10,11 @@ const polish = {
     lastName : "Nazwisko",
     phoneNumber : "Numer telefonu",
     repeatPassword : "Powtórz hasło",
-    alreadyHaveAccount : "Już posiadasz konto? Zaloguj się"
+    alreadyHaveAccount : "Już posiadasz konto? Zaloguj się",
+    save: "Zapisz",
+    invalidEmail: "Niepoprawny adres email",
+    differentPasswords: "Podane hasła są różne",
+    weakPassword: "Hasło za słabe!"
 }
 
 export {polish}

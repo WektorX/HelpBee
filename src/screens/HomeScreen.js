@@ -6,7 +6,11 @@ import { useNavigation } from '@react-navigation/core';
  
 export default function HomeScreen() {
   const dispatch = useDispatch();
- 
+
+  const email = useSelector((store) => store.user.email);
+  const userAuthObj = useSelector((store) => store.user.userAuth);
+  
+
   const navigation = useNavigation();
 
 // function to sign out from app
@@ -21,6 +25,7 @@ export default function HomeScreen() {
  
   return (
     <View style={styles.container}>
+
       <Button text={"Log out"} func={handleSignOut}/>
     </View>
   );

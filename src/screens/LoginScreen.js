@@ -6,9 +6,13 @@ import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { Fumi } from 'react-native-textinput-effects';
+import { userEmail, userAuth } from '../redux/actions/userDataAction';
+
 const LoginScreen = () => {
 
-    const [email, setEmail] = useState('');
+    const dispatch = useDispatch();
+
+    const email = useSelector((store) => store.user.email);
     const [password, setPassword] = useState('');
 
     const lang = useSelector((store) => store.language.language);
@@ -24,12 +28,19 @@ const LoginScreen = () => {
 
         return unsubscribe;
     }, [])
+
+// set user email address to redux store 
+    const handleEmailChange = (value) =>{
+        dispatch(userEmail(value))
+    }
+
 // function to log in user
     const handleLogIn = () =>{
         auth
             .signInWithEmailAndPassword(email, password)
             .then(userCredentials =>{
                 const user = userCredentials.user;
+                dispatch(userAuth(user))
             })
             .catch( err => alert(err)); //TODO: catch error and show some alert and make inputs red
     }
@@ -57,7 +68,9 @@ const LoginScreen = () => {
                     iconWidth={40}
                     inputPadding={16}
                     value={email}
-                    onChangeText={text => setEmail(text)}
+                    onChangeText={text => handleEmailChange(text)}
+                    keyboardType = {'email-address'}
+
                 />
                 {/* Password input */}
                 <Fumi

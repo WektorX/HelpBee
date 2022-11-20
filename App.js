@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LogBox } from 'react-native';
 import WelcomeScreen from './src/screens/WelcomeScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
+import UserDataScreen from './src/screens/UserDataScreen';
 
 
 
@@ -29,6 +30,8 @@ export default function App() {
           <Stack.Screen name="Login" options={options} component={LoginScreen} />
           <Stack.Screen name="Home" options={options} component={HomeScreen} />
           <Stack.Screen name="Register" options={options} component={RegisterScreen} />
+          <Stack.Screen name="UserData" options={options} component={UserDataScreen} />
+
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

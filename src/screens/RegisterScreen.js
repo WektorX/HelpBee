@@ -7,40 +7,78 @@ import { useSelector, useDispatch } from 'react-redux';
 import PhoneInput from "react-native-phone-number-input";
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { Fumi } from 'react-native-textinput-effects';
+import { userEmail, userAuth } from '../redux/actions/userDataAction';
 
 export default function RegisterScreen() {
 
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    // phone number states
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [formattedValue, setFormattedValue] = useState("");
-
-    const [email, setEmail] = useState('');
+    //use navigator
+    const navigation = useNavigation();
+    //use redux store
+    const dispatch = useDispatch();
+    //get state from redux store
+    const userAuthObj = useSelector((store) => store.user.userAuth);
+    const email = useSelector((store) => store.user.email);
+    const lang = useSelector((store) => store.language.language);
+    //local states
+    const [validEmail, setValidEmail] = useState(true);
+    const [validPasswords, setValidPasswords] = useState(true);
     const [password, setPassword] = useState('');
     const [repeatPassword, setRepeatPassword] = useState('');
+    const [errorMsg, setErrorMsg] = useState('');
 
+    //set email address
+    const handleEmailChange = (value) => {
+        dispatch(userEmail(value))
+    }
 
-    const lang = useSelector((store) => store.language.language);
-    // const phoneInput = useRef(null);
+    // When authentication complete go to UserDataScreen
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(user => {
+            if (user) {
+                navigation.replace("Home");
+            }
+        })
+        return unsubscribe;
+    }, [])
 
+    //function to validate email address
+    const validateEmail = () => {
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        return reg.test(email);
+    }
 
-    const navigation = useNavigation();
 
     //funtion to register user
     const handleSignUp = () => {
-        // TODO: validate all inputs and if error show some text
-        // let validPhoneNumber = phoneInput.current?.isValidNumber(phoneNumber);
-        // alert(phoneInput.current.getCallingCode() + " " + phoneNumber + " is valid?" + validPhoneNumber)
-        alert(firstName)
-        //funtion to register user in firebase
-        // auth
-        //     .createUserWithEmailAndPassword(email, password)
-        //     .then(userCredentials => {
-        //         const user = userCredentials.user;
-        //     })
-        //     .catch(err => alert(err)); //TODO: if some errors than show error message
-        //TODO: after user successfull registration insert personal info to table
+        //validate email address
+        //when email is valid
+        if (validateEmail()) {
+            setValidEmail(true)
+            setErrorMsg('');
+            //check if passwords are the same
+            if (password === repeatPassword) {
+                //funtion to register user in firebase
+                setValidPasswords(true);
+                setErrorMsg('');
+                auth
+                    .createUserWithEmailAndPassword(email, password)
+                    .then(userCredentials => {
+                        const user = userCredentials.user;
+                        dispatch(userAuth(user))
+                    })
+                    .catch(err => alert(err)); //TODO: if some errors than show error message
+            }
+            //if passwords are different
+            else {
+                setValidPasswords(false);
+                setErrorMsg(lang.differentPasswords);
+            }
+        }
+        //when email address is not valid
+        else {
+            setValidEmail(false)
+            setErrorMsg(lang.invalidEmail);
+        }
     }
 
 
@@ -54,94 +92,51 @@ export default function RegisterScreen() {
                 resizeMode={'cover'}
                 style={styles.imageLogo}
             />
-
-
             <View style={styles.inputContainer}>
-
-                {/* First name input */}
-                <Fumi
-                    label={lang.firstName}
-                    iconClass={FontAwesomeIcon}
-                    iconName={'user'}
-                    iconColor={'#f95a25'}
-                    iconSize={20}
-                    iconWidth={40}
-                    inputPadding={16}
-                    value={firstName}
-                    onChangeText={text => setFirstName(text)}
-                />
-                {/* Last name input */}
-                <Fumi
-                    label={lang.lastName}
-                    iconClass={FontAwesomeIcon}
-                    iconName={'child'}
-                    iconColor={'#f95a25'}
-                    iconSize={20}
-                    iconWidth={40}
-                    inputPadding={16}
-                    value={lastName}
-                    onChangeText={text => setLastName(text)}
-                />
-                {/* Phone number input */}
-                <Fumi
-                    label={lang.phoneNumber}
-                    iconClass={FontAwesomeIcon}
-                    iconName={'phone'}
-                    iconColor={'#f95a25'}
-                    iconSize={20}
-                    iconWidth={40}
-                    inputPadding={16}
-                    value={phoneNumber}
-                    onChangeText={text => setPhoneNumber(text)}
-                />
-                {/* <PhoneInput
-                    ref={phoneInput}
-                    containerStyle={styles.inputPhone}
-                    defaultValue={phoneNumber}
-                    defaultCode="PL"
-                    layout="first"
-                    onChangeText={(text) => { setPhoneNumber(text) }}
-                    onChangeFormattedText={(text) => { setFormattedValue(text) }}
-                /> */}
                 {/* Email address input */}
                 <Fumi
                     label={lang.email}
                     iconClass={FontAwesomeIcon}
                     iconName={'envelope-o'}
-                    iconColor={'#f95a25'}
+                    iconColor={(validEmail ? '#ffcb05' : 'red')}
                     iconSize={20}
                     iconWidth={40}
                     inputPadding={16}
                     value={email}
-                    onChangeText={text => setEmail(text)}
+                    onChangeText={text => handleEmailChange(text)}
+                    inputStyle={(validEmail ? null : styles.inputError)}
+                    keyboardType = {'email-address'}
                 />
                 {/* Password input */}
                 <Fumi
                     label={lang.password}
                     iconClass={FontAwesomeIcon}
                     iconName={'unlock'}
-                    iconColor={'#f95a25'}
+                    iconColor={(validPasswords ? '#ffcb05' : 'red')}
                     iconSize={20}
                     iconWidth={40}
                     inputPadding={16}
                     value={password}
                     onChangeText={text => setPassword(text)}
                     secureTextEntry
+                    inputStyle={(validPasswords ? null : styles.inputError)}
                 />
                 {/* Repeat password input */}
                 <Fumi
                     label={lang.repeatPassword}
                     iconClass={FontAwesomeIcon}
                     iconName={'lock'}
-                    iconColor={'#f95a25'}
+                    iconColor={(validPasswords ? '#ffcb05' : 'red')}
                     iconSize={20}
                     iconWidth={40}
                     inputPadding={16}
                     value={repeatPassword}
                     onChangeText={text => setRepeatPassword(text)}
                     secureTextEntry
+                    inputStyle={(validPasswords ? null : styles.inputError)}
                 />
             </View>
+            {errorMsg.length > 0 ? <Text style = {styles.errorMsg}>{errorMsg}</Text>: null}
             <View style={styles.buttonContainer}>
                 <Button text={lang.register} func={handleSignUp} outline={false}></Button>
                 <Button text={lang.alreadyHaveAccount} func={() => navigation.navigate("Login")} asText={true}></Button>
@@ -177,10 +172,20 @@ const styles = StyleSheet.create({
         width: '60%',
         justifyContent: 'center',
         alignContent: 'center',
-        marginTop: 40
     },
     imageLogo: {
         height: 200,
         width: 200
+    },
+
+    inputError: {
+        color: 'red'
+    },
+
+    errorMsg:{
+        color: 'red',
+        marginTop: 10,
+        marginBottom: 10,
+        textAlign: 'center'
     }
 })

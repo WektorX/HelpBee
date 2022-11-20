@@ -10,7 +10,11 @@ const english = {
     lastName : "Last name",
     phoneNumber : "Phone number",
     repeatPassword: "Repeat password",
-    alreadyHaveAccount : "Already have an account? Log in"
+    alreadyHaveAccount : "Already have an account? Log in",
+    save : "Save",
+    invalidEmail: "Invalid email address",
+    differentPasswords: "The passwords provided are different",
+    weakPassword: "Password to weak!"
 }
 
 export {english};
