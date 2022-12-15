@@ -4,6 +4,8 @@ const initialState = {
     firstName: '',
     lastName: '',
     phoneNumber: '',
+    birthDate: null,
+    uid: '',
 };
 
 export default (state = initialState, action) => {
@@ -32,6 +34,16 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 lastName: action.lastName,
+            };
+        case 'USER_BIRTH_DATE':
+            return {
+                ...state,
+                birthDate: action.birthDate,
+            };
+        case 'USER_UID':
+            return {
+                ...state,
+                uid: action.uid,
             };
         default:
             return state;

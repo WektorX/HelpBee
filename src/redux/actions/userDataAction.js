@@ -32,3 +32,18 @@ export const userPhoneNumber = (phoneNumber) => {
         phoneNumber: phoneNumber,
     };
 };
+
+export const userBirthDate = (birthDate) => {
+    return {
+        type: 'USER_BIRTH_DATE',
+        birthDate: birthDate,
+    };
+};
+
+
+export const userUID = (uid) => {
+    return {
+        type: 'USER_UID',
+        uid: uid,
+    };
+};

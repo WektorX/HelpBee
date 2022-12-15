@@ -33,7 +33,7 @@ export default function WelcomeScreen() {
     return (
         <View style={styles.container}>
             <ImageBackground 
-                source={require('../images/logo.jpg')}
+                source={require('../Images/logo.jpg')}
                 resizeMode="contain"
                 style={styles.image}
             >

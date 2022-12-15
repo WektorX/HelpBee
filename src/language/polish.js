@@ -8,13 +8,18 @@ const polish = {
     password : "Hasło",
     firstName : "Imię",
     lastName : "Nazwisko",
+    birthDate: "Data urodzenia (DD.MM.RRRR)",
     phoneNumber : "Numer telefonu",
     repeatPassword : "Powtórz hasło",
     alreadyHaveAccount : "Już posiadasz konto? Zaloguj się",
     save: "Zapisz",
     invalidEmail: "Niepoprawny adres email",
     differentPasswords: "Podane hasła są różne",
-    weakPassword: "Hasło za słabe!"
+    weakPassword: "Hasło za słabe!",
+    userDataError: "Nieprawidłowe dane",
+    loginError: "Logowanie nie powiodło się!",
+
+
 }
 
 export {polish}

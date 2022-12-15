@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Image } from 'react-native'
 import React, { useEffect, useState, useRef } from 'react'
-import Button from '../components/Button'
-import { auth } from '../firebase/firebase';
+import Button from '../Components/Button'
+import { auth } from '../Firebase/firebase';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import PhoneInput from "react-native-phone-number-input";
@@ -35,7 +35,7 @@ export default function RegisterScreen() {
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
             if (user) {
-                navigation.replace("Home");
+                navigation.replace("UserData");
             }
         })
         return unsubscribe;
@@ -88,7 +88,7 @@ export default function RegisterScreen() {
             style={styles.container}
             behavior='height'>
             <Image
-                source={require('../images/logo_no_background.png')}
+                source={require('../Images/logo_no_background.png')}
                 resizeMode={'cover'}
                 style={styles.imageLogo}
             />

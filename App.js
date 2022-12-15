@@ -1,14 +1,15 @@
 import { Provider } from 'react-redux';
-import HomeScreen from './src/screens/HomeScreen';
+import HomeScreen from './src/Screens/HomeScreen';
 import { store } from './src/redux/store';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import LoginScreen from './src/screens/LoginScreen';
+import LoginScreen from './src/Screens/LoginScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LogBox } from 'react-native';
-import WelcomeScreen from './src/screens/WelcomeScreen';
-import RegisterScreen from './src/screens/RegisterScreen';
-import UserDataScreen from './src/screens/UserDataScreen';
+import WelcomeScreen from './src/Screens/WelcomeScreen';
+import RegisterScreen from './src/Screens/RegisterScreen';
+import UserDataScreen from './src/Screens/UserDataScreen';
+import LoadingScreen from './src/Screens/LoadingScreen';
 
 
 
@@ -31,6 +32,7 @@ export default function App() {
           <Stack.Screen name="Home" options={options} component={HomeScreen} />
           <Stack.Screen name="Register" options={options} component={RegisterScreen} />
           <Stack.Screen name="UserData" options={options} component={UserDataScreen} />
+          <Stack.Screen name="Loading" options={options} component={LoadingScreen}/>
 
         </Stack.Navigator>
       </NavigationContainer>
