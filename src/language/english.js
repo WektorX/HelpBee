@@ -18,6 +18,10 @@ const english = {
     weakPassword: "Password to weak!",
     userDataError: "Invalid data",
     loginError: "Login failed!",
+    offersTab: "Offers",
+    jobsTab: "My jobs",
+    myOffersTab: "My offers",
+    myAccountTab: "My account"
 
 
 }

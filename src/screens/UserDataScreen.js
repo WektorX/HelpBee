@@ -8,6 +8,7 @@ import { Fumi } from 'react-native-textinput-effects';
 import { userFirstName, userLastName, userPhoneNumber, userBirthDate } from '../redux/actions/userDataAction';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { insertBasicUserData } from '../API/POST';
+import Colors from '../Constants/Colors';
 
 
 export default function UserDataScreen() {
@@ -86,7 +87,7 @@ export default function UserDataScreen() {
                     label={lang.firstName}
                     iconClass={FontAwesomeIcon}
                     iconName={'user'}
-                    iconColor={'#f95a25'}
+                    iconColor={Colors.primary}
                     iconSize={20}
                     iconWidth={40}
                     inputPadding={16}
@@ -99,7 +100,7 @@ export default function UserDataScreen() {
                     label={lang.lastName}
                     iconClass={FontAwesomeIcon}
                     iconName={'child'}
-                    iconColor={'#f95a25'}
+                    iconColor={Colors.primary}
                     iconSize={20}
                     iconWidth={40}
                     inputPadding={16}
@@ -112,7 +113,7 @@ export default function UserDataScreen() {
                     label={lang.phoneNumber}
                     iconClass={FontAwesomeIcon}
                     iconName={'phone'}
-                    iconColor={'#f95a25'}
+                    iconColor={Colors.primary}
                     iconSize={20}
                     iconWidth={40}
                     inputPadding={16}
@@ -126,7 +127,7 @@ export default function UserDataScreen() {
                     label={lang.birthDate}
                     iconClass={FontAwesomeIcon}
                     iconName={'calendar'}
-                    iconColor={'#f95a25'}
+                    iconColor={Colors.primary}
                     iconSize={20}
                     iconWidth={40}
                     inputPadding={16}
@@ -160,22 +161,22 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'white'
+        backgroundColor: Colors.white
     },
     inputContainer: {
         width: '80%',
     },
     input: {
-        backgroundColor: 'white',
+        backgroundColor: Colors.white,
         paddingHorizontal: 15,
         paddingVertical: 10,
         borderRadius: 10,
         marginTop: 5,
         borderWidth: 1,
-        borderColor: '#ffcb05'
+        borderColor: Colors.primary
     },
     inputPhone: {
-        backgroundColor: 'white',
+        backgroundColor: Colors.white,
         marginTop: 5,
     },
     buttonContainer: {
@@ -189,6 +190,6 @@ const styles = StyleSheet.create({
         width: 200
     },
     labelError: {
-        color: 'red'
+        color: Colors.red
     }
 })

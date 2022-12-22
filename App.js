@@ -10,6 +10,12 @@ import WelcomeScreen from './src/Screens/WelcomeScreen';
 import RegisterScreen from './src/Screens/RegisterScreen';
 import UserDataScreen from './src/Screens/UserDataScreen';
 import LoadingScreen from './src/Screens/LoadingScreen';
+import Offers from './src/Screens/OffersTab';
+import MyOffers from './src/Screens/MyOffersTab';
+import MyAccount from './src/Screens/MyAccountTab';
+import MyJobs from './src/Screens/MyJobsTab';
+
+
 
 
 
@@ -33,6 +39,10 @@ export default function App() {
           <Stack.Screen name="Register" options={options} component={RegisterScreen} />
           <Stack.Screen name="UserData" options={options} component={UserDataScreen} />
           <Stack.Screen name="Loading" options={options} component={LoadingScreen}/>
+          {/* <Stack.Screen name="Offers" options={options} component={Offers} />
+          <Stack.Screen name="History" options={options} component={History} />
+          <Stack.Screen name="MyOffers" options={options} component={MyOffers} />
+          <Stack.Screen name="MyAccount" options={options} component={MyAccount} /> */}
 
         </Stack.Navigator>
       </NavigationContainer>

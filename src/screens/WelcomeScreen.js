@@ -4,6 +4,7 @@ import { polish, english } from '../redux/actions/languageAction';
 import { NativeModules } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
+import Colors from '../Constants/Colors';
 
 
 export default function WelcomeScreen() {
@@ -48,12 +49,12 @@ export default function WelcomeScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#ffcb05',
+        backgroundColor: Colors.primary,
         justifyContent: 'center',
         alignContent: 'center',
     },
     text:{
-        color : '#41210a',
+        color : Colors.brown,
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center',

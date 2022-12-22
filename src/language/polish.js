@@ -18,7 +18,10 @@ const polish = {
     weakPassword: "Hasło za słabe!",
     userDataError: "Nieprawidłowe dane",
     loginError: "Logowanie nie powiodło się!",
-
+    offersTab: "Oferty",
+    jobsTab: "Moje zlecenia",
+    myOffersTab: "Moje oferty",
+    myAccountTab: "Konto"
 
 }
 

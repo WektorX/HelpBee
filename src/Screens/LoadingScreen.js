@@ -15,6 +15,7 @@ import { hasUserFilledInData } from '../API/GET';
 import { useNavigation, useLocation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import { userEmail, userAuth, userUID } from '../redux/actions/userDataAction';
+import Colors from '../Constants/Colors';
 
 const LoadingScreen = (props) => {
 
@@ -51,7 +52,7 @@ const LoadingScreen = (props) => {
         <View style={styles.container}>
 
             <BarIndicator
-                color="#ffcb05"
+                color={Colors.red}
                 size={80}
                 count={9} />
 

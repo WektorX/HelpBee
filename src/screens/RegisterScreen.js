@@ -8,6 +8,7 @@ import PhoneInput from "react-native-phone-number-input";
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { Fumi } from 'react-native-textinput-effects';
 import { userEmail, userAuth } from '../redux/actions/userDataAction';
+import Colors from '../Constants/Colors';
 
 export default function RegisterScreen() {
 
@@ -98,7 +99,7 @@ export default function RegisterScreen() {
                     label={lang.email}
                     iconClass={FontAwesomeIcon}
                     iconName={'envelope-o'}
-                    iconColor={(validEmail ? '#ffcb05' : 'red')}
+                    iconColor={(validEmail ? Colors.primary : Colors.red)}
                     iconSize={20}
                     iconWidth={40}
                     inputPadding={16}
@@ -112,7 +113,7 @@ export default function RegisterScreen() {
                     label={lang.password}
                     iconClass={FontAwesomeIcon}
                     iconName={'unlock'}
-                    iconColor={(validPasswords ? '#ffcb05' : 'red')}
+                    iconColor={(validEmail ? Colors.primary : Colors.red)}
                     iconSize={20}
                     iconWidth={40}
                     inputPadding={16}
@@ -126,7 +127,7 @@ export default function RegisterScreen() {
                     label={lang.repeatPassword}
                     iconClass={FontAwesomeIcon}
                     iconName={'lock'}
-                    iconColor={(validPasswords ? '#ffcb05' : 'red')}
+                    iconColor={(validEmail ? Colors.primary : Colors.red)}
                     iconSize={20}
                     iconWidth={40}
                     inputPadding={16}
@@ -150,22 +151,22 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'white'
+        backgroundColor: Colors.white
     },
     inputContainer: {
         width: '80%',
     },
     input: {
-        backgroundColor: 'white',
+        backgroundColor: Colors.white,
         paddingHorizontal: 15,
         paddingVertical: 10,
         borderRadius: 10,
         marginTop: 5,
         borderWidth: 1,
-        borderColor: '#ffcb05'
+        borderColor: Colors.primary
     },
     inputPhone: {
-        backgroundColor: 'white',
+        backgroundColor: Colors.white,
         marginTop: 5,
     },
     buttonContainer: {
@@ -179,11 +180,11 @@ const styles = StyleSheet.create({
     },
 
     inputError: {
-        color: 'red'
+        color: Colors.red
     },
 
     errorMsg:{
-        color: 'red',
+        color: Colors.red,
         marginTop: 10,
         marginBottom: 10,
         textAlign: 'center'

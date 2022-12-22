@@ -8,6 +8,7 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { Fumi } from 'react-native-textinput-effects';
 import { userEmail, userAuth, userUID } from '../redux/actions/userDataAction';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import Colors from '../Constants/Colors';
 
 const LoginScreen = () => {
 
@@ -77,7 +78,7 @@ const LoginScreen = () => {
                     label={lang.email}
                     iconClass={FontAwesomeIcon}
                     iconName={'envelope-o'}
-                    iconColor={'#f95a25'}
+                    iconColor={Colors.primary}
                     iconSize={20}
                     iconWidth={40}
                     inputPadding={16}
@@ -91,7 +92,7 @@ const LoginScreen = () => {
                     label={lang.password}
                     iconClass={FontAwesomeIcon}
                     iconName={'unlock'}
-                    iconColor={'#f95a25'}
+                    iconColor={Colors.primary}
                     iconSize={20}
                     iconWidth={40}
                     inputPadding={16}
@@ -114,7 +115,7 @@ const LoginScreen = () => {
                 closeOnHardwareBackPress={false}
                 showConfirmButton={true}
                 confirmText="Ok"
-                confirmButtonColor="#ffcb05"
+                confirmButtonColor={Colors.primary}
                 onConfirmPressed={() => setShowAlert(false)}
             />
 
@@ -129,19 +130,20 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'white'
+        backgroundColor: Colors.white
     },
     inputContainer: {
         width: '80%',
+        backgroundColor: Colors.white
     },
     input: {
-        backgroundColor: 'white',
+        backgroundColor: Colors.white,
         paddingHorizontal: 15,
         paddingVertical: 10,
         borderRadius: 10,
         marginTop: 5,
         borderWidth: 1,
-        borderColor: '#ffcb05'
+        borderColor: Colors.primary
     },
     buttonContainer: {
         width: '60%',
