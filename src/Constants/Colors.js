@@ -30,7 +30,7 @@ export default {
     redAlpha: 'rgba(230,39,34,0.7)',
     greenAlpha: 'rgba(69,230,121,0.7)',
     purpleAlpha: 'rgba(23,33,230,0.7)',
-
+    pureAlpha : 'rgba(0,0,0,0)',
 
     // bags background colors
     bag1Bg: '#ea7a72',
@@ -45,3 +45,18 @@ export default {
     bag10Bg: '#979dc1',
     bag11Bg: '#c7d3c0',
 }
+
+
+const stringToColour = (str) => {
+    var hash = 0;
+    for (var i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    var colour = '#';
+    for (var i = 0; i < 3; i++) {
+      var value = (hash >> (i * 8)) & 0xFF;
+      colour += ('00' + value.toString(16)).substr(-2);
+    }
+    return colour;
+ }
+ export {stringToColour}

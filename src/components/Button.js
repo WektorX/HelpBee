@@ -1,30 +1,39 @@
 import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity } from 'react-native'
 import React, { Component } from 'react'
+import Colors from '../Constants/Colors';
 
 export default class Button extends Component {
     render() {
         let style = {
-            button : null,
-            text : null
+            button: styles.buttonFilled,
+            text: styles.buttonFilledText
         };
 
-        if(this.props.outline){
+        if (this.props.outline) {
             style.button = styles.buttonOutline;
-            style.text = styles.buttonOutlineText 
+            style.text = styles.buttonOutlineText
         }
-        if(this.props.asText){
+        if (this.props.asText) {
             style.button = styles.buttonAsText;
-            style.text = styles.buttonAsTextText 
+            style.text = styles.buttonAsTextText
+        }
+        if (this.props.color) {
+            let color = Colors.primary
+            let reg = new RegExp(color, "g");
+            var buttonStyleSTR = JSON.stringify(style.button).replace(reg, this.props.color);
+            var textStyleSTR = JSON.stringify(style.text).replace(reg, this.props.color);
+            style.button = JSON.parse(buttonStyleSTR);
+            style.text = JSON.parse(textStyleSTR);
         }
 
         return (
 
-                <TouchableOpacity
-                    onPress={() => {this.props.func()}}
-                    style={[styles.button, style.button ]}
-                >
-                    <Text style={[styles.buttonText , style.text]}>{this.props.text}</Text>
-                </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => { this.props.func() }}
+                style={[styles.button, style.button]}
+            >
+                <Text style={[styles.buttonText, style.text]}>{this.props.text}</Text>
+            </TouchableOpacity>
 
         )
     }
@@ -32,38 +41,48 @@ export default class Button extends Component {
 
 const styles = StyleSheet.create({
 
-    button:{
-        backgroundColor : 'white',
+    button: {
         borderRadius: 10,
         marginTop: 5,
         width: '100%',
-        padding : 15,
-        backgroundColor: '#ffcb05',
-        alignItems: 'center'
+        padding: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 50,
+        shadowColor: Colors.black,
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.27,
+        shadowRadius: 4.65,
+        elevation: 6,
     },
-    buttonOutline:{
-        backgroundColor: 'white',
-        borderColor: '#ffcb05',
+    buttonFilled: {
+        backgroundColor: Colors.primary,
+        borderColor: Colors.primary,
         borderWidth: 2
     },
-    buttonAsText:{
-        backgroundColor : 'rgba(0,0,0,0)',
-        color : '#ffcb05',
-        borderWidth: 0,
+    buttonOutline: {
+        backgroundColor: Colors.pureAlpha,
+        borderColor: Colors.primary,
+        borderWidth: 2
     },
-    buttonText:{
-        color: 'white',
-        fontWeight: '700',
-        fontSize: 16
+    buttonAsText: {
+        backgroundColor: Colors.white,
+        color: Colors.primary,
     },
-    buttonOutlineText:{
-        color: '#ffcb05',
-        fontWeight: '700',
-        fontSize: 16
+    buttonText: {
+        color: Colors.white,
+        fontWeight:'500'
     },
-    buttonAsTextText:{
-        color: '#ffcb05',
-        fontWeight: '700',
-        fontSize: 16
+    buttonFilledText: {
+        color: Colors.white,
+    },
+    buttonOutlineText: {
+        color: Colors.primary,
+    },
+    buttonAsTextText: {
+        color: Colors.primary,
     }
 })
