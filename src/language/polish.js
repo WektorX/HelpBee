@@ -3,7 +3,7 @@ const polish = {
     appName : "HelpBee",
     login : "Zaloguj się",
     register : "Zarejestuj się",
-    noAccountRegister: "Nie masz jeszcze konta? Zarejestruj się!",
+    noAccountRegister: "Nie masz jeszcze konta?\n Zarejestruj się!",
     email : "Email",
     password : "Hasło",
     firstName : "Imię",
@@ -21,7 +21,11 @@ const polish = {
     offersTab: "Oferty",
     jobsTab: "Moje zlecenia",
     myOffersTab: "Moje oferty",
-    myAccountTab: "Konto"
+    myAccountTab: "Konto",
+    logout: "Wyloguj",
+    changePassword: "Zmień hasło",
+    editProfile: "Edytuj dane"
+
 
 }
 

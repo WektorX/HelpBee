@@ -35,19 +35,19 @@ export default function UserDataScreen() {
     const PHONE_REGEX = new RegExp(/^[0-9]{9}$/);
     const DATE_REGEX = new RegExp(/^([0-2][0-9]|(3)[0-1])(\.)(([0]?[0-9])|((1)[0-2]))(\.)\d{4}$/i);
 
-    //set first name address
+    //set first name 
     const handleFirstNameChange = (value) => {
         dispatch(userFirstName(value))
     }
-    //set last name address
+    //set last name 
     const handleLastNameChange = (value) => {
         dispatch(userLastName(value))
     }
-    //set phone number address
+    //set phone number 
     const handlePhoneNumberChange = (value) => {
         dispatch(userPhoneNumber(value))
     }
-
+    //set birth date
     const handleBirthDateChange = (value) => {
         dispatch(userBirthDate(value))
     }

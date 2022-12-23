@@ -3,7 +3,7 @@ const english = {
     appName : "HelpBee",
     login : "Login",
     register : "Register",
-    noAccountRegister: "Do not have account yet? Register now!",
+    noAccountRegister: "Do not have account yet?\n Register now!",
     email : "Email",
     password : "Password",
     firstName : "First name",
@@ -21,7 +21,10 @@ const english = {
     offersTab: "Offers",
     jobsTab: "My jobs",
     myOffersTab: "My offers",
-    myAccountTab: "My account"
+    myAccountTab: "My account",
+    logout: "Log out",
+    changePassword: "Change password",
+    editProfile:"Edit profile"
 
 
 }
