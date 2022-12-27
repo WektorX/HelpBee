@@ -65,10 +65,15 @@ export default function UserDataScreen() {
         setBirthDateError(errorBD);
 
         if (errorBD || errorFN || errorLN || errorPN) {
-            setShowAlert(true);  
+            setShowAlert(true);
         }
         else {
-            insertBasicUserData(uid, {firstName: firstName, lastName: lastName, phoneNumber: phoneNumber, birthDate: birthDate})
+            insertBasicUserData(uid, { firstName: firstName, lastName: lastName, phoneNumber: phoneNumber, birthDate: birthDate })
+            if (navigation.canGoBack()) {
+
+                navigation.goBack();
+
+            }
             navigation.replace("Home");
 
         }

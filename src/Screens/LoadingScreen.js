@@ -44,13 +44,13 @@ const LoadingScreen = (props) => {
                         getUserData();
                     }
                     else {
-                        navigation.navigate("UserData");
+                        navigation.replace("UserData");
                     }
-                }, 500)
+                }, 1000)
             })
             .catch((e) => {
                 console.log(e);
-                navigation.navigate("Login");
+                navigation.replace("Login");
             })
     }
 

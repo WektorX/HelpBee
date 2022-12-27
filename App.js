@@ -39,10 +39,6 @@ export default function App() {
           <Stack.Screen name="Register" options={options} component={RegisterScreen} />
           <Stack.Screen name="UserData" options={options} component={UserDataScreen} />
           <Stack.Screen name="Loading" options={options} component={LoadingScreen}/>
-          {/* <Stack.Screen name="Offers" options={options} component={Offers} />
-          <Stack.Screen name="History" options={options} component={History} />
-          <Stack.Screen name="MyOffers" options={options} component={MyOffers} />
-          <Stack.Screen name="MyAccount" options={options} component={MyAccount} /> */}
 
         </Stack.Navigator>
       </NavigationContainer>

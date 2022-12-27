@@ -3,7 +3,7 @@ import React from 'react'
 import Colors, { stringToColour } from '../Constants/Colors'
 import { auth } from '../Firebase/firebase';
 import { useNavigation } from '@react-navigation/core';
-import { userEmail } from '../redux/actions/userDataAction';
+import { userEmail, userFirstName, userLastName, userPhoneNumber, userBirthDate } from '../redux/actions/userDataAction';
 import { useSelector, useDispatch } from 'react-redux';
 import { Avatar } from 'react-native-paper'
 import Button from '../Components/Button';
@@ -18,28 +18,52 @@ export default function MyAccount() {
   const lang = useSelector((store) => store.language.language);
   const firstName = useSelector((store) => store.user.firstName);
   const lastName = useSelector((store) => store.user.lastName);
+  const phoneNumber = useSelector((store) => store.user.phoneNumber);
+  const birthDate = useSelector((store) => store.user.birthDate);
 
   const navigation = useNavigation();
 
 
   // function to sign out from app
   const handleSignOut = () => {
+    handleEmailChange("");
+    handleFirstNameChange("");
+    handleLastNameChange("");
+    handlePhoneNumberChange("");
+    handleBirthDateChange("");
     auth
       .signOut()
       .then(() => {
-        // clear the redux store
-        () => handleEmailChange("");
-        navigation.replace("Login");
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'Login'}]
+        })
       })
       .catch(err => alert(err.message))
   }
-
+  //set email 
   const handleEmailChange = (value) => {
     dispatch(userEmail(value))
   }
+  //set first name 
+  const handleFirstNameChange = (value) => {
+    dispatch(userFirstName(value))
+  }
+  //set last name 
+  const handleLastNameChange = (value) => {
+    dispatch(userLastName(value))
+  }
+  //set phone number 
+  const handlePhoneNumberChange = (value) => {
+    dispatch(userPhoneNumber(value))
+  }
+  //set birth date
+  const handleBirthDateChange = (value) => {
+    dispatch(userBirthDate(value))
+  }
 
   const editProfile = () => {
-    console.log("edit profile")
+    navigation.navigate("UserData");
   }
 
   const changePassword = () => {

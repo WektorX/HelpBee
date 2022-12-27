@@ -35,10 +35,7 @@ export default function HomeScreen() {
 
   const Tab = createBottomTabNavigator();
 
-
-
   const handleEmailChange = (value) => {
-    alert("value: " + value)
     dispatch(userEmail(value))
   }
 
