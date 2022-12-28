@@ -113,7 +113,7 @@ export default function RegisterScreen() {
                     label={lang.password}
                     iconClass={FontAwesomeIcon}
                     iconName={'unlock'}
-                    iconColor={(validEmail ? Colors.primary : Colors.red)}
+                    iconColor={(validPasswords ? Colors.primary : Colors.red)}
                     iconSize={20}
                     iconWidth={40}
                     inputPadding={16}
@@ -127,7 +127,7 @@ export default function RegisterScreen() {
                     label={lang.repeatPassword}
                     iconClass={FontAwesomeIcon}
                     iconName={'lock'}
-                    iconColor={(validEmail ? Colors.primary : Colors.red)}
+                    iconColor={(validPasswords ? Colors.primary : Colors.red)}
                     iconSize={20}
                     iconWidth={40}
                     inputPadding={16}
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
         marginTop: 5,
     },
     buttonContainer: {
-        width: '60%',
+        width: '80%',
         justifyContent: 'center',
         alignContent: 'center',
     },

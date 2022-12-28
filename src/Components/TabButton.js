@@ -2,6 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useRef } from 'react'
 import * as Animatable from 'react-native-animatable'
 import Icon, { Icons } from '../Components/Icons';
+import Colors from '../Constants/Colors';
 
 
 export default function TabButton(props) {
@@ -47,6 +48,7 @@ const styles = StyleSheet.create({
     container: {
       justifyContent: 'center',
       alignItems: 'center',
+      backgroundColor: Colors.pureAlpha,
     },
     btn: {
       flexDirection: 'row',

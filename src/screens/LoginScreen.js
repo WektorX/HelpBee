@@ -110,13 +110,15 @@ const LoginScreen = () => {
             <AwesomeAlert
                 show={showAlert}
                 showProgress={false}
-                title={lang.loginError}
+                title={lang.oops}
+                message={lang.loginError}
                 closeOnTouchOutside={true}
                 closeOnHardwareBackPress={false}
                 showConfirmButton={true}
                 confirmText="Ok"
                 confirmButtonColor={Colors.primary}
                 onConfirmPressed={() => setShowAlert(false)}
+                actionContainerStyle={{minWidth: 200}}
             />
 
         </KeyboardAvoidingView>
@@ -146,7 +148,7 @@ const styles = StyleSheet.create({
         borderColor: Colors.primary
     },
     buttonContainer: {
-        width: '60%',
+        width: '80%',
         justifyContent: 'center',
         alignContent: 'center',
         marginTop: 40

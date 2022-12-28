@@ -49,7 +49,8 @@ export default function HomeScreen() {
         bottom: 16,
         right: 16,
         left: 16,
-        borderRadius: 16
+        borderRadius: 16,
+        backgroundColor: Colors.white
       }
     }}
   >

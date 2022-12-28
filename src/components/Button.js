@@ -64,13 +64,15 @@ const styles = StyleSheet.create({
         borderWidth: 2
     },
     buttonOutline: {
-        backgroundColor: Colors.pureAlpha,
+        backgroundColor: Colors.white,
         borderColor: Colors.primary,
-        borderWidth: 2
+        borderWidth: 2,
     },
     buttonAsText: {
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.pureAlpha,
         color: Colors.primary,
+        shadowColor: Colors.pureAlpha
+        
     },
     buttonText: {
         color: Colors.white,

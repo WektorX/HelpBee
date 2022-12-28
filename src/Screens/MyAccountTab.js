@@ -4,6 +4,7 @@ import Colors, { stringToColour } from '../Constants/Colors'
 import { auth } from '../Firebase/firebase';
 import { useNavigation } from '@react-navigation/core';
 import { userEmail, userFirstName, userLastName, userPhoneNumber, userBirthDate } from '../redux/actions/userDataAction';
+import { polish, english } from '../redux/actions/languageAction';
 import { useSelector, useDispatch } from 'react-redux';
 import { Avatar } from 'react-native-paper'
 import Button from '../Components/Button';
@@ -61,17 +62,21 @@ export default function MyAccount() {
   const handleBirthDateChange = (value) => {
     dispatch(userBirthDate(value))
   }
+  //change language
+  const changeLang = () =>{
+    lang.language === 'pl' ? dispatch(english()) : dispatch(polish())
+  }
 
   const editProfile = () => {
-    navigation.navigate("UserData");
+    navigation.navigate("UserData", {action : "edit"});
   }
 
   const changePassword = () => {
-    console.log("change password")
+    navigation.navigate("ChangePassword")
   }
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.mainView}>
 
       <ScrollView >
 
@@ -87,14 +92,11 @@ export default function MyAccount() {
             <Text>{email}</Text>
           </View>
 
-
-
-
           <Button text={lang.editProfile} func={editProfile} color={Colors.red} asText={true} />
           <Button text={lang.changePassword} func={changePassword} color={Colors.red} asText={true} />
+          <Button text={lang.changeLanguage} func={changeLang} color={Colors.red} asText={true}/>
           <Button text={lang.logout} func={handleSignOut} color={Colors.red} />
-
-
+          
         </View>
       </ScrollView>
     </View>
@@ -103,13 +105,17 @@ export default function MyAccount() {
 }
 
 const styles = StyleSheet.create({
-
+  mainView: {
+    flex: 1,
+    backgroundColor: Colors.redBackground
+  },
   container: {
     flex: 1,
     padding: 20,
     paddingTop: 100,
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+
   },
   rows: {
     flex: 1,
@@ -126,6 +132,7 @@ const styles = StyleSheet.create({
   text: {
     width: '100%',
     fontSize: 30,
-    textAlign: 'center'
+    textAlign: 'center',
+    fontWeight: 'bold',
   }
 })

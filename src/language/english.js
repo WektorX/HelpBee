@@ -21,11 +21,17 @@ const english = {
     offersTab: "Offers",
     jobsTab: "My jobs",
     myOffersTab: "My offers",
-    myAccountTab: "My account",
+    myAccountTab: "Account",
     logout: "Log out",
     changePassword: "Change password",
-    editProfile:"Edit profile"
-
+    editProfile:"Edit profile",
+    changeLanguage: "PL/EN",
+    cancel: "Cancel",
+    passwordChangeError: "Change password attempt failed!",
+    oops: "Oops!",
+    success: "Success!",
+    passwordChangeSuccess: "Password has been changed",
+    editData: "Edit personal data",
 
 }
 

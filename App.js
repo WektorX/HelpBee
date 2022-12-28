@@ -14,6 +14,7 @@ import Offers from './src/Screens/OffersTab';
 import MyOffers from './src/Screens/MyOffersTab';
 import MyAccount from './src/Screens/MyAccountTab';
 import MyJobs from './src/Screens/MyJobsTab';
+import ChangePasswordScreen from './src/Screens/ChangePasswordScreen';
 
 
 
@@ -39,7 +40,7 @@ export default function App() {
           <Stack.Screen name="Register" options={options} component={RegisterScreen} />
           <Stack.Screen name="UserData" options={options} component={UserDataScreen} />
           <Stack.Screen name="Loading" options={options} component={LoadingScreen}/>
-
+          <Stack.Screen name="ChangePassword" options={options} component={ChangePasswordScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

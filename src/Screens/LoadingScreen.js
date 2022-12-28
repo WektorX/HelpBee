@@ -44,7 +44,7 @@ const LoadingScreen = (props) => {
                         getUserData();
                     }
                     else {
-                        navigation.replace("UserData");
+                        navigation.replace("UserData", {action: "insert"});
                     }
                 }, 1000)
             })
@@ -65,7 +65,7 @@ const LoadingScreen = (props) => {
                 handleEmailChange(user.email)
             })
             .then(() => {
-                navigation.navigate("Home");
+                navigation.replace("Home");
             })
             .catch((e) => {
                 console.log("Error", e)
@@ -99,7 +99,7 @@ const LoadingScreen = (props) => {
         <View style={styles.container}>
 
             <BarIndicator
-                color={Colors.purple}
+                color={Colors.primary}
                 size={80}
                 count={9} />
 

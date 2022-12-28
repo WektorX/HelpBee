@@ -44,6 +44,13 @@ export default {
     bag9Bg: '#eb849c',
     bag10Bg: '#979dc1',
     bag11Bg: '#c7d3c0',
+
+  // backgrounds
+    primaryBackground: 'rgba(250,206,1,0.1)',
+    redBackground: 'rgba(230,39,34,0.1)',
+    greenBackground: 'rgba(69,230,121,0.1)',
+    purpleBackground: 'rgba(23,33,230,0.1)',
+
 }
 
 

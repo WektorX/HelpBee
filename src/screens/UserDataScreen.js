@@ -11,7 +11,7 @@ import { insertBasicUserData } from '../API/POST';
 import Colors from '../Constants/Colors';
 
 
-export default function UserDataScreen() {
+const UserDataScreen = (props) => {
 
     //use navigator
     const navigation = useNavigation();
@@ -79,11 +79,18 @@ export default function UserDataScreen() {
         }
     }
 
+    const goBack = () => {
+        navigation.goBack();
+    }
+
 
     return (
         <KeyboardAvoidingView
             style={styles.container}
             behavior='height'>
+
+            {props?.route.params.action === "edit" ? <Text style={styles.title}> {lang.editData} </Text> : null}
+
             {/* TODO: image picker*/}
             <View style={styles.inputContainer}>
 
@@ -144,6 +151,11 @@ export default function UserDataScreen() {
             </View>
             <View style={styles.buttonContainer}>
                 <Button text={lang.save} func={setPersonalData} outline={false}></Button>
+
+                {props?.route.params.action === "edit" ?
+                    <Button text={lang.cancel} func={goBack} asText={true}></Button> :
+                    null}
+
             </View>
 
             <AwesomeAlert
@@ -160,6 +172,8 @@ export default function UserDataScreen() {
         </KeyboardAvoidingView>
     )
 }
+
+export default UserDataScreen;
 
 const styles = StyleSheet.create({
     container: {
@@ -185,7 +199,7 @@ const styles = StyleSheet.create({
         marginTop: 5,
     },
     buttonContainer: {
-        width: '60%',
+        width: '80%',
         justifyContent: 'center',
         alignContent: 'center',
         marginTop: 40
@@ -196,5 +210,10 @@ const styles = StyleSheet.create({
     },
     labelError: {
         color: Colors.red
-    }
+    },
+    title: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        marginBottom: 40,
+    },
 })

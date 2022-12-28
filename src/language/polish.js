@@ -24,8 +24,14 @@ const polish = {
     myAccountTab: "Konto",
     logout: "Wyloguj",
     changePassword: "Zmień hasło",
-    editProfile: "Edytuj dane"
-
+    editProfile: "Edytuj dane",
+    changeLanguage: "EN/PL",
+    cancel: "Anuluj",
+    passwordChangeError: "Nieudana próba zmiany hasła!",
+    oops: "Oops!",
+    success: "Sukces!",
+    passwordChangeSuccess: "Hasło zostało zmienione",
+    editData: "Edytuj swoje dane",
 
 }
 
