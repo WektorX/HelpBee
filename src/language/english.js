@@ -32,7 +32,13 @@ const english = {
     success: "Success!",
     passwordChangeSuccess: "Password has been changed",
     editData: "Edit personal data",
-
+    locationAccess: "HelpBee wants to access your location",
+    locationDenied: "Location permission denied",
+    grant: "Grant access",
+    deny: "Deny access",
+    askLater: "Ask later",
+    noAccessToOffers: "Allow the HelpBee to access your location to view offers.",
+    noAccessToCreateOffer: "Allow the app to access your location to create offers."
 }
 
 export {english};

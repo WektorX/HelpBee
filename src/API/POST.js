@@ -1,6 +1,6 @@
 import axios from 'axios';
-// const baseURL = 'http://192.168.0.11:3000'
-const baseURL = 'http://192.168.0.20:3000'
+const baseURL = 'http://192.168.0.11:3000'
+// const baseURL = 'http://192.168.0.20:3000'
 // const baseURL = 'http://192.168.1.107:3000';
 
 
@@ -28,4 +28,24 @@ async function insertBasicUserData(id, user) {
 }
 
 
-export { insertBasicUserData }
+async function updateUserLocation(id, location) {
+    try {
+        const res = await axios.post(`${baseURL}/api/users/setUserLocation`,
+            {
+                uid: id,
+                location: location
+            },
+            {
+                'Content-Type': 'application/json;charset=utf-8'
+            })
+        return { status: res.status }
+    }
+    catch (e) {
+        console.log(e);
+        return { status: 500 }
+    }
+
+}
+
+
+export { insertBasicUserData, updateUserLocation }

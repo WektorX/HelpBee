@@ -36,7 +36,7 @@ export default function RegisterScreen() {
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
             if (user) {
-                navigation.replace("UserData");
+                navigation.replace("UserData", {action : "register"});
             }
         })
         return unsubscribe;

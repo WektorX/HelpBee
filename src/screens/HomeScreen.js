@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, PermissionsAndroid } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import Button from '../Components/Button';
 import * as Animatable from 'react-native-animatable'
@@ -13,10 +13,11 @@ import MyJobs from './MyJobsTab';
 import Icon, { Icons } from '../Components/Icons';
 import TabButton from '../Components/TabButton';
 import Colors from '../Constants/Colors';
+import { useEffect, useState } from 'react';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 
-
-export default function HomeScreen() {
+const HomeScreen = () => {
   const dispatch = useDispatch();
 
   const email = useSelector((store) => store.user.email);
@@ -26,9 +27,9 @@ export default function HomeScreen() {
   const navigation = useNavigation();
 
   const Tabs = [
-    { route: 'Offers', label: lang.offersTab, type: Icons.Ionicons, icon:  'megaphone-outline', component: Offers, color:Colors.primary, alphaColor: Colors.primaryAlpha },
-    { route: 'MyJobs', label: lang.jobsTab, type: Icons.Ionicons, icon: 'construct-outline', component: MyJobs, color: Colors.green, alphaColor:Colors.greenAlpha},
-    { route: 'MyOffers', label: lang.myOffersTab, type: Icons.Ionicons, icon: 'easel-outline', component: MyOffers, color:Colors.purple, alphaColor: Colors.purpleAlpha },
+    { route: 'Offers', label: lang.offersTab, type: Icons.Ionicons, icon: 'megaphone-outline', component: Offers, color: Colors.primary, alphaColor: Colors.primaryAlpha },
+    { route: 'MyJobs', label: lang.jobsTab, type: Icons.Ionicons, icon: 'construct-outline', component: MyJobs, color: Colors.green, alphaColor: Colors.greenAlpha },
+    { route: 'MyOffers', label: lang.myOffersTab, type: Icons.Ionicons, icon: 'easel-outline', component: MyOffers, color: Colors.purple, alphaColor: Colors.purpleAlpha },
     { route: 'MyAccount', label: lang.myAccountTab, type: Icons.Ionicons, icon: 'person-outline', component: MyAccount, color: Colors.red, alphaColor: Colors.redAlpha },
 
   ]
@@ -41,30 +42,30 @@ export default function HomeScreen() {
 
   return (
     <Tab.Navigator
-    screenOptions={{
-      headerShown: false,
-      tabBarStyle: {
-        height: 60,
-        position: 'absolute',
-        bottom: 16,
-        right: 16,
-        left: 16,
-        borderRadius: 16,
-        backgroundColor: Colors.white
-      }
-    }}
-  >
-    {Tabs.map((item, index) => {
-      return (
-        <Tab.Screen key={index} name={item.route} component={item.component}
-          options={{
-            tabBarShowLabel: false,
-            tabBarButton: (props) => <TabButton {...props} item={item} />
-          }}
-        />
-      )
-    })}
-  </Tab.Navigator>
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          height: 60,
+          position: 'absolute',
+          bottom: 16,
+          right: 16,
+          left: 16,
+          borderRadius: 16,
+          backgroundColor: Colors.white
+        }
+      }}
+    >
+      {Tabs.map((item, index) => {
+        return (
+          <Tab.Screen key={index} name={item.route} component={item.component}
+            options={{
+              tabBarShowLabel: false,
+              tabBarButton: (props) => <TabButton {...props} item={item} />
+            }}
+          />
+        )
+      })}
+    </Tab.Navigator>
 
   );
 }
@@ -78,3 +79,5 @@ const styles = StyleSheet.create({
     padding: 50,
   },
 });
+
+export default HomeScreen

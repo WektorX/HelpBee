@@ -47,3 +47,10 @@ export const userUID = (uid) => {
         uid: uid,
     };
 };
+
+export const userLocation = (location) => {
+    return {
+        type: 'USER_LOCATION',
+        location: location,
+    };
+};

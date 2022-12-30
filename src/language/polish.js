@@ -32,7 +32,13 @@ const polish = {
     success: "Sukces!",
     passwordChangeSuccess: "Hasło zostało zmienione",
     editData: "Edytuj swoje dane",
-
+    locationAccess: "HelpBee chce uzyskać dostęp do twojej lokalizacji",
+    locationDenied: "Odmowa dostępu do lokalizacji",
+    grant: "Zezwól",
+    deny: "Odmów",
+    askLater: "Zapytaj później",
+    noAccessToOffers: "Aby wyświetlić oferty, zezwól aplikacji HelpBee na dostęp do lokalizacji.",
+    noAccessToCreateOffer: "Aby dodawać i edytować oferty, zezwól aplikacji HelpBee na dostęp do lokalizacji."
 }
 
 export {polish}
