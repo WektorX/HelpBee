@@ -15,7 +15,8 @@ import MyOffers from './src/Screens/MyOffersTab';
 import MyAccount from './src/Screens/MyAccountTab';
 import MyJobs from './src/Screens/MyJobsTab';
 import ChangePasswordScreen from './src/Screens/ChangePasswordScreen';
-
+import NewOfferScreen from './src/Screens/NewOfferScreen';
+import {enableLatestRenderer} from 'react-native-maps';
 
 LogBox.ignoreLogs(["AsyncStorage has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-async-storage/async-storage' instead of 'react-native'. See https://github.com/react-native-async-storage/async-storage"]);
 const Stack = createNativeStackNavigator();
@@ -24,6 +25,7 @@ const options = {
   headerShown: false,
 }
 
+enableLatestRenderer();
 
 export default function App() {
 
@@ -38,6 +40,7 @@ export default function App() {
           <Stack.Screen name="UserData" options={options} component={UserDataScreen} />
           <Stack.Screen name="Loading" options={options} component={LoadingScreen}/>
           <Stack.Screen name="ChangePassword" options={options} component={ChangePasswordScreen} />
+          <Stack.Screen name="NewOffer" options={options} component={NewOfferScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

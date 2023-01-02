@@ -6,7 +6,8 @@ const initialState = {
     phoneNumber: '',
     birthDate: null,
     uid: '',
-    location: { Latitude: 0, Longitude: 0 }
+    location: { Latitude: 0, Longitude: 0 },
+    offers: [],
 };
 
 export default (state = initialState, action) => {
@@ -64,6 +65,11 @@ export default (state = initialState, action) => {
                 ...state,
                 location: action.location,
             };
+        case 'USER_OFFERS':
+            return{
+                ...state,
+                offers: action.offers
+            }
         default:
             return state;
     }

@@ -7,8 +7,10 @@ import { useNavigation } from '@react-navigation/core';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { userEmail, userFirstName, userLastName, userPhoneNumber, userBirthDate, userLocation } from '../redux/actions/userDataAction';
 import { updateUserLocation } from '../API/POST';
-
-
+import { Slider } from '@miblanchard/react-native-slider';
+import CategoryButton from '../Components/CategoryButton';
+import Categories from '../Constants/Categories'
+import { Icons } from '../Components/Icons';
 
 export default function Offers() {
 
@@ -16,12 +18,15 @@ export default function Offers() {
 
   const lang = useSelector((store) => store.language.language);
   const uid = useSelector((store) => store.user.uid);
+  const location = useSelector((store) => store.user.location)
+  const [categories, setCategories] = useState(lang.language === 'pl' ? Categories.categoriesPL : Categories.categoriesEN);
 
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMsg, setAlertMsg] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [locationPermission, setLocationPermission] = useState(true)
   const [askPermission, setAskPermission] = useState(true);
+  const [distance, setDistance] = useState(20);
 
   useEffect(() => {
     (async () => {
@@ -29,8 +34,6 @@ export default function Offers() {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status === 'granted') {
           let location = await Location.getCurrentPositionAsync({});
-          console.log(location.coords.latitude)
-          console.log(location.coords.longitude)
           let locationObj = {
             Latitude: location.coords.latitude,
             Longitude: location.coords.longitude
@@ -54,8 +57,17 @@ export default function Offers() {
     })()
   }, [locationPermission])
 
+
+  useEffect(() => {
+    setCategories(lang.language === 'pl' ? Categories.categoriesPL : Categories.categoriesEN)
+  }, [lang])
+
   const handleLocationChange = (value) => {
     dispatch(userLocation(value))
+  }
+
+  const chooseCategory = (category) => {
+    console.log(category)
   }
 
   return (
@@ -65,7 +77,38 @@ export default function Offers() {
 
         {locationPermission ?
           <View style={styles.container}>
-            <Text style={styles.title}>{lang.offersTab}</Text>
+            {/* <Text style={styles.title}>{lang.offersTab}</Text> */}
+            {/* <View style={styles.filters}>
+              <Text style={styles.distanceText}>
+                {distance} KM
+              </Text>
+              <Slider
+                value={distance}
+                onValueChange={(value) => setDistance(value)}
+                animateTransitions={true}
+                animationType={'spring'}
+                maximumValue={150}
+                minimumValue={1}
+                step={5}
+              />
+            </View> */}
+            <View style={styles.categoryContainer}>
+              {
+                categories.map((item, index) => {
+                  return(
+                    <CategoryButton
+                    function={chooseCategory}
+                    icon={item.icon+"-outline"}
+                    name={item.name}
+                    key={index}
+                    type={Icons.Ionicons}
+                    category={item.id}
+                    >
+                    </CategoryButton>
+                  )
+                })
+              }
+            </View>
           </View>
           :
           <View style={styles.container}>
@@ -101,11 +144,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    paddingTop: 50,
+    paddingTop: 80,
     flexDirection: 'column',
     alignItems: 'center',
     paddingBottom: 100,
     minWidth: 100,
+
   },
   floatingButton: {
     position: 'absolute',
@@ -115,8 +159,9 @@ const styles = StyleSheet.create({
 
   },
   title: {
-    fontSize: 30,
+    fontSize: 40,
     fontWeight: 'bold',
+    color: Colors.black
   },
   noAccessText: {
     flex: 1,
@@ -126,6 +171,21 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     paddingTop: 300,
+  },
+  filters: {
+    flex: 1,
+    marginTop: 30,
+    minWidth: 200,
+    alignItems: 'stretch',
+    justifyContent: 'center',
+    flexDirection: 'column'
+  },
+  categoryContainer:{
+    flex:1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    alignItems: 'center'
   }
 
 })

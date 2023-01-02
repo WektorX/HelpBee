@@ -38,7 +38,18 @@ const polish = {
     deny: "Odmów",
     askLater: "Zapytaj później",
     noAccessToOffers: "Aby wyświetlić oferty, zezwól aplikacji HelpBee na dostęp do lokalizacji.",
-    noAccessToCreateOffer: "Aby dodawać i edytować oferty, zezwól aplikacji HelpBee na dostęp do lokalizacji."
+    noAccessToCreateOffer: "Aby dodawać i edytować oferty, zezwól aplikacji HelpBee na dostęp do lokalizacji.",
+    discardChanges: "Odrzuć zmiany",
+    discardChangesDesc: "Czy chcesz odrzucić wprowadzone zmiany?",
+    yes: 'Tak',
+    no: 'Nie',
+    newOffer: 'Nowa oferta',
+    title: 'Tytuł',
+    description: 'Opis',
+    category: 'Kategoria',
+    offerDate: 'Data wykonania usługi',
+    location: 'Lokalizacja',
+    offersStatus: ['Aktywne', 'Oczekujące', 'Zakończone', 'Anulowane']
 }
 
 export {polish}

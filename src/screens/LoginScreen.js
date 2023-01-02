@@ -20,7 +20,7 @@ const LoginScreen = () => {
 
     const [password, setPassword] = useState('');
     const [showAlert, setShowAlert] = useState(false);
-    
+
 
     const navigation = useNavigation();
     // on component mount check if user is already logged in, if yes than go to home screen
@@ -29,7 +29,7 @@ const LoginScreen = () => {
             if (user) {
                 handleUIDChange(user.uid);
                 dispatch(userAuth(user))
-                navigation.replace("Loading", {action : 'userData'})
+                navigation.replace("Loading", { action: 'userData' })
             }
         })
         return unsubscribe;
@@ -63,7 +63,8 @@ const LoginScreen = () => {
     return (
         <KeyboardAvoidingView
             style={styles.container}
-            behavior='height'>
+            behavior="height"
+            enabled>
 
             <Image
                 source={require('../Images/logo_no_background.png')}
@@ -118,7 +119,7 @@ const LoginScreen = () => {
                 confirmText="Ok"
                 confirmButtonColor={Colors.primary}
                 onConfirmPressed={() => setShowAlert(false)}
-                actionContainerStyle={{minWidth: 200}}
+                actionContainerStyle={{ minWidth: 200 }}
             />
 
         </KeyboardAvoidingView>

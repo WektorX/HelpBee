@@ -48,4 +48,21 @@ async function updateUserLocation(id, location) {
 }
 
 
-export { insertBasicUserData, updateUserLocation }
+async function insertOffer(offer) {
+    try {
+        const res = await axios.post(`${baseURL}/api/offers/insertOffer`,
+            offer,
+            {
+                'Content-Type': 'application/json;charset=utf-8'
+            })
+        return { status: res.status }
+    }
+    catch (e) {
+        console.log(e);
+        return { status: 500 }
+    }
+
+}
+
+
+export { insertBasicUserData, updateUserLocation, insertOffer }

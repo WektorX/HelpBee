@@ -38,7 +38,20 @@ const english = {
     deny: "Deny access",
     askLater: "Ask later",
     noAccessToOffers: "Allow the HelpBee to access your location to view offers.",
-    noAccessToCreateOffer: "Allow the app to access your location to create offers."
+    noAccessToCreateOffer: "Allow the app to access your location to create offers.",
+    discardChanges: "Discard changes",
+    discardChangesDesc: "Do you want to discard changes?",
+    yes: 'Yes',
+    no: 'No',
+    newOffer: 'New offer',
+    title: 'Title',
+    description: 'Description',
+    category: 'Category',
+    offerDate: 'Date of service',
+    location: 'Location',
+    offersStatus: ['Active', 'Pending', 'Ended', 'Canceled']
+
+
 }
 
 export {english};

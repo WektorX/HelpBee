@@ -54,3 +54,10 @@ export const userLocation = (location) => {
         location: location,
     };
 };
+
+export const userOffers = (offers) =>{
+    return {
+        type: 'USER_OFFERS',
+        offers: offers
+    }
+}
