@@ -49,7 +49,13 @@ const polish = {
     category: 'Kategoria',
     offerDate: 'Data wykonania usługi',
     location: 'Lokalizacja',
-    offersStatus: ['Aktywne', 'Oczekujące', 'Zakończone', 'Anulowane']
+    offersStatus: ['Aktywne', 'Oczekujące', 'Anulowane', 'Zakończone'],
+    delete: "Usuń",
+    editOffer: "Edytuj ofertę",
+    deleteMessage: "Czy na pewno chcesz usunąć tą ofertę?",
+    withdraw: "Wycofaj ofertę"
+
+
 }
 
 export {polish}

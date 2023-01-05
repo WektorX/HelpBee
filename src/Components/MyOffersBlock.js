@@ -7,7 +7,7 @@ import Colors from '../Constants/Colors.js';
 const MyOffersBlock = (props) => {
 
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => props.select(props.id)}>
     <View style={styles.container}>
       <View style={styles.iconConatiner}>
         <Icon type={Icons.Ionicons}

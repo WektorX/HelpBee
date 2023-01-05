@@ -49,7 +49,11 @@ const english = {
     category: 'Category',
     offerDate: 'Date of service',
     location: 'Location',
-    offersStatus: ['Active', 'Pending', 'Ended', 'Canceled']
+    offersStatus: ['Active', 'Pending', 'Canceled', 'Ended'],
+    delete: "Delete",
+    editOffer: "Edit offer",
+    deleteMessage: "Are you sure you want to delete this offer?",
+    withdraw: "Withdraw offer",
 
 
 }

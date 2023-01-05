@@ -65,4 +65,38 @@ async function insertOffer(offer) {
 }
 
 
-export { insertBasicUserData, updateUserLocation, insertOffer }
+async function withdrawOffer(id) {
+    try {
+        const res = await axios.post(`${baseURL}/api/offers/withdrawOffer`,
+            {id: id},
+            {
+                'Content-Type': 'application/json;charset=utf-8'
+            })
+        return { status: res.status }
+    }
+    catch (e) {
+        console.log(e);
+        return { status: 500 }
+    }
+
+}
+
+async function updateOffer(id, offer) {
+    try {
+        const res = await axios.post(`${baseURL}/api/offers/updateOffer`,
+            {id: id, offer: offer},
+            {
+                'Content-Type': 'application/json;charset=utf-8'
+            })
+        return { status: res.status }
+    }
+    catch (e) {
+        console.log(e);
+        return { status: 500 }
+    }
+
+}
+
+
+
+export { insertBasicUserData, updateUserLocation, insertOffer, withdrawOffer, updateOffer}

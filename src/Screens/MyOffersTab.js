@@ -36,6 +36,7 @@ const MyOffers = () => {
         return o
       })
       dispatch(userOffers(offers))
+      setStatus(0)
       setSelectedOffers(offers.filter(item => item.status === 0))
       setCategories(lang.language === 'pl' ? Categories.categoriesPL : Categories.categoriesEN);
     })
@@ -54,6 +55,15 @@ const MyOffers = () => {
     let status = event.nativeEvent.selectedSegmentIndex;
     setStatus(status)
     setSelectedOffers(offers.filter(item => item.status === status))
+  }
+  
+  const selectOffer = (id) => {
+    if(selectedOffers[id].status === 0 || selectedOffers[id].status === 1){
+      navigation.navigate("EditOffer", selectedOffers[id]);
+    }
+    else{
+      console.log("global view")
+    }
   }
 
   return (
@@ -82,6 +92,8 @@ const MyOffers = () => {
                     return (<MyOffersBlock 
                       title={offer.title}
                        key={id}
+                       id={id}
+                       select={selectOffer}
                        category={offer.category}
                        date={offer.serviceDate}/>)
                   })
