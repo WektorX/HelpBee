@@ -8,6 +8,7 @@ const initialState = {
     uid: '',
     location: { Latitude: 0, Longitude: 0 },
     offers: [],
+    distance: 20,
 };
 
 export default (state = initialState, action) => {
@@ -66,9 +67,14 @@ export default (state = initialState, action) => {
                 location: action.location,
             };
         case 'USER_OFFERS':
-            return{
+            return {
                 ...state,
                 offers: action.offers
+            };
+        case 'USER_DISTANCE':
+            return {
+                ...state,
+                distance: action.distance
             }
         default:
             return state;

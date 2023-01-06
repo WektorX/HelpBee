@@ -68,7 +68,7 @@ async function insertOffer(offer) {
 async function withdrawOffer(id) {
     try {
         const res = await axios.post(`${baseURL}/api/offers/withdrawOffer`,
-            {id: id},
+            { id: id },
             {
                 'Content-Type': 'application/json;charset=utf-8'
             })
@@ -84,7 +84,7 @@ async function withdrawOffer(id) {
 async function updateOffer(id, offer) {
     try {
         const res = await axios.post(`${baseURL}/api/offers/updateOffer`,
-            {id: id, offer: offer},
+            { id: id, offer: offer },
             {
                 'Content-Type': 'application/json;charset=utf-8'
             })
@@ -97,6 +97,75 @@ async function updateOffer(id, offer) {
 
 }
 
+async function takeOffer(uid, offerID) {
+    try {
+        const res = await axios.post(`${baseURL}/api/offers/takeOffer`,
+            { uid: uid, offerID: offerID },
+            {
+                'Content-Type': 'application/json;charset=utf-8'
+            })
+        return { status: res.status }
+    }
+    catch (e) {
+        console.log(e);
+        return { status: 500 }
+    }
+}
+
+async function resignFromOffer(uid, offerID) {
+    try {
+        const res = await axios.post(`${baseURL}/api/offers/resignFromOffer`,
+            { uid: uid, offerID: offerID },
+            {
+                'Content-Type': 'application/json;charset=utf-8'
+            })
+        return { status: res.status }
+    }
+    catch (e) {
+        console.log(e);
+        return { status: 500 }
+    }
+}
+
+async function acceptWorker(id, workerID) {
+    try {
+        const res = await axios.post(`${baseURL}/api/offers/acceptWorker`,
+            { offerID: id, workerID: workerID},
+            {
+                'Content-Type': 'application/json;charset=utf-8'
+            })
+        return { status: res.status }
+    }
+    catch (e) {
+        console.log(e);
+        return { status: 500 }
+    }
+}
+
+async function rejectWorker(id, workerID) {
+    try {
+        const res = await axios.post(`${baseURL}/api/offers/rejectWorker`,
+            { offerID: id, workerID: workerID},
+            {
+                'Content-Type': 'application/json;charset=utf-8'
+            })
+        return { status: res.status }
+    }
+    catch (e) {
+        console.log(e);
+        return { status: 500 }
+    }
+}
 
 
-export { insertBasicUserData, updateUserLocation, insertOffer, withdrawOffer, updateOffer}
+export {
+    insertBasicUserData,
+    updateUserLocation,
+    insertOffer,
+    withdrawOffer,
+    updateOffer,
+    takeOffer,
+    resignFromOffer,
+    acceptWorker,
+    rejectWorker
+}

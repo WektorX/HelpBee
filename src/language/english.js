@@ -54,7 +54,14 @@ const english = {
     editOffer: "Edit offer",
     deleteMessage: "Are you sure you want to delete this offer?",
     withdraw: "Withdraw offer",
-
+    noActiveOffers: "Unfortunately, there are currently no active offers in your area.",
+    close: 'Close',
+    takeJob : 'Take the job!',
+    reward: 'Reward',
+    resign: "Resign",
+    accept: 'Accept',
+    reject: 'Reject',
+    rate: 'Rate',
 
 }
 

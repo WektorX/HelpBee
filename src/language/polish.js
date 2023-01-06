@@ -53,9 +53,15 @@ const polish = {
     delete: "Usuń",
     editOffer: "Edytuj ofertę",
     deleteMessage: "Czy na pewno chcesz usunąć tą ofertę?",
-    withdraw: "Wycofaj ofertę"
-
-
+    withdraw: "Wycofaj ofertę",
+    noActiveOffers: "Niestety, aktualnie brak aktywnych ofert w twojej okolicy.",
+    close: 'Zamknij',
+    takeJob : 'Przyjmij zlecenie!',
+    reward: 'Wynagrodzenie',
+    resign : "Zrezygnuj",
+    accept: 'Akceptuj',
+    reject: 'Odrzuć',
+    rate: 'Oceń',
 }
 
 export {polish}

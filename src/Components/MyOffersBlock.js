@@ -8,7 +8,7 @@ const MyOffersBlock = (props) => {
 
   return (
     <TouchableOpacity onPress={() => props.select(props.id)}>
-    <View style={styles.container}>
+    <View style={[styles.container, (props.color ? {backgroundColor: props.color} : null)]}>
       <View style={styles.iconConatiner}>
         <Icon type={Icons.Ionicons}
           name={Categories.categoriesEN.filter(item => item.id === props.category)[0].icon}
@@ -18,6 +18,8 @@ const MyOffersBlock = (props) => {
       <View style={styles.textContainer}>
         <Text style={styles.title}>{props.title}</Text>
         <Text style={styles.date}>{props.date}</Text>
+        {props.distance ? <Text style={styles.distance}>{props.distance.toFixed(2)}KM</Text> : null}
+        
       </View>
     </View>
     </TouchableOpacity>
@@ -60,6 +62,11 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   date: {
+    fontSize:10,
+    color: Colors.white,
+    textAlign: 'center'
+  },
+  distance:{
     fontSize:10,
     color: Colors.white,
     textAlign: 'center'

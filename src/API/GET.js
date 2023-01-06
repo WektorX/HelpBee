@@ -57,5 +57,42 @@ async function getUserOffers(id) {
 }
 
 
+async function getOffersByCategory(category, distance, location) {
+    return new Promise(resolve => {
+        axios.get(`${baseURL}/api/offers/getOffersByCategory`, {
+            params: {
+                category: category,
+                distance: distance,
+                location: location
+            }
+        })
+            .then(res => {
+                resolve({ status: res.status, offers: res.data })
+            })
+            .catch((err) => {
+                console.log(err);
+                reject({ status: 500, user: null });
+            })
+    })
+}
 
-export { hasUserFilledInData, getUserDataByUID, getUserOffers }
+async function getUserContactInfo(id) {
+    return new Promise(resolve => {
+        axios.get(`${baseURL}/api/users/getUserContactInfo`, {
+            params: {
+                uid: id
+            }
+        })
+            .then(res => {
+                resolve({ status: res.status, data: res.data })
+            })
+            .catch((err) => {
+                console.log(err);
+                reject({ status: 500, user: null });
+            })
+    })
+}
+
+
+
+export { hasUserFilledInData, getUserDataByUID, getUserOffers, getOffersByCategory, getUserContactInfo}

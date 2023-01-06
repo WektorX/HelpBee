@@ -61,3 +61,10 @@ export const userOffers = (offers) =>{
         offers: offers
     }
 }
+
+export const userDistance = (distance) =>{
+    return {
+        type: 'USER_DISTANCE',
+        distance: distance
+    }
+}

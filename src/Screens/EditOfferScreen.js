@@ -37,6 +37,7 @@ const EditOfferScreen = (props) => {
     const [desc, setDesc] = useState(props.route.params.description);
     const [date, setDate] = useState(props.route.params.serviceDate);
     const [category, setCategory] = useState(props.route.params.category);
+    const [reward, setReward] = useState(props.route.params.reward);
     const [currentDate] = useState(new Date().toISOString().slice(0, 10));
     const [region, setRegion] = useState({
         latitude: props.route.params.location._latitude,
@@ -84,7 +85,8 @@ const EditOfferScreen = (props) => {
             uid: uid,
             serviceDate: date,
             category: category,
-            status : props.route.params.status
+            status : props.route.params.status,
+            reward: parseFloat(reward)
         }
         const response = await updateOffer(props.route.params.id, offer);
          // TODO: handle error
@@ -141,6 +143,17 @@ const EditOfferScreen = (props) => {
                                 multiline={true}
                                 numberOfLines={5}
                                 value={desc}>
+
+                            </TextInput>
+                        </View>
+                        <View style={styles.inputView}>
+                            <Text style={styles.inputTitle}>{lang.reward}</Text>
+                            <TextInput
+                                onChangeText={(vale) => setReward(vale)}
+                                style={styles.input}
+                                maxLength={8}
+                                value={reward.toString()}
+                                keyboardType={'decimal-pad'}>
 
                             </TextInput>
                         </View>

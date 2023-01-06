@@ -24,7 +24,6 @@ const NewOfferScreen = (props) => {
     //use redux store
     const dispatch = useDispatch();
     //get state from redux store
-    const userAuthObj = useSelector((store) => store.user.userAuth);
     const lang = useSelector((store) => store.language.language);
     const location = useSelector((store) => store.user.location);
     const uid = useSelector((store) => store.user.uid);
@@ -36,6 +35,7 @@ const NewOfferScreen = (props) => {
     const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
     const [category, setCategory] = useState('');
     const [currentDate] = useState(new Date());
+    const [reward, setReward] = useState(0);
     const [region, setRegion] = useState({
         latitude: location.Latitude,
         longitude: location.Longitude,
@@ -83,6 +83,7 @@ const NewOfferScreen = (props) => {
             uid: uid,
             serviceDate: date,
             category: category,
+            reward: parseFloat(reward)
         }
         const response = await insertOffer(offer);
         if(response.status === 200){
@@ -129,6 +130,17 @@ const NewOfferScreen = (props) => {
                                 multiline={true}
                                 numberOfLines={5}
                                 value={desc}>
+
+                            </TextInput>
+                        </View>
+                        <View style={styles.inputView}>
+                            <Text style={styles.inputTitle}>{lang.reward}</Text>
+                            <TextInput
+                                onChangeText={(vale) => setReward(vale)}
+                                style={styles.input}
+                                maxLength={8}
+                                value={reward}
+                                keyboardType={'decimal-pad'}>
 
                             </TextInput>
                         </View>
