@@ -62,6 +62,8 @@ const english = {
     accept: 'Accept',
     reject: 'Reject',
     rate: 'Rate',
+    finish: "Finish",
+    
 
 }
 

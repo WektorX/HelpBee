@@ -13,7 +13,8 @@ async function insertBasicUserData(id, user) {
                 birthDate: user.birthDate,
                 firstName: user.firstName,
                 lastName: user.lastName,
-                phoneNumber: user.phoneNumber
+                phoneNumber: user.phoneNumber,
+                email: user.email
             },
             {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -78,8 +79,24 @@ async function withdrawOffer(id) {
         console.log(e);
         return { status: 500 }
     }
+}
+
+async function closeOffer(id) {
+    try {
+        const res = await axios.post(`${baseURL}/api/offers/closeOffer`,
+            { id: id },
+            {
+                'Content-Type': 'application/json;charset=utf-8'
+            })
+        return { status: res.status }
+    }
+    catch (e) {
+        console.log(e);
+        return { status: 500 }
+    }
 
 }
+
 
 async function updateOffer(id, offer) {
     try {
@@ -167,5 +184,6 @@ export {
     takeOffer,
     resignFromOffer,
     acceptWorker,
-    rejectWorker
+    rejectWorker,
+    closeOffer
 }

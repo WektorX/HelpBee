@@ -62,6 +62,7 @@ const polish = {
     accept: 'Akceptuj',
     reject: 'Odrzuć',
     rate: 'Oceń',
+    finish: 'Zakończ'
 }
 
 export {polish}

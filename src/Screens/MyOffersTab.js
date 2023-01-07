@@ -11,7 +11,7 @@ import { userFirstName, userLastName, userPhoneNumber, userBirthDate, userOffers
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import MyOffersBlock from '../Components/MyOffersBlock.js';
 import Button from '../Components/Button'
-import { acceptWorker, rejectWorker } from '../API/POST';
+import { acceptWorker, rejectWorker, withdrawOffer, closeOffer } from '../API/POST';
 
 const MyOffers = () => {
 
@@ -70,9 +70,6 @@ const MyOffers = () => {
     if (selectedOffers[id].status === 0 || selectedOffers[id].status === 1) {
       navigation.navigate("EditOffer", selectedOffers[id]);
     }
-    else {
-      console.log("global view")
-    }
   }
 
   //accept user request for a job
@@ -86,6 +83,17 @@ const MyOffers = () => {
     const response = await rejectWorker(offerID, workerID);
     retriveOffers();
   }
+
+  const close = async(offerID) =>{
+    const response = await closeOffer(offerID);
+    retriveOffers();
+  }
+
+  const cancel = async(offerID) => {
+    const response = await withdrawOffer(offerID);
+    retriveOffers();
+  }
+
 
   return (
     <View style={styles.mainView}>
@@ -109,6 +117,8 @@ const MyOffers = () => {
               <View style={styles.offersBlocks}>
                 {
                   selectedOffers.map((offer, id) => {
+                    var currentDate = new Date();
+                    var today = currentDate.toISOString().slice(0, 10) === offer.serviceDate;
                     return (<View key={id} style={{ justifyContent: 'center', alignItems: 'center' }}>
                       <MyOffersBlock
                         title={offer.title}
@@ -131,18 +141,26 @@ const MyOffers = () => {
                             <Text>{offer.workerPhone}</Text>
                           </View>
 
-                          {offer.status == 1 ?
+                          {offer.status == 1 && !today ?
                             <View style={{ flexDirection: 'row', marginLeft: 30, width: 70, alignItems: 'center', justifyContent: 'center' }}>
 
                               <Button text={lang.reject} func={() => reject(offer.id, offer.worker)} color={Colors.red} asText={true}></Button>
-                              {offer.workerStatus === "requested" ?
-                                <Button text={lang.accept} func={() => accept(offer.id, offer.worker)} color={Colors.green} asText={true}></Button> : null}
+
+                              {offer.workerStatus === "requested" && !tod ?
+                                <Button text={lang.accept} func={() => accept(offer.id, offer.worker)} color={Colors.green} asText={true}></Button>
+                                : null}
 
                             </View>
-                            :
-                            <View style={{ flexDirection: 'row', marginLeft: 40, width: 60, alignItems: 'center', justifyContent: 'center' }}>
-                              <Button text={lang.rate} color={Colors.purple} asText={true} func={() => console.log("rate")}></Button>
-                            </View>}
+                            : offer.status == 3 ?
+                              <View style={{ flexDirection: 'row', marginLeft: 40, width: 60, alignItems: 'center', justifyContent: 'center' }}>
+                                <Button text={lang.rate} color={Colors.purple} asText={true} func={() => console.log("rate")}></Button>
+                              </View> :
+                              <View style={{ flexDirection: 'row', marginLeft: 30, width: 70, alignItems: 'center', justifyContent: 'center' }}>
+                                <Button text={lang.cancel} color={Colors.red} asText={true} func={() => cancel(offer.id)}></Button>
+                                <Button text={lang.finish} color={Colors.purple} asText={true} func={() => close(offer.id)}></Button>
+                              </View>
+                          }
+
 
                         </View>
                         : null}

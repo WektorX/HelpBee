@@ -24,7 +24,7 @@ const UserDataScreen = (props) => {
     const phoneNumber = useSelector((store) => store.user.phoneNumber);
     const birthDate = useSelector((store) => store.user.birthDate);
     const uid = useSelector((store) => store.user.uid);
-
+    const email = useSelector((store) => store.user.email);
 
     const [firstNameError, setFirstNameError] = useState(false);
     const [lastNameError, setLastNameError] = useState(false);
@@ -68,7 +68,7 @@ const UserDataScreen = (props) => {
             setShowAlert(true);
         }
         else {
-            insertBasicUserData(uid, { firstName: firstName, lastName: lastName, phoneNumber: phoneNumber, birthDate: birthDate })
+            insertBasicUserData(uid, { firstName: firstName, lastName: lastName, phoneNumber: phoneNumber, birthDate: birthDate, email: email })
             if (navigation.canGoBack()) {
 
                 navigation.goBack();
