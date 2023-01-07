@@ -1,18 +1,19 @@
-import { StyleSheet, Text, View, ScrollView, BackHandler, KeyboardAvoidingView, Image, Modal, Pressable, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, Image, Modal, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Colors, { stringToColour } from '../Constants/Colors'
 import { useNavigation } from '@react-navigation/core';
-import { userDistance, userLocation } from '../redux/actions/userDataAction';
+import { userDistance } from '../redux/actions/userDataAction';
 import { useSelector, useDispatch } from 'react-redux';
-import { Avatar, TextInput } from 'react-native-paper'
+import { Avatar } from 'react-native-paper'
 import { Slider } from '@miblanchard/react-native-slider';
 import Categories from '../Constants/Categories.js'
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import { getOffersByCategory } from '../API/GET'
 import MyOffersBlock from '../Components/MyOffersBlock';
 import { getUserContactInfo } from '../API/GET'
 import Button from '../Components/Button'
-import { resignFromOffer, takeOffer } from '../API/POST';
+import { reportOffer, resignFromOffer, takeOffer } from '../API/POST';
+import { WaveIndicator } from 'react-native-indicators';
 
 const CategoryOffersScreen = (props) => {
     //use navigator
@@ -33,31 +34,18 @@ const CategoryOffersScreen = (props) => {
     const [offers, setOffers] = useState([]);
     const [selected, setSelected] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-
-        const unsubscribe = navigation.addListener('focus', async () => {
-            // to add get all offers
-            const response = await getOffersByCategory(category.id, distance, location);
-            let offers = response.offers.offers;
-            offers = offers.map(o => {
-                let tempDate = o.serviceDate.split("T")[0];
-                o.serviceDate = tempDate;
-                o.distance = getDistanceFromLatLonInKm(location.Latitude, location.Longitude, o.location._latitude, o.location._longitude)
-                return o
-            })
-            setOffers(offers);
-            setCategories(lang.language === 'pl' ? Categories.categoriesPL : Categories.categoriesEN);
-        })
-
-        return () => {
-            unsubscribe();
-        }
-
-    }, [navigation])
+        refreshOffers();
+    }, [category])
 
 
     const distanceChange = async () => {
+        refreshOffers();
+    }
+
+    const refreshOffers = async () => {
         const response = await getOffersByCategory(category.id, distance, location);
         let offers = response.offers.offers;
         offers = offers.map(o => {
@@ -67,8 +55,8 @@ const CategoryOffersScreen = (props) => {
             return o
         })
         setOffers(offers);
+        setLoading(false);
     }
-
 
     function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
         var R = 6371; // Radius of the earth in km
@@ -98,27 +86,38 @@ const CategoryOffersScreen = (props) => {
         setShowModal(true)
     }
 
-    const takeJob = async() => {
-       const response = await takeOffer(uid, selected.id)
-       if(response.status === 200){
+    const takeJob = async () => {
+        const response = await takeOffer(uid, selected.id)
+        if (response.status === 200) {
             let temp = offers;
             let index = temp.findIndex(item => item.id === selected.id);
             temp[index].worker = uid;
             setOffers(temp);
-       }
-       setShowModal(false)
+        }
+        setShowModal(false)
     }
 
-    const resign = async() => {
+    const resign = async () => {
         const response = await resignFromOffer(uid, selected.id);
-        if(response.status === 200){
+        if (response.status === 200) {
             let temp = offers;
             let index = temp.findIndex(item => item.id === selected.id);
             temp[index].worker = "";
             temp[index].workersHistory.push(uid);
             setOffers(temp);
-       }
-       setShowModal(false);
+        }
+        setShowModal(false);
+    }
+
+    const report = async () => {
+        const response = await reportOffer(uid, selected.id);
+        if (response.status === 200) {
+            let temp = offers;
+            let index = temp.findIndex(item => item.id === selected.id);
+            temp[index].reportedBy.push(uid);
+            setOffers(temp);
+        }
+        setShowModal(false);
     }
 
     return (
@@ -136,10 +135,19 @@ const CategoryOffersScreen = (props) => {
                     {selected ?
 
                         <View style={styles.modalView}>
+
+                            {selected.userID != uid && selected.reportedBy.indexOf(uid) < 0 ?
+                                <TouchableOpacity
+                                    onPress={() => report()}
+                                    style={{ width: 50, height: 30, position: 'absolute', top: 5, left: 10, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                    <Image source={require('../Images/report.png')} style={{ width: 15, height: 15 }} />
+                                    <Text style={{ marginLeft: 5 }}>Zgłoś</Text>
+                                </TouchableOpacity> : null}
+
                             <TouchableOpacity
                                 onPress={() => setShowModal(false)}
                                 style={{ width: 30, height: 30, position: 'absolute', top: 5, right: 0 }}>
-                                <Image source={require('../Images/close.png')} style={{ width: 25, height: 25}} />
+                                <Image source={require('../Images/close.png')} style={{ width: 25, height: 25 }} />
                             </TouchableOpacity>
 
 
@@ -219,32 +227,41 @@ const CategoryOffersScreen = (props) => {
                             minimumTrackTintColor={Colors.primaryAlpha}
                         />
                     </View>
-                    <View style={styles.offersContainer}>
-                        {
-                            offers.length > 0 ?
-                                (
-                                    offers.map((item, id) => {
-                                        return (
-                                            <MyOffersBlock
-                                                key={id}
-                                                select={selectedOffer}
-                                                id={id}
-                                                category={category.id}
-                                                date={item.serviceDate}
-                                                distance={item.distance}
-                                                title={item.title}
-                                                color={Colors.primary}
-                                            />
-                                        )
-                                    })
-                                )
-                                :
-                                <View style={styles.noOffers}>
-                                    <Image source={require('../Images/emptyOffer.png')} style={styles.noImage} />
-                                    <Text style={styles.noText}>{lang.noActiveOffers}</Text>
-                                </View>
-                        }
-                    </View>
+                    {loading ?
+
+                        <WaveIndicator
+                            style={{ marginTop: 200 }}
+                            color={Colors.primary}
+                            size={100}
+                            count={5} />
+                        :
+                        <View style={styles.offersContainer}>
+                            {
+                                offers.length > 0 ?
+                                    (
+                                        offers.map((item, id) => {
+                                            return (
+                                                <MyOffersBlock
+                                                    key={id}
+                                                    select={selectedOffer}
+                                                    id={id}
+                                                    category={category.id}
+                                                    date={item.serviceDate}
+                                                    distance={item.distance}
+                                                    title={item.title}
+                                                    color={Colors.primary}
+                                                />
+                                            )
+                                        })
+                                    )
+                                    :
+                                    <View style={styles.noOffers}>
+                                        <Image source={require('../Images/emptyOffer.png')} style={styles.noImage} />
+                                        <Text style={styles.noText}>{lang.noActiveOffers}</Text>
+                                    </View>
+                            }
+                        </View>
+                    }
                 </View>
             </ScrollView>
         </View>
@@ -318,7 +335,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-        minHeight:550,
+        minHeight: 550,
         maxHeight: 650
     },
     buttonContainer: {

@@ -175,6 +175,21 @@ async function rejectWorker(id, workerID) {
 }
 
 
+async function reportOffer(uid, offerID) {
+    try {
+        const res = await axios.post(`${baseURL}/api/offers/reportOffer`,
+            { userID : uid , offerID: offerID},
+            {
+                'Content-Type': 'application/json;charset=utf-8'
+            })
+        return { status: res.status }
+    }
+    catch (e) {
+        console.log(e);
+        return { status: 500 }
+    }
+}
+
 export {
     insertBasicUserData,
     updateUserLocation,
@@ -185,5 +200,6 @@ export {
     resignFromOffer,
     acceptWorker,
     rejectWorker,
-    closeOffer
+    closeOffer,
+    reportOffer
 }
