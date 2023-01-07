@@ -57,6 +57,25 @@ async function getUserOffers(id) {
 }
 
 
+async function getUserJobs(id) {
+    return new Promise(resolve => {
+        axios.get(`${baseURL}/api/offers/getUserJobs`, {
+            params: {
+                uid: id
+            }
+        })
+            .then(res => {
+                resolve(res.data)
+            })
+            .catch((err) => {
+                console.log(err);
+                reject({ status: 500, user: null });
+            })
+    })
+}
+
+
+
 async function getOffersByCategory(category, distance, location) {
     return new Promise(resolve => {
         axios.get(`${baseURL}/api/offers/getOffersByCategory`, {
@@ -95,4 +114,11 @@ async function getUserContactInfo(id) {
 
 
 
-export { hasUserFilledInData, getUserDataByUID, getUserOffers, getOffersByCategory, getUserContactInfo}
+export {
+    hasUserFilledInData,
+    getUserDataByUID,
+    getUserOffers,
+    getOffersByCategory,
+    getUserContactInfo,
+    getUserJobs
+}

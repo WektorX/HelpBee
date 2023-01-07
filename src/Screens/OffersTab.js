@@ -30,38 +30,50 @@ export default function Offers() {
   const [askPermission, setAskPermission] = useState(true);
 
   useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', async () => {
+      await getLocation();
+    })
+    return () => {
+      unsubscribe();
+    }
+  }, [navigation])
+
+
+  useEffect(() => {
     (async () => {
-      try {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status === 'granted') {
-          let location = await Location.getCurrentPositionAsync({});
-          let locationObj = {
-            Latitude: location.coords.latitude,
-            Longitude: location.coords.longitude
-          }
-          handleLocationChange(locationObj);
-          updateUserLocation(uid, locationObj);
-          setLocationPermission(true);
-        }
-        else {
-          setAlertMsg(lang.locationDenied);
-          setAlertTitle(lang.oops);
-          setShowAlert(true);
-          setLocationPermission(false);
-
-        }
-      }
-      catch (e) {
-        console.log(e)
-      }
-
+      await getLocation()
     })()
-  }, [locationPermission])
-
+  }, [locationPermission] )
 
   useEffect(() => {
     setCategories(lang.language === 'pl' ? Categories.categoriesPL : Categories.categoriesEN)
   }, [lang])
+
+  const getLocation = async() => {
+    try {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status === 'granted') {
+        let location = await Location.getCurrentPositionAsync({enableHighAccuracy: true});
+        let locationObj = {
+          Latitude: location.coords.latitude,
+          Longitude: location.coords.longitude
+        }
+        handleLocationChange(locationObj);
+        updateUserLocation(uid, locationObj);
+        setLocationPermission(true);
+      }
+      else {
+        setAlertMsg(lang.locationDenied);
+        setAlertTitle(lang.oops);
+        setShowAlert(true);
+        setLocationPermission(false);
+
+      }
+    }
+    catch (e) {
+      console.log(e)
+    }
+  }
 
   const handleLocationChange = (value) => {
     dispatch(userLocation(value))

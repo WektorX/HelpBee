@@ -63,6 +63,7 @@ const english = {
     reject: 'Reject',
     rate: 'Rate',
     finish: "Finish",
+    jobsStatus: ['Active', 'History'],
     
 
 }

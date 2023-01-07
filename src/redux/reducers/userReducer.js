@@ -9,6 +9,7 @@ const initialState = {
     location: { Latitude: 0, Longitude: 0 },
     offers: [],
     distance: 20,
+    jobs: []
 };
 
 export default (state = initialState, action) => {
@@ -75,7 +76,12 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 distance: action.distance
-            }
+            };
+        case 'USER_JOBS':
+            return{
+                ...state,
+                jobs: action.jobs
+            };
         default:
             return state;
     }

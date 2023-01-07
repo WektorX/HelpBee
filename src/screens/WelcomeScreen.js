@@ -14,31 +14,38 @@ export default function WelcomeScreen() {
     const navigation = useNavigation();
     const lang = useSelector((store) => store.language.language);
 
-    // Set language of app based on mobile language
-    if (NativeModules.I18nManager.localeIdentifier == "pl_PL") {
-        dispatch(polish());
-    }
-    else {
-        dispatch(english());
-    }
 
-    //Navigate to login screen after 5 seconds - there will be some animation on app start then navihate to login screen
-    setTimeout(()=>{
-        navigation.reset({
-            index : 0,
-            routes: [{name : "Login"}]
-        })
-    }, 5000)
-    
+
+    useEffect(() => {
+
+        // Set language of app based on mobile language
+        if (NativeModules.I18nManager.localeIdentifier == "pl_PL") {
+            dispatch(polish());
+        }
+        else {
+            dispatch(english());
+        }
+
+        //Navigate to login screen after 5 seconds - there will be some animation on app start then navihate to login screen
+
+        setTimeout(() => {
+            navigation.reset({
+                index: 0,
+                routes: [{ name: "Login" }]
+            })
+        }, 5000)
+    }, [])
+
+
 
     return (
         <View style={styles.container}>
-            <ImageBackground 
+            <ImageBackground
                 source={require('../Images/logo.jpg')}
                 resizeMode="contain"
                 style={styles.image}
             >
-                <Text style ={styles.text}>
+                <Text style={styles.text}>
                     {lang.appName}
                 </Text>
             </ImageBackground>
@@ -53,8 +60,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignContent: 'center',
     },
-    text:{
-        color : Colors.brown,
+    text: {
+        color: Colors.brown,
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center',
@@ -68,6 +75,6 @@ const styles = StyleSheet.create({
     image: {
         flex: 1,
         justifyContent: "center"
-      },
+    },
 })
 

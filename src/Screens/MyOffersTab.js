@@ -1,13 +1,13 @@
-import { StyleSheet, Text, View, ScrollView, Image } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, Image, RefreshControl } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { FAB } from 'react-native-paper';
 import Colors, { stringToColour } from '../Constants/Colors'
-import { Avatar, TextInput } from 'react-native-paper'
+import { Avatar } from 'react-native-paper'
 import { useSelector, useDispatch } from 'react-redux';
 import Categories from '../Constants/Categories.js'
 import { useNavigation } from '@react-navigation/core';
 import { getUserOffers } from '../API/GET';
-import { userFirstName, userLastName, userPhoneNumber, userBirthDate, userOffers } from '../redux/actions/userDataAction';
+import { userOffers } from '../redux/actions/userDataAction';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import MyOffersBlock from '../Components/MyOffersBlock.js';
 import Button from '../Components/Button'
@@ -25,6 +25,7 @@ const MyOffers = () => {
   const [status, setStatus] = useState(0);
   const [categories, setCategories] = useState(lang.language === 'pl' ? Categories.categoriesPL : Categories.categoriesEN);
   const [selectedOffers, setSelectedOffers] = useState(offers.filter(item => item.status === status))
+  const [refreshing, setRefreshing] = useState(false);
 
   //to refresh when come back to screen 
   useEffect(() => {
@@ -62,6 +63,7 @@ const MyOffers = () => {
   const offerStatusChange = (event) => {
     let temp = event.nativeEvent.selectedSegmentIndex;
     setStatus(temp)
+    retriveOffers();
     setSelectedOffers(offers.filter(item => item.status === temp))
   }
 
@@ -84,21 +86,37 @@ const MyOffers = () => {
     retriveOffers();
   }
 
-  const close = async(offerID) =>{
+  const close = async (offerID) => {
     const response = await closeOffer(offerID);
     retriveOffers();
   }
 
-  const cancel = async(offerID) => {
+  const cancel = async (offerID) => {
     const response = await withdrawOffer(offerID);
     retriveOffers();
   }
 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await retriveOffers();
+    setSelectedOffers(offers.filter(item => item.status === status))
+    setRefreshing(false)
+  }
 
   return (
     <View style={styles.mainView}>
 
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            color={Colors.green}
+            onRefresh={onRefresh}
+            colors={[Colors.purple]}
+            progressBackgroundColor={Colors.lightPurple}
+          />
+        }
+      >
         <View style={styles.container}>
           <Text style={styles.title}>{lang.myOffersTab}</Text>
           <SegmentedControl
@@ -146,7 +164,7 @@ const MyOffers = () => {
 
                               <Button text={lang.reject} func={() => reject(offer.id, offer.worker)} color={Colors.red} asText={true}></Button>
 
-                              {offer.workerStatus === "requested" && !tod ?
+                              {offer.workerStatus === "requested" && !today ?
                                 <Button text={lang.accept} func={() => accept(offer.id, offer.worker)} color={Colors.green} asText={true}></Button>
                                 : null}
 

@@ -5,7 +5,7 @@ import * as Animatable from 'react-native-animatable'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { auth } from '../Firebase/firebase';
 import { useNavigation } from '@react-navigation/core';
-import { userEmail } from '../redux/actions/userDataAction';
+import { userEmail, userOffers, userJobs } from '../redux/actions/userDataAction';
 import Offers from './OffersTab';
 import MyOffers from './MyOffersTab';
 import MyAccount from './MyAccountTab';
@@ -15,14 +15,18 @@ import TabButton from '../Components/TabButton';
 import Colors from '../Constants/Colors';
 import { useEffect, useState } from 'react';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import { getUserJobs, getUserOffers } from '../API/GET';
 
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
 
+  const uid = useSelector((store) => store.user.uid);
   const email = useSelector((store) => store.user.email);
   const userAuthObj = useSelector((store) => store.user.userAuth);
   const lang = useSelector((store) => store.language.language);
+  const jobs = useSelector((store) => store.user.jobs)
+  const offers = useSelector((store) => store.user.offers)
 
   const navigation = useNavigation();
 
@@ -39,6 +43,36 @@ const HomeScreen = () => {
   const handleEmailChange = (value) => {
     dispatch(userEmail(value))
   }
+
+
+  useEffect(() => {
+    retriveUserJobs();
+    retriveUserOffers();
+  }, [])
+
+
+  const retriveUserJobs = async() => {
+    const response = await getUserJobs(uid);
+    let jobs = response.data;
+    jobs = jobs.map(o => {
+      let tempDate = o.serviceDate.split("T")[0];
+      o.serviceDate = tempDate;
+      return o
+    })
+    dispatch(userJobs(jobs));
+  }
+
+  const retriveUserOffers = async() => {
+    const response = await getUserOffers(uid);
+    let offers = response.offers.data;
+    offers = offers.map(o => {
+      let tempDate = o.serviceDate.split("T")[0];
+      o.serviceDate = tempDate;
+      return o
+    })
+    dispatch(userOffers(offers))
+  }
+
 
   return (
     <Tab.Navigator

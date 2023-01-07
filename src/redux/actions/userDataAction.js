@@ -68,3 +68,10 @@ export const userDistance = (distance) =>{
         distance: distance
     }
 }
+
+export const userJobs = (jobs) =>{
+    return {
+        type: 'USER_JOBS',
+        jobs: jobs
+    }
+}

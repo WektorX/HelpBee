@@ -14,6 +14,7 @@ export default {
     lightRed: '#ff4f7e',
     darkRed: '#d9365e',
     purple: 'rgba(23,33,230,1)',
+    lightPurple: '#948FE8', 
     skyBlue: 'skyblue',
     yellow: '#f8c907',
     pink: '#ff4c98',
