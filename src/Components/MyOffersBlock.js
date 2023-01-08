@@ -7,7 +7,7 @@ import Colors from '../Constants/Colors.js';
 const MyOffersBlock = (props) => {
 
   return (
-    <TouchableOpacity onPress={() => props.select(props.id)}>
+    <TouchableOpacity onPress={() => props.select(props.id)} disabled={ props.disabled }>
     <View style={[styles.container, (props.color ? {backgroundColor: props.color} : null)]}>
       <View style={styles.iconConatiner}>
         <Icon type={Icons.Ionicons}

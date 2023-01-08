@@ -11,7 +11,7 @@ import { userJobs, userOffers } from '../redux/actions/userDataAction';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import MyOffersBlock from '../Components/MyOffersBlock.js';
 import Button from '../Components/Button'
-import { acceptWorker, rejectWorker, withdrawOffer, closeOffer } from '../API/POST';
+import { resignFromOffer } from '../API/POST';
 
 export default function MyJobs() {
 
@@ -28,27 +28,36 @@ export default function MyJobs() {
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', async () => {
-      await retriveJobs();
+    const unsubscribe = navigation.addListener('tabPress', async () => {
+      retriveJobs();
     })
     return () => {
       unsubscribe();
     }
   }, [navigation])
 
+  useEffect(() => {
+    if (status == 0) {
+      setSelectedJobs(jobs.filter(job => job.status == 1))
+    }
+    else {
+      setSelectedJobs(jobs.filter(job => job.status != 1))
+    }
+  }, [jobs])
+
   const jobsStatusChange = async (event) => {
     let temp = event.nativeEvent.selectedSegmentIndex;
     setStatus(temp)
-    retriveJobs(temp);
     if (temp == 0) {
       setSelectedJobs(jobs.filter(job => job.status == 1))
     }
     else {
       setSelectedJobs(jobs.filter(job => job.status != 1))
     }
+    await retriveJobs(temp);
   }
 
-  const retriveJobs = async () => {
+  const retriveJobs = async (status) => {
     const response = await getUserJobs(uid);
     let jobs = response.data;
     jobs = jobs.map(o => {
@@ -61,12 +70,11 @@ export default function MyJobs() {
 
   const cancel = async (offerID) => {
     const response = await resignFromOffer(uid, offerID);
-    await retriveJobs();
-    if (status == 0) {
-      setSelectedJobs(jobs.filter(job => job.status == 1))
-    }
-    else {
-      setSelectedJobs(jobs.filter(job => job.status != 1))
+    if (response.status === 200) {
+      let index = jobs.indexOf(job => job.id === offerID);
+      let temp = jobs.splice(index, 1);
+      dispatch(userJobs(temp))
+      retriveJobs();
     }
   }
 
@@ -120,29 +128,28 @@ export default function MyJobs() {
                           title={offer.title}
                           key={id}
                           id={id}
-                          select={() => console.log("XD")}
+                          select={() => console.log("test")}
+                          disabled={true}
                           category={offer.category}
                           date={offer.serviceDate}
                           color={Colors.green} />
                         <View style={styles.workerInfo}>
-                          <View style={{ flexDirection: 'row', width: 50, alignItems: 'center', justifyContent: 'center' }}>
+                          <View style={{ flex: 1,flexDirection: 'row', minWidth: 50, alignItems: 'center', justifyContent: 'center' }}>
                             <Avatar.Text
                               size={45}
                               label={offer.employerFirstName?.charAt(0) + offer.employerLastName?.charAt(0)}
                               style={{ backgroundColor: stringToColour(offer.employerFirstName + " " + offer.employerLastName) }}
                               color={Colors.white} />
                           </View>
-                          <View style={{ flexDirection: 'column', width: 80, alignItems: 'center', justifyContent: 'center' }}>
+                          <View style={{ flex:1 ,flexDirection: 'column', minWidth: 80, alignItems: 'center', justifyContent: 'center' }}>
                             <Text>{offer.employerFirstName + " " + offer.employerLastName}</Text>
-                            <Text>{offer.employerPhone}</Text>
+                            {offer.status == 1 ? <Text>{offer.employerPhone}</Text> : null}
                           </View>
-                          <View style={{ flexDirection: 'row', marginLeft: 30, width: 70, alignItems: 'center', justifyContent: 'center' }}>
-                            {offer.status == 1 ?
-                              <Button text={lang.reject} func={() => cancel(offer.userID)} color={Colors.red} asText={true}></Button>
-                              :
-                              <Button text={lang.rate} color={Colors.green} asText={true} func={() => console.log("rate")}></Button>
-                            }
-                          </View>
+                          {offer.status == 1 ?
+                            <View style={{ flexDirection: 'row', marginLeft: 30, width: 70, alignItems: 'center', justifyContent: 'center' }}>
+                              <Button text={lang.reject} func={() => cancel(offer.id)} color={Colors.red} asText={true}></Button>
+                            </View>
+                            : null}
                         </View>
                       </View>)
                   })

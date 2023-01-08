@@ -113,6 +113,23 @@ async function getUserContactInfo(id) {
 }
 
 
+async function getUserRating(uid) {
+    return new Promise(resolve => {
+        axios.get(`${baseURL}/api/ratings/getUserRating`, {
+            params: {
+                uid: uid
+            }
+        })
+            .then(res => {
+                resolve({ status: res.status, data: res.data })
+            })
+            .catch((err) => {
+                console.log(err);
+                reject({ status: 500, user: null });
+            })
+    })
+}
+
 
 export {
     hasUserFilledInData,
@@ -120,5 +137,6 @@ export {
     getUserOffers,
     getOffersByCategory,
     getUserContactInfo,
-    getUserJobs
+    getUserJobs,
+    getUserRating
 }

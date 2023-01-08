@@ -11,10 +11,11 @@ import TabButton from '../Components/TabButton';
 import Colors from '../Constants/Colors';
 import { useEffect } from 'react';
 import { getUserJobs, getUserOffers } from '../API/GET';
+import { useNavigation } from '@react-navigation/native';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
-
+  const navigation = useNavigation();
   const uid = useSelector((store) => store.user.uid);
   const lang = useSelector((store) => store.language.language);
 
@@ -29,9 +30,15 @@ const HomeScreen = () => {
   const Tab = createBottomTabNavigator();
 
   useEffect(() => {
-    retriveUserJobs();
-    retriveUserOffers();
-  }, [])
+    const unsubscribe = navigation.addListener('focus', async () => {
+      retriveUserJobs();
+      retriveUserOffers();
+    })
+    return () => {
+      unsubscribe();
+    }
+  }, [navigation])
+
 
   const retriveUserJobs = async() => {
     const response = await getUserJobs(uid);

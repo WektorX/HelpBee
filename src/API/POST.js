@@ -190,6 +190,21 @@ async function reportOffer(uid, offerID) {
     }
 }
 
+async function insertRate(rating) {
+    try {
+        const res = await axios.post(`${baseURL}/api/ratings/insertRate`,
+            { rating : rating},
+            {
+                'Content-Type': 'application/json;charset=utf-8'
+            })
+        return { status: res.status }
+    }
+    catch (e) {
+        console.log(e);
+        return { status: 500 }
+    }
+}
+
 export {
     insertBasicUserData,
     updateUserLocation,
@@ -201,5 +216,6 @@ export {
     acceptWorker,
     rejectWorker,
     closeOffer,
-    reportOffer
+    reportOffer,
+    insertRate
 }
