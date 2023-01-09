@@ -227,7 +227,7 @@ const MyOffers = () => {
                   <Avatar.Text
                     size={70}
                     label={userInfo.firstName?.charAt(0) + userInfo.lastName?.charAt(0)}
-                    style={{ backgroundColor: stringToColour(userInfo.firstName  + " " + userInfo.lastName) }}
+                    style={{ backgroundColor: stringToColour(userInfo.firstName + " " + userInfo.lastName) }}
                     color={Colors.white} />
                   <Text style={styles.modalTitle}>{userInfo.firstName + " " + userInfo.lastName}</Text>
 
@@ -240,16 +240,21 @@ const MyOffers = () => {
                   />
 
                   <View style={styles.commentSection}>
-                  {userInfo.comments?.map((comment, id) => {
-                    return(
-                      <View style={styles.commentRow}>
-                      <Text style={styles.commentText}>{comment.comment}</Text>  
-                      <Text style={styles.commentBy}>{comment.employerFirstName + " " + comment.employerLastName}</Text>  
+                    {userInfo.comments?.map((comment, id) => {
+                      return (
+                        <View style={styles.commentRow} key={id}>
+                          <Text style={styles.commentText}>{comment.comment}</Text>
+                          <Text style={styles.commentBy}>{comment.employerFirstName + " " + comment.employerLastName}</Text>
+                        </View>
+                      )
+                    })}
+                    {userInfo.comments?.length == 0 ?
+                      <View style={[styles.commentRow, {paddingBottom: 50}]}>
+                        <Text style={styles.commentText}>Brak komenatrzy</Text>
                       </View>
-                    )
-                  })}
+                    : null}
                   </View>
-                  <View style={styles.buttonContainer}>
+                  <View style={[styles.buttonContainer, { position: 'relative', bottom: 0 }]}>
                     <Button text={lang.cancel} func={() => setShowUserInfo(false)} color={Colors.red} asText={true}></Button>
                   </View>
                 </View>
@@ -472,20 +477,21 @@ const styles = StyleSheet.create({
   },
   commentSection: {
     width: '90%',
-    padding:10,
+    padding: 10,
+    marginBottom: 20
   },
-  commentRow : {
+  commentRow: {
     backgroundColor: Colors.purpleBackground,
-    padding:10,
+    padding: 10,
     flexDirection: 'column',
-    marginTop:10,
+    marginTop: 10,
   },
   commentText: {
     fontSize: 15,
     width: '100%',
 
   },
-  commentBy:{
+  commentBy: {
     fontSize: 12,
     width: '100%',
     textAlign: 'right'

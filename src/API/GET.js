@@ -4,7 +4,7 @@ const baseURL = 'http://192.168.0.11:3000';
 // const baseURL = 'http://192.168.1.107:3000';
 
 function hasUserFilledInData(id) {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) =>  {
         axios.get(`${baseURL}/api/users/checkIfUserFilledBasicData`, {
             params: {
                 uid: id
@@ -22,7 +22,7 @@ function hasUserFilledInData(id) {
 }
 
 function getUserDataByUID(id) {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
         axios.get(`${baseURL}/api/users/getUserDataByUID`, {
             params: {
                 uid: id
@@ -40,7 +40,7 @@ function getUserDataByUID(id) {
 
 
 async function getUserOffers(id) {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) =>  {
         axios.get(`${baseURL}/api/offers/getUserOffers`, {
             params: {
                 uid: id
@@ -58,7 +58,7 @@ async function getUserOffers(id) {
 
 
 async function getUserJobs(id) {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) =>  {
         axios.get(`${baseURL}/api/offers/getUserJobs`, {
             params: {
                 uid: id
@@ -77,7 +77,8 @@ async function getUserJobs(id) {
 
 
 async function getOffersByCategory(category, distance, location) {
-    return new Promise(resolve => {
+    console.log(location)
+    return new Promise((resolve, reject) =>  {
         axios.get(`${baseURL}/api/offers/getOffersByCategory`, {
             params: {
                 category: category,
@@ -96,7 +97,7 @@ async function getOffersByCategory(category, distance, location) {
 }
 
 async function getUserContactInfo(id) {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) =>  {
         axios.get(`${baseURL}/api/users/getUserContactInfo`, {
             params: {
                 uid: id
@@ -114,7 +115,7 @@ async function getUserContactInfo(id) {
 
 
 async function getUserRating(uid) {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) =>  {
         axios.get(`${baseURL}/api/ratings/getUserRating`, {
             params: {
                 uid: uid

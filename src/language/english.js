@@ -64,6 +64,7 @@ const english = {
     rate: 'Rate',
     finish: "Finish",
     jobsStatus: ['Active', 'History'],
+    seeRating : 'See your rating',
     
 
 }

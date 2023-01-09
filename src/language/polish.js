@@ -64,6 +64,8 @@ const polish = {
     rate: 'Oceń',
     finish: 'Zakończ',
     jobsStatus: ['Aktywne', 'Historia'],
+    seeRating : 'Zobacz swoją ocenę',
+
 }
 
 export {polish}

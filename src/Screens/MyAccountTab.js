@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, ScrollView, SafeAreaView } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, ScrollView, Modal, TouchableOpacity, Image } from 'react-native'
+import React, { useState } from 'react'
 import Colors, { stringToColour } from '../Constants/Colors'
 import { auth } from '../Firebase/firebase';
 import { useNavigation } from '@react-navigation/core';
@@ -8,14 +8,15 @@ import { polish, english } from '../redux/actions/languageAction';
 import { useSelector, useDispatch } from 'react-redux';
 import { Avatar } from 'react-native-paper'
 import Button from '../Components/Button';
-
+import { Rating } from 'react-native-ratings';
+import { getUserRating } from '../API/GET';
 
 export default function MyAccount() {
 
   const dispatch = useDispatch();
 
   const email = useSelector((store) => store.user.email);
-  const userAuthObj = useSelector((store) => store.user.userAuth);
+  const uid = useSelector((store) => store.user.uid);
   const lang = useSelector((store) => store.language.language);
   const firstName = useSelector((store) => store.user.firstName);
   const lastName = useSelector((store) => store.user.lastName);
@@ -24,6 +25,8 @@ export default function MyAccount() {
 
   const navigation = useNavigation();
 
+  const [showModal, setShowModal] = useState(false);
+  const [userRating, setUserRating] = useState({});
 
   // function to sign out from app
   const handleSignOut = () => {
@@ -37,7 +40,7 @@ export default function MyAccount() {
       .then(() => {
         navigation.reset({
           index: 0,
-          routes: [{name: 'Login'}]
+          routes: [{ name: 'Login' }]
         })
       })
       .catch(err => alert(err.message))
@@ -63,20 +66,95 @@ export default function MyAccount() {
     dispatch(userBirthDate(value))
   }
   //change language
-  const changeLang = () =>{
+  const changeLang = () => {
     lang.language === 'pl' ? dispatch(english()) : dispatch(polish())
   }
 
   const editProfile = () => {
-    navigation.navigate("UserData", {action : "edit"});
+    navigation.navigate("UserData", { action: "edit" });
   }
 
   const changePassword = () => {
     navigation.navigate("ChangePassword")
   }
 
+  const showUserRating = async () => {
+    console.log(uid);
+    const response = await getUserRating(uid);
+    console.log(response.data.comments)
+    setUserRating(response.data)
+    setShowModal(true);
+  }
+
   return (
     <View style={styles.mainView}>
+
+
+      {/* MODAL to see user rating */}
+
+      <Modal
+        animationType={'slide'}
+        transparent={true}
+        visible={showModal}
+        onRequestClose={() => setShowModal(false)}
+      >
+        <View style={styles.centeredView}>
+          {userRating ?
+
+            <View style={styles.modalView}>
+
+              <TouchableOpacity
+                onPress={() => setShowModal(false)}
+                style={{ width: 30, height: 30, position: 'absolute', top: 5, right: 0 }}>
+                <Image source={require('../Images/close.png')} style={{ width: 25, height: 25 }} />
+              </TouchableOpacity>
+
+
+              <ScrollView style={{ flex: 1 }}>
+                <View style={styles.alignView}>
+                  <Avatar.Text
+                    size={70}
+                    label={firstName?.charAt(0) + lastName?.charAt(0)}
+                    style={{ backgroundColor: stringToColour(firstName + " " + lastName) }}
+                    color={Colors.white} />
+                  <Text style={styles.modalTitle}>{firstName + " " + lastName}</Text>
+
+                  <Rating
+                    type={'star'}
+                    ratingCount={5}
+                    imageSize={30}
+                    startingValue={userRating.rating}
+                    readonly={true}
+                  />
+
+                  <View style={styles.commentSection}>
+                    {userRating.comments?.map((comment, id) => {
+                      return (
+                        <View style={styles.commentRow} key={id}>
+                          <Text style={styles.commentText}>{comment.comment}</Text>
+                          <Text style={styles.commentBy}>{comment.employerFirstName + " " + comment.employerLastName}</Text>
+                        </View>
+                      )
+                    })}
+                    {userRating.comments?.length == 0 ?
+                      <View style={[styles.commentRow, { paddingBottom: 50 }]}>
+                        <Text style={styles.commentText}>Brak komenatrzy</Text>
+                      </View>
+                      : null}
+                  </View>
+                  <View style={[styles.buttonContainer, { position: 'relative', bottom: 0 }]}>
+                    <Button text={lang.cancel} func={() => setShowModal(false)} color={Colors.red} asText={true}></Button>
+                  </View>
+                </View>
+              </ScrollView>
+            </View>
+
+            : null}
+        </View>
+      </Modal>
+
+
+
 
       <ScrollView >
 
@@ -92,11 +170,12 @@ export default function MyAccount() {
             <Text>{email}</Text>
           </View>
 
-          <Button text={lang.editProfile} func={editProfile} color={Colors.red} asText={true} />
-          <Button text={lang.changePassword} func={changePassword} color={Colors.red} asText={true} />
-          <Button text={lang.changeLanguage} func={changeLang} color={Colors.red} asText={true}/>
-          <Button text={lang.logout} func={handleSignOut} color={Colors.red} />
-          
+          <Button text={lang.seeRating} func={() => showUserRating()} color={Colors.red} asText={false} />
+          <Button text={lang.editProfile} func={editProfile} color={Colors.primary} asText={false} />
+          <Button text={lang.changePassword} func={changePassword} color={Colors.green} asText={false} />
+          <Button text={lang.changeLanguage} func={changeLang} color={Colors.purple} asText={false} />
+          <Button text={lang.logout} func={handleSignOut} color={Colors.red} asText={true} />
+
         </View>
       </ScrollView>
     </View>
@@ -134,5 +213,58 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: 'center',
     fontWeight: 'bold',
-  }
+  },
+
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  alignView: {
+    alignItems: "center",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: Colors.white,
+    borderRadius: 20,
+    padding: 35,
+    paddingRight: 0,
+    paddingLeft: 0,
+    paddingBottom: 0,
+    shadowColor: Colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    minHeight: 400,
+    minWidth: 300
+  },
+  commentSection: {
+    width: '90%',
+    padding: 10,
+    marginBottom: 20
+  },
+  commentRow: {
+    backgroundColor: Colors.purpleBackground,
+    padding: 10,
+    flexDirection: 'column',
+    marginTop: 10,
+  },
+  commentText: {
+    fontSize: 15,
+    width: '100%',
+
+  },
+  commentBy: {
+    fontSize: 12,
+    width: '100%',
+    textAlign: 'right'
+  },
+  buttonContainer: {
+    width: '60%',
+  },
 })
