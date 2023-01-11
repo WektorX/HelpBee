@@ -66,7 +66,8 @@ const polish = {
     jobsStatus: ['Aktywne', 'Historia'],
     seeRating : 'Zobacz swoją ocenę',
     noComments: 'Brak komentarzy',
-    call: 'Zadzwoń'
+    call: 'Zadzwoń',
+    restore: 'Przywróć ofertę'
 
 }
 

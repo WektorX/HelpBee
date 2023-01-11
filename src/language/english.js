@@ -66,7 +66,8 @@ const english = {
     jobsStatus: ['Active', 'History'],
     seeRating : 'See your rating',
     noComments: 'There are no comments',
-    call: 'Call'
+    call: 'Call',
+    restore: 'Restore offer'
 
 }
 

@@ -81,6 +81,22 @@ async function withdrawOffer(id) {
     }
 }
 
+
+async function restoreOffer(id) {
+    try {
+        const res = await axios.post(`${baseURL}/api/offers/restoreOffer`,
+            { id: id },
+            {
+                'Content-Type': 'application/json;charset=utf-8'
+            })
+        return { status: res.status }
+    }
+    catch (e) {
+        console.log(e);
+        return { status: 500 }
+    }
+}
+
 async function closeOffer(id) {
     try {
         const res = await axios.post(`${baseURL}/api/offers/closeOffer`,
@@ -217,5 +233,6 @@ export {
     rejectWorker,
     closeOffer,
     reportOffer,
-    insertRate
+    insertRate,
+    restoreOffer
 }

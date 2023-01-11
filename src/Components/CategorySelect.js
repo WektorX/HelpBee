@@ -5,7 +5,7 @@ import Colors from '../Constants/Colors'
 const CategorySelect = (props) => {
     return (
 
-        <TouchableOpacity onPress={() => props.select(props.id)}>
+        <TouchableOpacity onPress={() => props.select(props.id)} disabled={props.disabled}>
             <View style={[styles.conatiner, (props.selected ? styles.selected : null)]}>
                 <Text style={props.selected ? { fontWeight: 'bold', color: Colors.white } : null}>
                     {props.name}

@@ -1,20 +1,17 @@
 import { StyleSheet, Text, View, ScrollView, BackHandler, KeyboardAvoidingView, Image, SafeAreaView } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import Colors, { stringToColour } from '../Constants/Colors'
-import { auth } from '../Firebase/firebase';
+import Colors from '../Constants/Colors'
 import { useNavigation } from '@react-navigation/core';
-import { userEmail, userFirstName, userLastName, userPhoneNumber, userBirthDate, userLocation } from '../redux/actions/userDataAction';
-import { polish, english } from '../redux/actions/languageAction';
 import { useSelector, useDispatch } from 'react-redux';
-import { Avatar, TextInput } from 'react-native-paper'
+import { TextInput } from 'react-native-paper'
 import Button from '../Components/Button';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import Categories from '../Constants/Categories.js'
-import DatePicker from 'react-native-modern-datepicker';
+import DatePicker, { getFormatedDate } from 'react-native-modern-datepicker';
 import CategorySelect from '../Components/CategorySelect';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView from 'react-native-maps';
 import { deleteOffer } from '../API/DELETE';
-import {withdrawOffer, updateOffer} from '../API/POST';
+import { withdrawOffer, updateOffer, restoreOffer } from '../API/POST';
 
 
 // TODO: add required (title, description and category)
@@ -39,6 +36,7 @@ const EditOfferScreen = (props) => {
     const [category, setCategory] = useState(props.route.params.category);
     const [reward, setReward] = useState(props.route.params.reward);
     const [currentDate] = useState(new Date().toISOString().slice(0, 10));
+    const [status, setStatus] = useState(props.route.params.status);
     const [region, setRegion] = useState({
         latitude: props.route.params.location._latitude,
         longitude: props.route.params.location._longitude,
@@ -48,7 +46,7 @@ const EditOfferScreen = (props) => {
     const [categories, setCategories] = useState(lang.language === 'pl' ? Categories.categoriesPL : Categories.categoriesEN);
 
     useEffect(() => {
-        setCategories(lang.language === 'pl' ? Categories.categoriesPL : Categories.categoriesEN)
+        setCategories(lang.language === 'pl' ? Categories.categoriesPL : Categories.categoriesEN);
     }, [lang])
 
     useEffect(() => {
@@ -85,26 +83,38 @@ const EditOfferScreen = (props) => {
             uid: uid,
             serviceDate: date,
             category: category,
-            status : props.route.params.status,
+            status: status,
             reward: parseFloat(reward)
         }
         const response = await updateOffer(props.route.params.id, offer);
-         // TODO: handle error
+        // TODO: handle error
         goBack();
     }
 
-    const delOffer = async() => {
+    const delOffer = async () => {
         const response = await deleteOffer(props.route.params.id)
         // TODO: handle error
         goBack();
     }
 
-    const withdraw = async() => {
+    const withdraw = async () => {
         const response = await withdrawOffer(props.route.params.id)
         // TODO: handle error
         goBack();
     }
 
+    const restore = async () => {
+        const response = await restoreOffer(props.route.params.id)
+        // TODO: handle error
+        goBack();
+    }
+
+
+    const selectDate = (date) => {
+        if (status !== 2) {
+            setDate(date.replace(/\//g, "-"))
+        }
+    }
 
     return (
         <KeyboardAvoidingView style={{ flex: 1, justifyContent: 'center', }} behavior="height" enabled >
@@ -118,8 +128,8 @@ const EditOfferScreen = (props) => {
                                 onChangeText={(vale) => setTitle(vale)}
                                 style={styles.input}
                                 maxLength={30}
-                                value={title}>
-
+                                value={title}
+                                disabled={status === 2}>
                             </TextInput>
                         </View>
                         <View style={styles.inputView}>
@@ -128,7 +138,13 @@ const EditOfferScreen = (props) => {
                                 {
                                     categories.map((item, id) => {
                                         return (
-                                            <CategorySelect key={id} selected={item.id === category} name={item.name} id={item.id} select={setCategory} />
+                                            <CategorySelect
+                                                key={id}
+                                                selected={item.id === category}
+                                                name={item.name}
+                                                id={item.id}
+                                                select={setCategory}
+                                                disabled={status === 2} />
                                         )
                                     })
                                 }
@@ -142,8 +158,8 @@ const EditOfferScreen = (props) => {
                                 maxLength={300}
                                 multiline={true}
                                 numberOfLines={5}
-                                value={desc}>
-
+                                value={desc}
+                                disabled={status === 2}>
                             </TextInput>
                         </View>
                         <View style={styles.inputView}>
@@ -153,19 +169,22 @@ const EditOfferScreen = (props) => {
                                 style={styles.input}
                                 maxLength={8}
                                 value={reward.toString()}
-                                keyboardType={'decimal-pad'}>
-
+                                keyboardType={'decimal-pad'}
+                                disabled={status === 2}>
                             </TextInput>
                         </View>
                         <View style={styles.inputView}>
                             <Text style={styles.inputTitle}>{lang.offerDate}</Text>
                             <DatePicker
-                                onSelectedChange={date => setDate(date.replace(/\//g, "-"))}
+                                onSelectedChange={date => selectDate(date)}
                                 minimumDate={currentDate}
                                 mode={'calendar'}
-                                currentDate={currentDate}
+                                current={date}
                                 selected={date}
+
+                                disableDateChange={status === 2}
                             />
+
                         </View>
 
                     </View>
@@ -175,17 +194,28 @@ const EditOfferScreen = (props) => {
                         <MapView
                             style={styles.map}
                             initialRegion={region}
+                            pitchEnabled={status !== 2}
+                            zoomEnabled={status !== 2}
+                            rotateEnabled={status !== 2}
+                            scrollEnabled={status !== 2}
                             onRegionChangeComplete={(region) => setRegion(region)}
                         />
                         <View style={styles.markerFixed}>
                             <Image style={styles.marker} source={require('../Images/icons8-marker.png')} />
                         </View>
                     </View>
-                    <View style={styles.buttonContainer}>
-                        <Button text={lang.save} func={saveOffer} color={Colors.purple}></Button>
-                        <Button text={lang.withdraw} func={withdraw} color={Colors.pink}></Button>
-                        <Button text={lang.delete} func={() => setShowDeleteAlert(true)} asText={true} color={Colors.red}></Button>
-                    </View>
+                    {status !== 2 ?
+                        <View style={styles.buttonContainer}>
+                            <Button text={lang.save} func={saveOffer} color={Colors.purple}></Button>
+                            <Button text={lang.withdraw} func={withdraw} color={Colors.pink}></Button>
+                            <Button text={lang.delete} func={() => setShowDeleteAlert(true)} asText={true} color={Colors.red}></Button>
+                        </View>
+                        :
+                        <View style={styles.buttonContainer}>
+                            <Button text={lang.restore} func={restore} color={Colors.pink}></Button>
+                            <Button text={lang.delete} func={() => setShowDeleteAlert(true)} asText={true} color={Colors.red}></Button>
+                        </View>
+                    }
                 </View>
             </ScrollView>
             <AwesomeAlert

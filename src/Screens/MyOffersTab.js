@@ -76,7 +76,7 @@ const MyOffers = () => {
 
   //click on offer view 
   const selectOffer = (id) => {
-    if (selectedOffers[id].status === 0 || selectedOffers[id].status === 1) {
+    if (selectedOffers[id].status < 3) {
       navigation.navigate("EditOffer", selectedOffers[id]);
     }
   }
@@ -112,7 +112,6 @@ const MyOffers = () => {
 
   const startRating = (id) => {
     setShowModal(true);
-    console.log(selectedOffers[id])
     setOfferToRate(selectedOffers[id]);
   }
 
@@ -145,7 +144,6 @@ const MyOffers = () => {
   }
 
   const phoneCall = () => {
-    console.log(userInfo)
     let args = {
         number: userInfo.phoneNumber,
         prompt: false,
@@ -314,7 +312,7 @@ const MyOffers = () => {
                         select={selectOffer}
                         category={offer.category}
                         date={offer.serviceDate}
-                        disabled={offer.status >= 2} />
+                        disabled={offer.status > 2} />
                       {offer.worker != "" && (offer.status == 1 || offer.status == 3) ?
                         <View style={styles.workerInfo}>
                           <TouchableOpacity
