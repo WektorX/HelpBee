@@ -65,6 +65,8 @@ const polish = {
     finish: 'Zakończ',
     jobsStatus: ['Aktywne', 'Historia'],
     seeRating : 'Zobacz swoją ocenę',
+    noComments: 'Brak komentarzy',
+    call: 'Zadzwoń'
 
 }
 

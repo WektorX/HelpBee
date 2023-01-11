@@ -65,7 +65,8 @@ const english = {
     finish: "Finish",
     jobsStatus: ['Active', 'History'],
     seeRating : 'See your rating',
-    
+    noComments: 'There are no comments',
+    call: 'Call'
 
 }
 

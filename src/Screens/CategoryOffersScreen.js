@@ -14,6 +14,7 @@ import { getUserContactInfo } from '../API/GET'
 import Button from '../Components/Button'
 import { reportOffer, resignFromOffer, takeOffer } from '../API/POST';
 import { WaveIndicator } from 'react-native-indicators';
+import call from 'react-native-phone-call'
 
 const CategoryOffersScreen = (props) => {
     //use navigator
@@ -46,7 +47,7 @@ const CategoryOffersScreen = (props) => {
     }
 
     const refreshOffers = async () => {
-        const response = await getOffersByCategory(category.id, distance, location);
+        const response = await getOffersByCategory(category.id, distance, location, uid);
         let offers = response.offers.offers;
         offers = offers.map(o => {
             let tempDate = o.serviceDate.split("T")[0];
@@ -120,6 +121,15 @@ const CategoryOffersScreen = (props) => {
         setShowModal(false);
     }
 
+
+    const phoneCall = () => {
+        let args = {
+            number: selected.phoneNumber,
+            prompt: false,
+            skipCanOpen: true
+        }
+        call(args).catch(console.error)
+    }
     return (
         <View style={styles.mainView}>
 
@@ -193,6 +203,7 @@ const CategoryOffersScreen = (props) => {
                                     <View style={styles.buttonContainer}>
                                         {selected.userID !== uid && selected.worker !== uid ? <Button text={lang.takeJob} func={takeJob} color={Colors.primary}></Button> : null}
                                         {selected.worker === uid ? <Button text={lang.resign} func={resign} color={Colors.red} ></Button> : null}
+                                        <Button text={lang.call} func={phoneCall} color={Colors.green}></Button>
                                         <Button text={lang.close} func={() => setShowModal(false)} color={Colors.red} asText={true}></Button>
                                     </View>
                                 </View>

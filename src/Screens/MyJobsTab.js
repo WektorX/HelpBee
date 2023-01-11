@@ -12,6 +12,7 @@ import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import MyOffersBlock from '../Components/MyOffersBlock.js';
 import Button from '../Components/Button'
 import { resignFromOffer } from '../API/POST';
+import call from 'react-native-phone-call'
 
 export default function MyJobs() {
 
@@ -90,6 +91,15 @@ export default function MyJobs() {
     setRefreshing(false)
   }
 
+  const phoneCall = (phoneNumber) => {
+    let args = {
+        number: phoneNumber,
+        prompt: false,
+        skipCanOpen: true
+    }
+    call(args).catch(console.error)
+}
+
   return (
     <View style={styles.mainView}>
       <ScrollView
@@ -134,20 +144,20 @@ export default function MyJobs() {
                           date={offer.serviceDate}
                           color={Colors.green} />
                         <View style={styles.workerInfo}>
-                          <View style={{ flex: 1,flexDirection: 'row', minWidth: 50, alignItems: 'center', justifyContent: 'center' }}>
+                          <View style={{ flex: 1,flexDirection: 'row', maxWidth: offer.status == 1 ? 50 : 100, alignItems: 'center', justifyContent: 'center' }}>
                             <Avatar.Text
                               size={45}
                               label={offer.employerFirstName?.charAt(0) + offer.employerLastName?.charAt(0)}
                               style={{ backgroundColor: stringToColour(offer.employerFirstName + " " + offer.employerLastName) }}
                               color={Colors.white} />
                           </View>
-                          <View style={{ flex:1 ,flexDirection: 'column', minWidth: 80, alignItems: 'center', justifyContent: 'center' }}>
+                          <View style={{ flex:1 ,flexDirection: 'column', maxWidth: offer.status == 1 ? 90 : 150, alignItems: 'center', justifyContent: 'center' }}>
                             <Text>{offer.employerFirstName + " " + offer.employerLastName}</Text>
-                            {offer.status == 1 ? <Text>{offer.employerPhone}</Text> : null}
                           </View>
                           {offer.status == 1 ?
-                            <View style={{ flexDirection: 'row', marginLeft: 30, width: 70, alignItems: 'center', justifyContent: 'center' }}>
+                            <View style={{ flexDirection: 'row', marginLeft: 20, width: 70, alignItems: 'center', justifyContent: 'center' }}>
                               <Button text={lang.reject} func={() => cancel(offer.id)} color={Colors.red} asText={true}></Button>
+                              <Button text={lang.call} func={() => phoneCall(offer.employerPhone)} color={Colors.green} asText={true} ></Button>
                             </View>
                             : null}
                         </View>
@@ -168,7 +178,7 @@ export default function MyJobs() {
 const styles = StyleSheet.create({
   mainView: {
     flex: 1,
-    backgroundColor: Colors.purpleBackground
+    backgroundColor: Colors.greenBackground
   },
   container: {
     flex: 1,

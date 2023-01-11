@@ -138,7 +138,7 @@ export default function MyAccount() {
                     })}
                     {userRating.comments?.length == 0 ?
                       <View style={[styles.commentRow, { paddingBottom: 50 }]}>
-                        <Text style={styles.commentText}>Brak komenatrzy</Text>
+                        <Text style={styles.commentText}>{lang.noComments}</Text>
                       </View>
                       : null}
                   </View>

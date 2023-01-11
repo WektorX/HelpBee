@@ -13,6 +13,7 @@ import MyOffersBlock from '../Components/MyOffersBlock.js';
 import Button from '../Components/Button'
 import { acceptWorker, rejectWorker, withdrawOffer, closeOffer, insertRate } from '../API/POST';
 import { Rating } from 'react-native-ratings';
+import call from 'react-native-phone-call'
 
 const MyOffers = () => {
 
@@ -138,12 +139,20 @@ const MyOffers = () => {
 
 
   const showUser = async (uid) => {
-    console.log(uid);
     const response = await getUserRating(uid);
-    console.log(response.data.comments)
     setUserInfo(response.data)
     setShowUserInfo(true);
   }
+
+  const phoneCall = () => {
+    console.log(userInfo)
+    let args = {
+        number: userInfo.phoneNumber,
+        prompt: false,
+        skipCanOpen: true
+    }
+    call(args).catch(console.error)
+}
 
   return (
     <View style={styles.mainView}>
@@ -250,11 +259,12 @@ const MyOffers = () => {
                     })}
                     {userInfo.comments?.length == 0 ?
                       <View style={[styles.commentRow, {paddingBottom: 50}]}>
-                        <Text style={styles.commentText}>Brak komenatrzy</Text>
+                        <Text style={styles.commentText}>{lang.noComments}</Text>
                       </View>
                     : null}
                   </View>
                   <View style={[styles.buttonContainer, { position: 'relative', bottom: 0 }]}>
+                  <Button text={lang.call} func={phoneCall} color={Colors.green}></Button>
                     <Button text={lang.cancel} func={() => setShowUserInfo(false)} color={Colors.red} asText={true}></Button>
                   </View>
                 </View>
@@ -319,7 +329,6 @@ const MyOffers = () => {
                             </View>
                             <View style={{ flexDirection: 'column', marginLeft: 10, width: 80, alignItems: 'center', justifyContent: 'center' }}>
                               <Text>{offer.workerFirstName + " " + offer.workerLastName}</Text>
-                              {offer.status == 1 ? <Text>{offer.workerPhone}</Text> : null}
                             </View>
                           </TouchableOpacity>
                           {offer.status == 1 && !today ?
