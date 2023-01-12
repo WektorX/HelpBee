@@ -29,6 +29,14 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": ["expo-notifications"]
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "../src/Images/logo.jpg",
+          "color": "#ffcb05"
+        }
+      ]
+    ]
   }
 }

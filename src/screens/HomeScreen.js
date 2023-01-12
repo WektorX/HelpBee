@@ -12,16 +12,6 @@ import Colors from '../Constants/Colors';
 import { useEffect } from 'react';
 import { getUserJobs, getUserOffers } from '../API/GET';
 import { useNavigation } from '@react-navigation/native';
-import * as Notifications from 'expo-notifications';
-
-
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: true,
-  }),
-});
 
 
 const HomeScreen = () => {
@@ -29,10 +19,6 @@ const HomeScreen = () => {
   const navigation = useNavigation();
   const uid = useSelector((store) => store.user.uid);
   const lang = useSelector((store) => store.language.language);
-  const distance = useSelector((store) => store.language.distance);
-  const preferences = useSelector((store) => store.language.preferences);
-
-
 
   const Tabs = [
     { route: 'Offers', label: lang.offersTab, type: Icons.Ionicons, icon: 'megaphone-outline', component: Offers, color: Colors.primary, alphaColor: Colors.primaryAlpha },
@@ -41,29 +27,6 @@ const HomeScreen = () => {
     { route: 'MyAccount', label: lang.myAccountTab, type: Icons.Ionicons, icon: 'person-outline', component: MyAccount, color: Colors.red, alphaColor: Colors.redAlpha },
 
   ]
-
-  useEffect(()=>{
-    console.log(distance)
-  },[])
-
-  const MINUTE_MS = 60000;
-
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     Notifications.presentNotificationAsync({
-  //       title: 'Look at that notification',
-  //       body: "I'm so proud of myself!",
-  //     });
-  //     console.log(new Date().toISOString());
-  //   }, MINUTE_MS);
-  
-  //   return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
-  // }, [])
-
-
-  const checkForNewOffers = async() => {
-    // const response = 
-  }
 
   const Tab = createBottomTabNavigator();
 

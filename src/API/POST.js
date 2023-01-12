@@ -28,7 +28,6 @@ async function insertBasicUserData(id, user) {
 }
 
 async function setPreferences(uid, distance, preferences) {
-    console.log(distance)
     try {
         const res = await axios.post(`${baseURL}/api/users/setPreferences`,
             {

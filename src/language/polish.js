@@ -68,7 +68,11 @@ const polish = {
     noComments: 'Brak komentarzy',
     call: 'Zadzwoń',
     restore: 'Przywróć ofertę',
-    preferences: 'Twoje preferencje'
+    preferences: 'Twoje preferencje',
+    fewNewOffers : 'Pojawiło się [XX] nowych ofert, które mogą cię zainteresować.',
+    newOfferFromCategory: 'Pojawiła się nowa oferta, która może cię zainteresować z kategorii [XX].'
+
+
 
 }
 

@@ -15,6 +15,7 @@ import { acceptWorker, rejectWorker, withdrawOffer, closeOffer, insertRate } fro
 import { Rating } from 'react-native-ratings';
 import call from 'react-native-phone-call'
 
+
 const MyOffers = () => {
 
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ const MyOffers = () => {
   const location = useSelector((store) => store.user.location);
   const uid = useSelector((store) => store.user.uid);
   const offers = useSelector((store) => store.user.offers)
+
   const [status, setStatus] = useState(0);
   const [categories, setCategories] = useState(lang.language === 'pl' ? Categories.categoriesPL : Categories.categoriesEN);
   const [selectedOffers, setSelectedOffers] = useState(offers.filter(item => item.status === status))
@@ -34,6 +36,7 @@ const MyOffers = () => {
   const [comment, setComment] = useState("");
   const [showUserInfo, setShowUserInfo] = useState(false);
   const [userInfo, setUserInfo] = useState({})
+
   //to refresh when come back to screen 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {

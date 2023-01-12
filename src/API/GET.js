@@ -133,6 +133,26 @@ async function getUserRating(uid) {
 }
 
 
+async function getNewOffers(uid, distance, location, categories) {
+    return new Promise((resolve, reject) =>  {
+        axios.get(`${baseURL}/api/offers/getNewOffers`, {
+            params: {
+                uid: uid,
+                distance: distance,
+                location: location,
+                categories: categories
+            }
+        })
+            .then(res => {
+                resolve({ status: res.status, data: res.data })
+            })
+            .catch((err) => {
+                console.log(err);
+                reject({ status: 500, user: null });
+            })
+    })
+}
+
 export {
     hasUserFilledInData,
     getUserDataByUID,
@@ -140,5 +160,6 @@ export {
     getOffersByCategory,
     getUserContactInfo,
     getUserJobs,
-    getUserRating
+    getUserRating,
+    getNewOffers
 }

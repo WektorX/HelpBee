@@ -68,8 +68,9 @@ const english = {
     noComments: 'There are no comments',
     call: 'Call',
     restore: 'Restore offer',
-    preferences: 'Your preferences'
-
+    preferences: 'Your preferences',
+    fewNewOffers : 'There are [XX] new offers that may interest you.',
+    newOfferFromCategory: 'There is a new offer that you may be interested in from category [XX].'
 }
 
 export {english};

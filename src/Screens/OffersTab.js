@@ -10,7 +10,19 @@ import { updateUserLocation } from '../API/POST';
 import CategoryButton from '../Components/CategoryButton';
 import Categories from '../Constants/Categories'
 import { Icons } from '../Components/Icons';
+import * as Notifications from 'expo-notifications';
+import { getNewOffers } from '../API/GET';
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+  }),
+});
 export default function Offers() {
 
   //use navigator
@@ -22,12 +34,45 @@ export default function Offers() {
   const uid = useSelector((store) => store.user.uid);
   const location = useSelector((store) => store.user.location)
   const [categories, setCategories] = useState(lang.language === 'pl' ? Categories.categoriesPL : Categories.categoriesEN);
+  const distance = useSelector((store) => store.user.distance);
+  const preferences = useSelector((store) => store.user.preferences);
 
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMsg, setAlertMsg] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [locationPermission, setLocationPermission] = useState(true)
   const [askPermission, setAskPermission] = useState(true);
+
+
+
+  const MINUTE_MS = 10000;
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      checkForNewOffers();
+    }, MINUTE_MS);
+  
+    return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
+  }, [])
+
+
+  const checkForNewOffers = async() => {
+    const response = await getNewOffers(uid, distance, location, preferences)
+    let offers = response.data.data;
+    if(offers.length > 0){
+      let count = offers.length;
+      let msg = lang.fewNewOffers.replace('[XX]', count);
+      if(count <= 1){
+        let category= categories.find(item => item.id ===offers[0].category);
+        msg = lang.newOfferFromCategory.replace('[XX]', category.name)
+      }
+      Notifications.presentNotificationAsync({
+        title: lang.newOffer,
+        body: msg,
+      });
+    }
+  }
+
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
