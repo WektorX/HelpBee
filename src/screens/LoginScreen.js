@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Button from '../Components/Button'
-import { auth } from '../Firebase/firebase';
+import { auth } from '../firebase/firebase.js';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';

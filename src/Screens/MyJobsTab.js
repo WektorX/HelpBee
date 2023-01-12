@@ -171,6 +171,8 @@ export default function MyJobs() {
           </View>
         </View>
       </ScrollView>
+      <FAB icon={'tooltip-outline'} style={styles.floatingButton} color={Colors.green2} col onPress={() => navigation.navigate('UserPreferences')} />
+
     </View>
   )
 }
@@ -226,5 +228,12 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingLeft: 5,
     paddingRight: 5,
-  }
+  },
+  floatingButton: {
+    position: 'absolute',
+    margin: 16,
+    bottom: 70,
+    right: 10,
+    backgroundColor: Colors.green
+  },
 })

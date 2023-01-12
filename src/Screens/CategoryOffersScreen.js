@@ -226,7 +226,7 @@ const CategoryOffersScreen = (props) => {
                         </Text>
                         <Slider
                             value={distance}
-                            onValueChange={(value) => dispatch(userDistance(value))}
+                            onValueChange={(value) => dispatch(userDistance(value[0]))}
                             onSlidingComplete={distanceChange}
                             animateTransitions={true}
                             animationType={'spring'}

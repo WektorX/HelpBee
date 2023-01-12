@@ -396,7 +396,6 @@ const styles = StyleSheet.create({
     margin: 16,
     bottom: 70,
     right: 10,
-
   },
   title: {
     fontSize: 30,

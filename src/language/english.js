@@ -67,7 +67,8 @@ const english = {
     seeRating : 'See your rating',
     noComments: 'There are no comments',
     call: 'Call',
-    restore: 'Restore offer'
+    restore: 'Restore offer',
+    preferences: 'Your preferences'
 
 }
 

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Image } from 'react-native'
 import React, { useEffect, useState, useRef } from 'react'
 import Button from '../Components/Button'
-import { auth } from '../Firebase/firebase';
+import { auth } from '../firebase/firebase';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
@@ -12,16 +12,11 @@ import { insertBasicUserData } from '../API/POST';
 import Colors from '../Constants/Colors';
 
 const ChangePasswordScreen = () => {
-
-
-
-
     //use navigator
     const navigation = useNavigation();
     //use redux store
     const dispatch = useDispatch();
     //get state from redux store
-    const userAuthObj = useSelector((store) => store.user.userAuth);
     const lang = useSelector((store) => store.language.language);
     //local states
     const [validPasswords, setValidPasswords] = useState(true);

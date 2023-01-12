@@ -75,3 +75,10 @@ export const userJobs = (jobs) =>{
         jobs: jobs
     }
 }
+
+export const userPreferences = (preferences) =>{
+    return {
+        type: 'USER_PREFERENCES',
+        preferences: preferences
+    }
+}

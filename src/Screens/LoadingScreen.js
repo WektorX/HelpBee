@@ -1,32 +1,16 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React, { useEffect } from 'react'
-import {
-    BallIndicator,
-    BarIndicator,
-    DotIndicator,
-    MaterialIndicator,
-    PacmanIndicator,
-    PulseIndicator,
-    SkypeIndicator,
-    UIActivityIndicator,
-    WaveIndicator,
-} from 'react-native-indicators';
+import { BarIndicator } from 'react-native-indicators';
 import { hasUserFilledInData, getUserDataByUID } from '../API/GET';
 import { useNavigation, useLocation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
-import { userEmail, userAuth, userUID, userBirthDate, userFirstName, userLastName, userPhoneNumber } from '../redux/actions/userDataAction';
+import { userEmail, userAuth, userUID, userBirthDate, userFirstName, userLastName, userPhoneNumber, userDistance, userPreferences } from '../redux/actions/userDataAction';
 import Colors from '../Constants/Colors';
 
 const LoadingScreen = (props) => {
 
     const dispatch = useDispatch();
     const user = useSelector((store) => store.user.userAuth);
-    const uid = useSelector((store) => store.user.uid);
-    const firstName = useSelector((store) => store.user.firstName);
-    const lastName = useSelector((store) => store.user.lastName);
-    const phoneNumber = useSelector((store) => store.user.phoneNumber);
-    const birthDate = useSelector((store) => store.user.birthDate);
-    const email = useSelector((store) => store.user.email);
 
     const navigation = useNavigation();
     // TODO: if user filledIN data than get them and save to store
@@ -44,7 +28,7 @@ const LoadingScreen = (props) => {
                         getUserData();
                     }
                     else {
-                        navigation.replace("UserData", {action: "insert"});
+                        navigation.replace("UserData", { action: "insert" });
                     }
                 }, 1000)
             })
@@ -62,7 +46,9 @@ const LoadingScreen = (props) => {
                 handleLastNameChange(userData.lastName);
                 handleFirstNameChange(userData.firstName);
                 handlePhoneNumberChange(userData.phoneNumber);
-                handleEmailChange(user.email)
+                handleEmailChange(userData.email)
+                handleDistanceChange(userData.distance);
+                handlePreferencesChange(userData.preferences)
             })
             .then(() => {
                 navigation.replace("Home");
@@ -92,6 +78,14 @@ const LoadingScreen = (props) => {
     // set user email address to redux store 
     const handleEmailChange = (value) => {
         dispatch(userEmail(value))
+    }
+    // set user distance to redux store 
+    const handleDistanceChange = (value) => {
+        dispatch(userDistance(value))
+    }
+    // set user preferences to redux store 
+    const handlePreferencesChange = (value) => {
+        dispatch(userPreferences(value))
     }
 
 

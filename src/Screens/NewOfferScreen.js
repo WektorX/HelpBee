@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View, ScrollView, BackHandler, KeyboardAvoidingView, Image, SafeAreaView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Colors, { stringToColour } from '../Constants/Colors'
-import { auth } from '../Firebase/firebase';
 import { useNavigation } from '@react-navigation/core';
 import { userEmail, userFirstName, userLastName, userPhoneNumber, userBirthDate, userLocation } from '../redux/actions/userDataAction';
 import { polish, english } from '../redux/actions/languageAction';

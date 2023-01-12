@@ -1,5 +1,5 @@
-import { english } from "../../Language/english";
-import { polish } from "../../Language/polish";
+import { english } from "../../language/english";
+import { polish } from "../../language/polish";
 
 const initialState = {
     language: polish,

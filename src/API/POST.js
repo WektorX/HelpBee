@@ -25,7 +25,26 @@ async function insertBasicUserData(id, user) {
         console.log(e);
         return { status: 500 }
     }
+}
 
+async function setPreferences(uid, distance, preferences) {
+    console.log(distance)
+    try {
+        const res = await axios.post(`${baseURL}/api/users/setPreferences`,
+            {
+                uid: uid,
+                distance: distance,
+                preferences: preferences
+            },
+            {
+                'Content-Type': 'application/json;charset=utf-8'
+            })
+        return { status: res.status }
+    }
+    catch (e) {
+        console.log(e);
+        return { status: 500 }
+    }
 }
 
 
@@ -62,7 +81,6 @@ async function insertOffer(offer) {
         console.log(e);
         return { status: 500 }
     }
-
 }
 
 
@@ -234,5 +252,6 @@ export {
     closeOffer,
     reportOffer,
     insertRate,
-    restoreOffer
+    restoreOffer,
+    setPreferences
 }

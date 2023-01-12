@@ -67,7 +67,8 @@ const polish = {
     seeRating : 'Zobacz swoją ocenę',
     noComments: 'Brak komentarzy',
     call: 'Zadzwoń',
-    restore: 'Przywróć ofertę'
+    restore: 'Przywróć ofertę',
+    preferences: 'Twoje preferencje'
 
 }
 
