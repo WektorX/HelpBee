@@ -1,10 +1,9 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Image } from 'react-native'
-import React, { useEffect, useState, useRef } from 'react'
+import { StyleSheet, Text, View, KeyboardAvoidingView, Image } from 'react-native'
+import React, { useEffect, useState} from 'react'
 import Button from '../Components/Button'
 import { auth } from '../firebase/firebase.js';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
-import PhoneInput from "react-native-phone-number-input";
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { Fumi } from 'react-native-textinput-effects';
 import { userEmail, userAuth } from '../redux/actions/userDataAction';

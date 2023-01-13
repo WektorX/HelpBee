@@ -1,10 +1,10 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import React, { useEffect } from 'react'
 import { BarIndicator } from 'react-native-indicators';
 import { hasUserFilledInData, getUserDataByUID } from '../API/GET';
-import { useNavigation, useLocation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
-import { userEmail, userAuth, userUID, userBirthDate, userFirstName, userLastName, userPhoneNumber, userDistance, userPreferences } from '../redux/actions/userDataAction';
+import { userEmail, userBirthDate, userFirstName, userLastName, userPhoneNumber, userDistance, userPreferences } from '../redux/actions/userDataAction';
 import Colors from '../Constants/Colors';
 
 const LoadingScreen = (props) => {

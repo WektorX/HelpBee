@@ -4,15 +4,13 @@ import { FAB } from 'react-native-paper';
 import Colors, { stringToColour } from '../Constants/Colors'
 import { Avatar } from 'react-native-paper'
 import { useSelector, useDispatch } from 'react-redux';
-import Categories from '../Constants/Categories.js'
 import { useNavigation } from '@react-navigation/core';
 import { getUserJobs } from '../API/GET';
-import { userJobs, userOffers } from '../redux/actions/userDataAction';
+import { userJobs } from '../redux/actions/userDataAction';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import MyOffersBlock from '../Components/MyOffersBlock.js';
 import Button from '../Components/Button'
 import { resignFromOffer } from '../API/POST';
-import call from 'react-native-phone-call'
 
 export default function MyJobs() {
 
@@ -91,14 +89,6 @@ export default function MyJobs() {
     setRefreshing(false)
   }
 
-  const phoneCall = (phoneNumber) => {
-    let args = {
-        number: phoneNumber,
-        prompt: false,
-        skipCanOpen: true
-    }
-    call(args).catch(console.error)
-}
 
   return (
     <View style={styles.mainView}>
@@ -138,7 +128,7 @@ export default function MyJobs() {
                           title={offer.title}
                           key={id}
                           id={id}
-                          select={() => console.log("test")}
+                          select={() => console.log()}
                           disabled={true}
                           category={offer.category}
                           date={offer.serviceDate}
@@ -157,7 +147,6 @@ export default function MyJobs() {
                           {offer.status == 1 ?
                             <View style={{ flexDirection: 'row', marginLeft: 20, width: 70, alignItems: 'center', justifyContent: 'center' }}>
                               <Button text={lang.reject} func={() => cancel(offer.id)} color={Colors.red} asText={true}></Button>
-                              <Button text={lang.call} func={() => phoneCall(offer.employerPhone)} color={Colors.green} asText={true} ></Button>
                             </View>
                             : null}
                         </View>

@@ -7,7 +7,7 @@ import { TextInput } from 'react-native-paper'
 import Button from '../Components/Button';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import Categories from '../Constants/Categories.js'
-import DatePicker, { getFormatedDate } from 'react-native-modern-datepicker';
+import DatePicker from 'react-native-modern-datepicker';
 import CategorySelect from '../Components/CategorySelect';
 import MapView from 'react-native-maps';
 import { deleteOffer } from '../API/DELETE';

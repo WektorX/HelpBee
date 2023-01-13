@@ -1,14 +1,12 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Image } from 'react-native'
-import React, { useEffect, useState, useRef } from 'react'
+import { StyleSheet, Text, View, KeyboardAvoidingView } from 'react-native'
+import React, { useState } from 'react'
 import Button from '../Components/Button'
 import { auth } from '../firebase/firebase';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { Fumi } from 'react-native-textinput-effects';
-import { userFirstName, userLastName, userPhoneNumber, userBirthDate } from '../redux/actions/userDataAction';
 import AwesomeAlert from 'react-native-awesome-alerts';
-import { insertBasicUserData } from '../API/POST';
 import Colors from '../Constants/Colors';
 
 const ChangePasswordScreen = () => {

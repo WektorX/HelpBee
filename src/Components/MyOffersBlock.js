@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import React from 'react'
 import Categories from '../Constants/Categories.js'
 import Icon, { Icons } from '../Components/Icons';
 import Colors from '../Constants/Colors.js';

@@ -1,17 +1,15 @@
-import { StyleSheet, Text, View, ScrollView, BackHandler, KeyboardAvoidingView, Image, SafeAreaView } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, BackHandler, KeyboardAvoidingView, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import Colors, { stringToColour } from '../Constants/Colors'
+import Colors from '../Constants/Colors'
 import { useNavigation } from '@react-navigation/core';
-import { userEmail, userFirstName, userLastName, userPhoneNumber, userBirthDate, userLocation } from '../redux/actions/userDataAction';
-import { polish, english } from '../redux/actions/languageAction';
 import { useSelector, useDispatch } from 'react-redux';
-import { Avatar, TextInput } from 'react-native-paper'
+import { TextInput } from 'react-native-paper'
 import Button from '../Components/Button';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import Categories from '../Constants/Categories.js'
 import DatePicker from 'react-native-modern-datepicker';
 import CategorySelect from '../Components/CategorySelect';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView from 'react-native-maps';
 import { insertOffer } from '../API/POST';
 
 

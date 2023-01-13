@@ -6,7 +6,7 @@ import Offers from './OffersTab';
 import MyOffers from './MyOffersTab';
 import MyAccount from './MyAccountTab';
 import MyJobs from './MyJobsTab';
-import Icon, { Icons } from '../Components/Icons';
+import { Icons } from '../Components/Icons';
 import TabButton from '../Components/TabButton';
 import Colors from '../Constants/Colors';
 import { useEffect } from 'react';

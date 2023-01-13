@@ -1,11 +1,10 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Image } from 'react-native'
-import React, { useEffect, useState, useRef } from 'react'
+import { StyleSheet, Text, View, KeyboardAvoidingView } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import Button from '../Components/Button'
-import { auth } from '../firebase/firebase';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import { userPreferences, userDistance } from '../redux/actions/userDataAction';
-import { insertBasicUserData, setPreferences } from '../API/POST';
+import { setPreferences } from '../API/POST';
 import { Slider } from '@miblanchard/react-native-slider';
 import Colors from '../Constants/Colors';
 import Categories from '../Constants/Categories.js'
@@ -47,7 +46,7 @@ const UserPreferencesScreen = () => {
     }
 
     const savePreferences = async () => {
-        await dispatch(userPreferences(category))
+        dispatch(userPreferences(category))
         const response = await setPreferences(uid, distance, category)
         goBack();
     }

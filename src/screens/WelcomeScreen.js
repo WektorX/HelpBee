@@ -2,7 +2,7 @@ import { ImageBackground, StyleSheet, Text, View } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux';
 import { polish, english } from '../redux/actions/languageAction';
 import { NativeModules } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import Colors from '../Constants/Colors';
 

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet, Text, View, KeyboardAvoidingView, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Button from '../Components/Button'
 import { auth } from '../firebase/firebase.js';

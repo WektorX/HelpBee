@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, Image, PermissionsAndroid } from 'react-native'
+import { StyleSheet, Text, View, ScrollView } from 'react-native'
 import * as Location from "expo-location"
 import React, { useEffect, useState } from 'react'
 import Colors from '../Constants/Colors';

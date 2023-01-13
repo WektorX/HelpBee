@@ -13,8 +13,6 @@ import MyOffersBlock from '../Components/MyOffersBlock.js';
 import Button from '../Components/Button'
 import { acceptWorker, rejectWorker, withdrawOffer, closeOffer, insertRate } from '../API/POST';
 import { Rating } from 'react-native-ratings';
-import call from 'react-native-phone-call'
-
 
 const MyOffers = () => {
 
@@ -146,15 +144,6 @@ const MyOffers = () => {
     setShowUserInfo(true);
   }
 
-  const phoneCall = () => {
-    let args = {
-        number: userInfo.phoneNumber,
-        prompt: false,
-        skipCanOpen: true
-    }
-    call(args).catch(console.error)
-}
-
   return (
     <View style={styles.mainView}>
       {/* MODAL FOR RATING USER */}
@@ -265,7 +254,6 @@ const MyOffers = () => {
                     : null}
                   </View>
                   <View style={[styles.buttonContainer, { position: 'relative', bottom: 0 }]}>
-                  <Button text={lang.call} func={phoneCall} color={Colors.green}></Button>
                     <Button text={lang.cancel} func={() => setShowUserInfo(false)} color={Colors.red} asText={true}></Button>
                   </View>
                 </View>

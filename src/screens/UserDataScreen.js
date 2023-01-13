@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Image } from 'react-native'
-import React, { useEffect, useState, useRef } from 'react'
+import { StyleSheet, Text, View, KeyboardAvoidingView } from 'react-native'
+import React, {useState} from 'react'
 import Button from '../Components/Button'
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';

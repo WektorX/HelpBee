@@ -14,7 +14,6 @@ import { getUserContactInfo } from '../API/GET'
 import Button from '../Components/Button'
 import { reportOffer, resignFromOffer, takeOffer } from '../API/POST';
 import { WaveIndicator } from 'react-native-indicators';
-import call from 'react-native-phone-call'
 
 const CategoryOffersScreen = (props) => {
     //use navigator
@@ -82,7 +81,6 @@ const CategoryOffersScreen = (props) => {
         let temp = offers[id];
         temp.firstName = response.data.firstName;
         temp.lastName = response.data.lastName;
-        temp.phoneNumber = response.data.phoneNumber;
         setSelected(temp);
         setShowModal(true)
     }
@@ -121,15 +119,6 @@ const CategoryOffersScreen = (props) => {
         setShowModal(false);
     }
 
-
-    const phoneCall = () => {
-        let args = {
-            number: selected.phoneNumber,
-            prompt: false,
-            skipCanOpen: true
-        }
-        call(args).catch(console.error)
-    }
     return (
         <View style={styles.mainView}>
 
@@ -196,14 +185,12 @@ const CategoryOffersScreen = (props) => {
                                             style={[styles.userAvatar, { backgroundColor: stringToColour(selected.firstName + " " + selected.lastName) }]}
                                             color={Colors.white} />
                                         <View>
-                                            <Text style={[styles.modalText, styles.userName]}>{selected.firstName + " " + selected.lastName}</Text>
-                                            <Text style={styles.modalText}>{selected.phoneNumber}</Text>
+                                            <Text style={[styles.modalText, styles.userName]}>{selected.firstName + " " + selected.lastName.charAt(0) + "."}</Text>
                                         </View>
                                     </View>
                                     <View style={styles.buttonContainer}>
                                         {selected.userID !== uid && selected.worker !== uid ? <Button text={lang.takeJob} func={takeJob} color={Colors.primary}></Button> : null}
                                         {selected.worker === uid ? <Button text={lang.resign} func={resign} color={Colors.red} ></Button> : null}
-                                        <Button text={lang.call} func={phoneCall} color={Colors.green}></Button>
                                         <Button text={lang.close} func={() => setShowModal(false)} color={Colors.red} asText={true}></Button>
                                     </View>
                                 </View>
