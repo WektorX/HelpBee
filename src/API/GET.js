@@ -3,6 +3,24 @@ const baseURL = 'http://192.168.0.11:3000';
 // const baseURL = 'http://192.168.0.20:3000';
 // const baseURL = 'http://192.168.1.107:3000';
 
+function checkIfUserBlocked(uid) {
+    return new Promise((resolve, reject) =>  {
+        axios.get(`${baseURL}/api/users/checkIfBlocked`, {
+            params: {
+                uid: uid
+            }
+        })
+            .then(res => {
+                resolve({ status: res.status, blocked: res.data.blocked })
+            })
+            .catch((err) => {
+                console.log(err);
+                reject({ status: 500, filledIn: false });
+            })
+    })
+
+}
+
 function hasUserFilledInData(id) {
     return new Promise((resolve, reject) =>  {
         axios.get(`${baseURL}/api/users/checkIfUserFilledBasicData`, {
@@ -161,5 +179,6 @@ export {
     getUserContactInfo,
     getUserJobs,
     getUserRating,
-    getNewOffers
+    getNewOffers,
+    checkIfUserBlocked
 }

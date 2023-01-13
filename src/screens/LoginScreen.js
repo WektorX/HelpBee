@@ -9,6 +9,7 @@ import { Fumi } from 'react-native-textinput-effects';
 import { userEmail, userAuth, userUID } from '../redux/actions/userDataAction';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import Colors from '../Constants/Colors';
+import { checkIfUserBlocked } from '../API/GET';
 
 const LoginScreen = () => {
 
@@ -28,12 +29,30 @@ const LoginScreen = () => {
         const unsubscribe = auth.onAuthStateChanged(user => {
             if (user) {
                 handleUIDChange(user.uid);
-                dispatch(userAuth(user))
-                navigation.replace("Loading", { action: 'userData' })
+                dispatch(userAuth(user));
+                checkBlocked(user.uid);
             }
         })
         return unsubscribe;
     }, [user])
+
+    const checkBlocked = async(uid) => {
+        const response = await checkIfUserBlocked(uid);
+        if(response.blocked){
+            auth
+            .signOut()
+            .then(() => {
+                setShowAlert(true);
+                dispatch(userAuth(null))
+                dispatch(userUID(''))
+            })
+            .catch(err => alert(err.message))
+        }
+        else{
+            navigation.replace("Loading", { action: 'userData' })
+        }
+
+    }
 
     // set user email address to redux store 
     const handleEmailChange = (value) => {

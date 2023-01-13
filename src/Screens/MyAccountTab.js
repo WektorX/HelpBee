@@ -79,9 +79,7 @@ export default function MyAccount() {
   }
 
   const showUserRating = async () => {
-    console.log(uid);
     const response = await getUserRating(uid);
-    console.log(response.data.comments)
     setUserRating(response.data)
     setShowModal(true);
   }
