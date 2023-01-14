@@ -80,6 +80,7 @@ export default function MyAccount() {
 
   const showUserRating = async () => {
     const response = await getUserRating(uid);
+    let temp = response.data;
     setUserRating(response.data)
     setShowModal(true);
   }
@@ -130,7 +131,7 @@ export default function MyAccount() {
                       return (
                         <View style={styles.commentRow} key={id}>
                           <Text style={styles.commentText}>{comment.comment}</Text>
-                          <Text style={styles.commentBy}>{comment.employerFirstName + " " + comment.employerLastName}</Text>
+                          <Text style={styles.commentBy}>{comment.who == "employer"? lang.employerComment: lang.workerComment}{comment.employerFirstName + " " + comment.employerLastName?.charAt(0)}</Text>
                         </View>
                       )
                     })}
@@ -258,7 +259,8 @@ const styles = StyleSheet.create({
 
   },
   commentBy: {
-    fontSize: 12,
+    paddingTop: 10,
+    fontSize: 10,
     width: '100%',
     textAlign: 'right'
   },

@@ -70,7 +70,9 @@ const polish = {
     restore: 'Przywróć ofertę',
     preferences: 'Twoje preferencje',
     fewNewOffers : 'Pojawiło się [XX] nowych ofert, które mogą cię zainteresować.',
-    newOfferFromCategory: 'Pojawiła się nowa oferta, która może cię zainteresować z kategorii [XX].'
+    newOfferFromCategory: 'Pojawiła się nowa oferta, która może cię zainteresować z kategorii [XX].',
+    employerComment : 'Zleceniodawca ',
+    workerComment : 'Zleceniobiorca '
 
 
 

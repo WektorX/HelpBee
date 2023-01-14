@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, Image, RefreshControl } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, Image, RefreshControl, Modal, TouchableOpacity, TextInput } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { FAB } from 'react-native-paper';
 import Colors, { stringToColour } from '../Constants/Colors'
@@ -10,7 +10,8 @@ import { userJobs } from '../redux/actions/userDataAction';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import MyOffersBlock from '../Components/MyOffersBlock.js';
 import Button from '../Components/Button'
-import { resignFromOffer } from '../API/POST';
+import { resignFromOffer, insertRate } from '../API/POST';
+import { Rating } from 'react-native-ratings';
 
 export default function MyJobs() {
 
@@ -25,6 +26,10 @@ export default function MyJobs() {
   const [status, setStatus] = useState(0);
   const [selectedJobs, setSelectedJobs] = useState(jobs.filter(item => item.status == 1))
   const [refreshing, setRefreshing] = useState(false);
+  const [offerToRate, setOfferToRate] = useState({});
+  const [showModal, setShowModal] = useState(false);
+  const [rating, setRating] = useState(5);
+  const [comment, setComment] = useState("");
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('tabPress', async () => {
@@ -90,8 +95,91 @@ export default function MyJobs() {
   }
 
 
+  const startRating = (id) => {
+    setShowModal(true);
+    setOfferToRate(selectedJobs[id]);
+  }
+
+  const rate = async () => {
+    let ratings = {
+      category: offerToRate.category,
+      comment: comment,
+      employerID: offerToRate.userID,
+      offerID: offerToRate.id,
+      rating: rating,
+      workerID: offerToRate.worker,
+      who: 'worker'
+    }
+    const response = await insertRate(ratings);
+    if (response.status == 200) {
+      let index = selectedJobs.findIndex(item => item.id === offerToRate.id);
+      let temp = selectedJobs;
+      temp[index].rating = rating;
+      setSelectedJobs(temp);
+    }
+    setShowModal(false)
+  }
+
   return (
     <View style={styles.mainView}>
+
+      {/* MODAL FOR RATING USER */}
+      <Modal
+        animationType={'slide'}
+        transparent={true}
+        visible={showModal}
+        onRequestClose={() => setShowModal(false)}
+      >
+        <View style={styles.centeredView}>
+          {offerToRate ?
+
+            <View style={styles.modalView}>
+
+              <TouchableOpacity
+                onPress={() => setShowModal(false)}
+                style={{ width: 30, height: 30, position: 'absolute', top: 5, right: 0 }}>
+                <Image source={require('../Images/close.png')} style={{ width: 25, height: 25 }} />
+              </TouchableOpacity>
+
+
+              <ScrollView style={{ flex: 1 }}>
+                <View style={styles.alignView}>
+                  <Text style={styles.modalTitle}>{lang.rate}</Text>
+
+                  <Rating
+                    type={'star'}
+                    ratingCount={5}
+                    imageSize={30}
+                    showRating
+                    fractions={1}
+                    ratingBackgroundColor={Colors.red}
+                    ratingTextColor={Colors.pink}
+                    startingValue={rating}
+                    onFinishRating={(value) => setRating(value)}
+                  />
+                  <TextInput
+                    style={styles.comment}
+                    multiline
+                    numberOfLines={4}
+                    placeholder={'Type comment'}
+                    value={comment}
+                    onChangeText={text => setComment(text)}>
+
+                  </TextInput>
+
+                  <View style={styles.buttonContainer}>
+                    <Button text={lang.rate} func={() => rate()} color={Colors.green} ></Button>
+                    <Button text={lang.cancel} func={() => setShowModal(false)} color={Colors.red} asText={true}></Button>
+                  </View>
+                </View>
+              </ScrollView>
+            </View>
+
+            : null}
+        </View>
+      </Modal>
+
+
       <ScrollView
         refreshControl={
           <RefreshControl
@@ -134,21 +222,33 @@ export default function MyJobs() {
                           date={offer.serviceDate}
                           color={Colors.green} />
                         <View style={styles.workerInfo}>
-                          <View style={{ flex: 1,flexDirection: 'row', maxWidth: offer.status == 1 ? 50 : 100, alignItems: 'center', justifyContent: 'center' }}>
+                          <View style={{ flex: 1, flexDirection: 'row', maxWidth: offer.status == 1 ? 50 : 100, alignItems: 'center', justifyContent: 'center' }}>
                             <Avatar.Text
                               size={45}
                               label={offer.employerFirstName?.charAt(0) + offer.employerLastName?.charAt(0)}
                               style={{ backgroundColor: stringToColour(offer.employerFirstName + " " + offer.employerLastName) }}
                               color={Colors.white} />
                           </View>
-                          <View style={{ flex:1 ,flexDirection: 'column', maxWidth: offer.status == 1 ? 90 : 150, alignItems: 'center', justifyContent: 'center' }}>
-                            <Text>{offer.employerFirstName + " " + offer.employerLastName.charAt(0)+"."}</Text>
+                          <View style={{ flex: 1, flexDirection: 'column', maxWidth: offer.status == 1 ? 90 : 120, alignItems: 'center', justifyContent: 'center' }}>
+                            <Text>{offer.employerFirstName + " " + offer.employerLastName.charAt(0) + "."}</Text>
                           </View>
                           {offer.status == 1 ?
                             <View style={{ flexDirection: 'row', marginLeft: 20, width: 70, alignItems: 'center', justifyContent: 'center' }}>
                               <Button text={lang.reject} func={() => cancel(offer.id, offer.userID, offer.title)} color={Colors.red} asText={true}></Button>
                             </View>
-                            : null}
+                            :
+                            <View style={{ flexDirection: 'row', marginLeft: 20, width: 100, alignItems: 'center', justifyContent: 'center' }}>
+                              {parseInt(offer.rating) == -1 ?
+                                <Button text={lang.rate} color={Colors.green} asText={true} func={() => startRating(id)}></Button>
+                                :
+                                <Rating
+                                  type={'star'}
+                                  ratingCount={5}
+                                  imageSize={15}
+                                  readonly
+                                  startingValue={offer.rating} />}
+                            </View>
+                          }
                         </View>
                       </View>)
                   })
@@ -224,5 +324,75 @@ const styles = StyleSheet.create({
     bottom: 70,
     right: 10,
     backgroundColor: Colors.green
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  alignView: {
+    alignItems: "center",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: Colors.white,
+    borderRadius: 20,
+    padding: 35,
+    paddingRight: 0,
+    paddingLeft: 0,
+    paddingBottom: 0,
+    shadowColor: Colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    minHeight: 400,
+    minWidth: 300
+  },
+  modalText: {
+    marginBottom: 5,
+    marginTop: 5,
+    textAlign: "center"
+  },
+  modalTitle: {
+    marginBottom: 10,
+    fontSize: 30,
+    textAlign: "center",
+    fontWeight: 'bold',
+    color: Colors.green
+  },
+  comment: {
+    width: 250,
+    margin: 10,
+    backgroundColor: Colors.greenBackground,
+    padding: 10
+  },
+  commentSection: {
+    width: '90%',
+    padding: 10,
+    marginBottom: 20
+  },
+  commentRow: {
+    backgroundColor: Colors.greenBackground,
+    padding: 10,
+    flexDirection: 'column',
+    marginTop: 10,
+  },
+  commentText: {
+    fontSize: 15,
+    width: '100%',
+
+  },
+  commentBy: {
+    fontSize: 12,
+    width: '100%',
+    textAlign: 'right'
+  },
+  buttonContainer: {
+    width: '60%',
   },
 })

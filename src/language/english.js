@@ -70,7 +70,9 @@ const english = {
     restore: 'Restore offer',
     preferences: 'Your preferences',
     fewNewOffers : 'There are [XX] new offers that may interest you.',
-    newOfferFromCategory: 'There is a new offer that you may be interested in from category [XX].'
+    newOfferFromCategory: 'There is a new offer that you may be interested in from category [XX].',
+    employerComment : 'Employer ',
+    workerComment : 'Worker '
 }
 
 export {english};

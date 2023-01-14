@@ -123,7 +123,8 @@ const MyOffers = () => {
       employerID: offerToRate.userID,
       offerID: offerToRate.id,
       rating: rating,
-      workerID: offerToRate.worker
+      workerID: offerToRate.worker,
+      who: 'employer'
     }
     const response = await insertRate(ratings);
     if (response.status == 200) {
@@ -132,9 +133,7 @@ const MyOffers = () => {
       temp[index].rating = rating;
       setSelectedOffers(temp);
     }
-
     setShowModal(false)
-
   }
 
 
@@ -228,7 +227,7 @@ const MyOffers = () => {
                     label={userInfo.firstName?.charAt(0) + userInfo.lastName?.charAt(0)}
                     style={{ backgroundColor: stringToColour(userInfo.firstName + " " + userInfo.lastName) }}
                     color={Colors.white} />
-                  <Text style={styles.modalTitle}>{userInfo.firstName + " " + userInfo.lastName?.charAt(0) +"."}</Text>
+                  <Text style={styles.modalTitle}>{userInfo.firstName + " " + userInfo.lastName?.charAt(0) + "."}</Text>
 
                   <Rating
                     type={'star'}
@@ -243,15 +242,15 @@ const MyOffers = () => {
                       return (
                         <View style={styles.commentRow} key={id}>
                           <Text style={styles.commentText}>{comment.comment}</Text>
-                          <Text style={styles.commentBy}>{comment.employerFirstName + " " + comment.employerLastName.charAt(0) +"."}</Text>
+                          <Text style={styles.commentBy}>{comment.employerFirstName + " " + comment.employerLastName.charAt(0) + "."}</Text>
                         </View>
                       )
                     })}
                     {userInfo.comments?.length == 0 ?
-                      <View style={[styles.commentRow, {paddingBottom: 50}]}>
+                      <View style={[styles.commentRow, { paddingBottom: 50 }]}>
                         <Text style={styles.commentText}>{lang.noComments}</Text>
                       </View>
-                    : null}
+                      : null}
                   </View>
                   <View style={[styles.buttonContainer, { position: 'relative', bottom: 0 }]}>
                     <Button text={lang.cancel} func={() => setShowUserInfo(false)} color={Colors.red} asText={true}></Button>
@@ -317,7 +316,7 @@ const MyOffers = () => {
                                 color={Colors.white} />
                             </View>
                             <View style={{ flexDirection: 'column', marginLeft: 10, width: 80, alignItems: 'center', justifyContent: 'center' }}>
-                              <Text>{offer.workerFirstName + " " + offer.workerLastName.charAt(0) +"."}</Text>
+                              <Text>{offer.workerFirstName + " " + offer.workerLastName.charAt(0) + "."}</Text>
                             </View>
                           </TouchableOpacity>
                           {offer.status == 1 && !today ?
@@ -340,7 +339,7 @@ const MyOffers = () => {
                                     ratingCount={5}
                                     imageSize={15}
                                     readonly
-                                    startingValue={rating} />}
+                                    startingValue={offer.rating} />}
                               </View> :
                               <View style={{ flexDirection: 'row', marginLeft: 30, width: 70, alignItems: 'center', justifyContent: 'center' }}>
                                 <Button text={lang.cancel} color={Colors.red} asText={true} func={() => cancel(offer.id, offer.worker, offer.title)}></Button>
@@ -471,6 +470,7 @@ const styles = StyleSheet.create({
     width: 250,
     margin: 10,
     backgroundColor: Colors.purpleBackground,
+    padding: 10
   },
   commentSection: {
     width: '90%',
