@@ -83,10 +83,10 @@ async function insertOffer(offer) {
 }
 
 
-async function withdrawOffer(id) {
+async function withdrawOffer(id, title, worker, uid) {
     try {
         const res = await axios.post(`${baseURL}/api/offers/withdrawOffer`,
-            { id: id },
+            { id: id, title: title, workerID: worker, userID: uid },
             {
                 'Content-Type': 'application/json;charset=utf-8'
             })
@@ -114,10 +114,10 @@ async function restoreOffer(id) {
     }
 }
 
-async function closeOffer(id) {
+async function closeOffer(id, title, worker, uid) {
     try {
         const res = await axios.post(`${baseURL}/api/offers/closeOffer`,
-            { id: id },
+            { id: id, title: title, workerID: worker, userID: uid },
             {
                 'Content-Type': 'application/json;charset=utf-8'
             })
@@ -131,10 +131,10 @@ async function closeOffer(id) {
 }
 
 
-async function updateOffer(id, offer) {
+async function updateOffer(id, offer, worker, uid) {
     try {
         const res = await axios.post(`${baseURL}/api/offers/updateOffer`,
-            { id: id, offer: offer },
+            { id: id, offer: offer, worker: worker, userID: uid },
             {
                 'Content-Type': 'application/json;charset=utf-8'
             })
@@ -147,10 +147,10 @@ async function updateOffer(id, offer) {
 
 }
 
-async function takeOffer(uid, offerID) {
+async function takeOffer(userID, workerID, offerID, title) {
     try {
         const res = await axios.post(`${baseURL}/api/offers/takeOffer`,
-            { uid: uid, offerID: offerID },
+            { userID: userID, workerID: workerID, offerID: offerID, title: title },
             {
                 'Content-Type': 'application/json;charset=utf-8'
             })
@@ -162,10 +162,10 @@ async function takeOffer(uid, offerID) {
     }
 }
 
-async function resignFromOffer(uid, offerID) {
+async function resignFromOffer(userID, workerID, offerID, title) {
     try {
         const res = await axios.post(`${baseURL}/api/offers/resignFromOffer`,
-            { uid: uid, offerID: offerID },
+            { userID: userID, workerID: workerID, offerID: offerID, title: title },
             {
                 'Content-Type': 'application/json;charset=utf-8'
             })
@@ -177,10 +177,10 @@ async function resignFromOffer(uid, offerID) {
     }
 }
 
-async function acceptWorker(id, workerID) {
+async function acceptWorker(uid, id, workerID, title) {
     try {
         const res = await axios.post(`${baseURL}/api/offers/acceptWorker`,
-            { offerID: id, workerID: workerID},
+            { userID: uid, offerID: id, workerID: workerID, title: title },
             {
                 'Content-Type': 'application/json;charset=utf-8'
             })
@@ -192,10 +192,10 @@ async function acceptWorker(id, workerID) {
     }
 }
 
-async function rejectWorker(id, workerID) {
+async function rejectWorker(uid, id, workerID, title) {
     try {
         const res = await axios.post(`${baseURL}/api/offers/rejectWorker`,
-            { offerID: id, workerID: workerID},
+            { userID: uid, offerID: id, workerID: workerID, title: title },
             {
                 'Content-Type': 'application/json;charset=utf-8'
             })
@@ -211,7 +211,7 @@ async function rejectWorker(id, workerID) {
 async function reportOffer(uid, offerID) {
     try {
         const res = await axios.post(`${baseURL}/api/offers/reportOffer`,
-            { userID : uid , offerID: offerID},
+            { userID: uid, offerID: offerID },
             {
                 'Content-Type': 'application/json;charset=utf-8'
             })
@@ -226,7 +226,7 @@ async function reportOffer(uid, offerID) {
 async function insertRate(rating) {
     try {
         const res = await axios.post(`${baseURL}/api/ratings/insertRate`,
-            { rating : rating},
+            { rating: rating },
             {
                 'Content-Type': 'application/json;charset=utf-8'
             })

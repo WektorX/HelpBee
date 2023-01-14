@@ -83,24 +83,24 @@ const MyOffers = () => {
   }
 
   //accept user request for a job
-  const accept = async (offerID, workerID) => {
-    const response = await acceptWorker(offerID, workerID);
+  const accept = async (offerID, workerID, title) => {
+    const response = await acceptWorker(uid, offerID, workerID, title);
     retriveOffers();
   }
 
   //reject user request for a job
-  const reject = async (offerID, workerID) => {
-    const response = await rejectWorker(offerID, workerID);
+  const reject = async (offerID, workerID, title) => {
+    const response = await rejectWorker(uid, offerID, workerID, title);
     retriveOffers();
   }
 
-  const close = async (offerID) => {
-    const response = await closeOffer(offerID);
+  const close = async (offerID, worker, title) => {
+    const response = await closeOffer(offerID, title, worker, uid);
     retriveOffers();
   }
 
-  const cancel = async (offerID) => {
-    const response = await withdrawOffer(offerID);
+  const cancel = async (offerID, worker, title) => {
+    const response = await withdrawOffer(offerID, title, worker, uid);
     retriveOffers();
   }
 
@@ -228,7 +228,7 @@ const MyOffers = () => {
                     label={userInfo.firstName?.charAt(0) + userInfo.lastName?.charAt(0)}
                     style={{ backgroundColor: stringToColour(userInfo.firstName + " " + userInfo.lastName) }}
                     color={Colors.white} />
-                  <Text style={styles.modalTitle}>{userInfo.firstName + " " + userInfo.lastName}</Text>
+                  <Text style={styles.modalTitle}>{userInfo.firstName + " " + userInfo.lastName?.charAt(0) +"."}</Text>
 
                   <Rating
                     type={'star'}
@@ -243,7 +243,7 @@ const MyOffers = () => {
                       return (
                         <View style={styles.commentRow} key={id}>
                           <Text style={styles.commentText}>{comment.comment}</Text>
-                          <Text style={styles.commentBy}>{comment.employerFirstName + " " + comment.employerLastName}</Text>
+                          <Text style={styles.commentBy}>{comment.employerFirstName + " " + comment.employerLastName.charAt(0) +"."}</Text>
                         </View>
                       )
                     })}
@@ -317,16 +317,16 @@ const MyOffers = () => {
                                 color={Colors.white} />
                             </View>
                             <View style={{ flexDirection: 'column', marginLeft: 10, width: 80, alignItems: 'center', justifyContent: 'center' }}>
-                              <Text>{offer.workerFirstName + " " + offer.workerLastName}</Text>
+                              <Text>{offer.workerFirstName + " " + offer.workerLastName.charAt(0) +"."}</Text>
                             </View>
                           </TouchableOpacity>
                           {offer.status == 1 && !today ?
                             <View style={{ flexDirection: 'row', marginLeft: 30, width: 70, alignItems: 'center', justifyContent: 'center' }}>
 
-                              <Button text={lang.reject} func={() => reject(offer.id, offer.worker)} color={Colors.red} asText={true}></Button>
+                              <Button text={lang.reject} func={() => reject(offer.id, offer.worker, offer.title)} color={Colors.red} asText={true}></Button>
 
                               {offer.workerStatus === "requested" && !today ?
-                                <Button text={lang.accept} func={() => accept(offer.id, offer.worker)} color={Colors.green} asText={true}></Button>
+                                <Button text={lang.accept} func={() => accept(offer.id, offer.worker, offer.title)} color={Colors.green} asText={true}></Button>
                                 : null}
 
                             </View>
@@ -343,8 +343,8 @@ const MyOffers = () => {
                                     startingValue={rating} />}
                               </View> :
                               <View style={{ flexDirection: 'row', marginLeft: 30, width: 70, alignItems: 'center', justifyContent: 'center' }}>
-                                <Button text={lang.cancel} color={Colors.red} asText={true} func={() => cancel(offer.id)}></Button>
-                                <Button text={lang.finish} color={Colors.purple} asText={true} func={() => close(offer.id)}></Button>
+                                <Button text={lang.cancel} color={Colors.red} asText={true} func={() => cancel(offer.id, offer.worker, offer.title)}></Button>
+                                <Button text={lang.finish} color={Colors.purple} asText={true} func={() => close(offer.id, offer.worker, offer.title)}></Button>
                               </View>
                           }
 

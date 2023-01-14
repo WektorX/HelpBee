@@ -67,8 +67,8 @@ export default function MyJobs() {
     dispatch(userJobs(jobs));
   }
 
-  const cancel = async (offerID) => {
-    const response = await resignFromOffer(uid, offerID);
+  const cancel = async (offerID, userID, title) => {
+    const response = await resignFromOffer(userID, uid, offerID, title);
     if (response.status === 200) {
       let index = jobs.indexOf(job => job.id === offerID);
       let temp = jobs.splice(index, 1);
@@ -142,11 +142,11 @@ export default function MyJobs() {
                               color={Colors.white} />
                           </View>
                           <View style={{ flex:1 ,flexDirection: 'column', maxWidth: offer.status == 1 ? 90 : 150, alignItems: 'center', justifyContent: 'center' }}>
-                            <Text>{offer.employerFirstName + " " + offer.employerLastName}</Text>
+                            <Text>{offer.employerFirstName + " " + offer.employerLastName.charAt(0)+"."}</Text>
                           </View>
                           {offer.status == 1 ?
                             <View style={{ flexDirection: 'row', marginLeft: 20, width: 70, alignItems: 'center', justifyContent: 'center' }}>
-                              <Button text={lang.reject} func={() => cancel(offer.id)} color={Colors.red} asText={true}></Button>
+                              <Button text={lang.reject} func={() => cancel(offer.id, offer.userID, offer.title)} color={Colors.red} asText={true}></Button>
                             </View>
                             : null}
                         </View>

@@ -5,10 +5,10 @@ const baseURL = 'http://192.168.0.11:3000'
 
 
 
-async function deleteOffer(id) {
+async function deleteOffer(id, title, worker, uid) {
     try {
         const res = await axios.delete(`${baseURL}/api/offers/deleteOffer`,
-            {data: {id: id}},
+            { data : {id: id, title: title, workerID: worker, userID: uid}},
             {
                 'Content-Type': 'application/json;charset=utf-8'
             })
@@ -21,4 +21,4 @@ async function deleteOffer(id) {
 }
 
 
-export {deleteOffer}
+export { deleteOffer }

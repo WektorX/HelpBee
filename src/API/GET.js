@@ -95,7 +95,6 @@ async function getUserJobs(id) {
 
 
 async function getOffersByCategory(category, distance, location, uid) {
-    console.log(location)
     return new Promise((resolve, reject) =>  {
         axios.get(`${baseURL}/api/offers/getOffersByCategory`, {
             params: {

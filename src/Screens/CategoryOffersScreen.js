@@ -86,7 +86,7 @@ const CategoryOffersScreen = (props) => {
     }
 
     const takeJob = async () => {
-        const response = await takeOffer(uid, selected.id)
+        const response = await takeOffer(selected.userID, uid, selected.id, selected.title)
         if (response.status === 200) {
             let temp = offers;
             let index = temp.findIndex(item => item.id === selected.id);
@@ -97,7 +97,7 @@ const CategoryOffersScreen = (props) => {
     }
 
     const resign = async () => {
-        const response = await resignFromOffer(uid, selected.id);
+        const response = await resignFromOffer(selected.userID, uid, selected.id, selected.title);
         if (response.status === 200) {
             let temp = offers;
             let index = temp.findIndex(item => item.id === selected.id);

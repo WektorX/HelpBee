@@ -35,6 +35,7 @@ const EditOfferScreen = (props) => {
     const [date, setDate] = useState(props.route.params.serviceDate);
     const [category, setCategory] = useState(props.route.params.category);
     const [reward, setReward] = useState(props.route.params.reward);
+    const [worker, setWorker] = useState(props.route.params.worker);
     const [currentDate] = useState(new Date().toISOString().slice(0, 10));
     const [status, setStatus] = useState(props.route.params.status);
     const [region, setRegion] = useState({
@@ -86,19 +87,19 @@ const EditOfferScreen = (props) => {
             status: status,
             reward: parseFloat(reward)
         }
-        const response = await updateOffer(props.route.params.id, offer);
+        const response = await updateOffer(props.route.params.id, offer, worker, uid);
         // TODO: handle error
         goBack();
     }
 
     const delOffer = async () => {
-        const response = await deleteOffer(props.route.params.id)
+        const response = await deleteOffer(props.route.params.id, title, worker, uid)
         // TODO: handle error
         goBack();
     }
 
     const withdraw = async () => {
-        const response = await withdrawOffer(props.route.params.id)
+        const response = await withdrawOffer(props.route.params.id, title, worker, uid)
         // TODO: handle error
         goBack();
     }
