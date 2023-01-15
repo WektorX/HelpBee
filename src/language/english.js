@@ -77,6 +77,10 @@ const english = {
     offerType: 'Offer type',
     inReturn: 'In exchange for',
     serviceDate : 'Service date',
+    filters: 'Filters',
+    search: 'Search',
+    from: 'From',
+    to: 'To'
 
 
 

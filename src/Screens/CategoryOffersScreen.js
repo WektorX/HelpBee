@@ -4,7 +4,7 @@ import Colors, { stringToColour } from '../Constants/Colors'
 import { useNavigation } from '@react-navigation/core';
 import { userDistance } from '../redux/actions/userDataAction';
 import { useSelector, useDispatch } from 'react-redux';
-import { Avatar } from 'react-native-paper'
+import { Avatar, Checkbox, TextInput } from 'react-native-paper'
 import { Slider } from '@miblanchard/react-native-slider';
 import Categories from '../Constants/Categories.js'
 import MapView, { Marker } from 'react-native-maps';
@@ -14,6 +14,7 @@ import { getUserContactInfo } from '../API/GET'
 import Button from '../Components/Button'
 import { reportOffer, resignFromOffer, takeOffer } from '../API/POST';
 import { WaveIndicator } from 'react-native-indicators';
+import { Icons } from '../Components/Icons';
 
 const CategoryOffersScreen = (props) => {
     //use navigator
@@ -34,12 +35,23 @@ const CategoryOffersScreen = (props) => {
     const [offers, setOffers] = useState([]);
     const [selected, setSelected] = useState(null);
     const [showModal, setShowModal] = useState(false);
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
+    const [minReward, setMinReward] = useState(-1);
+    const [maxReward, setMaxReward] = useState(-1);
+    const [keyWord, setKeyWord] = useState('');
+    const [monetaryType, setMonetaryType] = useState(true);
+    const [exchangeType, setExchangeType] = useState(true);
+    const [showFilters, setShowFilters] = useState(false);
+    const [filteredOffers, setFilteredOffers] = useState([])
 
     useEffect(() => {
         refreshOffers();
-    }, [category])
+    }, [])
 
+
+    useEffect(() => {
+        applyFilters(offers)
+    }, [keyWord, minReward, maxReward, exchangeType, monetaryType])
 
     const distanceChange = async () => {
         refreshOffers();
@@ -55,7 +67,7 @@ const CategoryOffersScreen = (props) => {
             return o
         })
         setOffers(offers);
-        setLoading(false);
+        applyFilters(offers)
     }
 
     function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
@@ -77,8 +89,8 @@ const CategoryOffersScreen = (props) => {
     }
 
     const selectedOffer = async (id) => {
-        const response = await getUserContactInfo(offers[id].userID);
-        let temp = offers[id];
+        const response = await getUserContactInfo(filteredOffers[id].userID);
+        let temp = filteredOffers[id];
         temp.firstName = response.data.firstName;
         temp.lastName = response.data.lastName;
         setSelected(temp);
@@ -92,6 +104,7 @@ const CategoryOffersScreen = (props) => {
             let index = temp.findIndex(item => item.id === selected.id);
             temp[index].worker = uid;
             setOffers(temp);
+            applyFilters();
         }
         setShowModal(false)
     }
@@ -104,6 +117,7 @@ const CategoryOffersScreen = (props) => {
             temp[index].worker = "";
             temp[index].workersHistory.push(uid);
             setOffers(temp);
+            applyFilters();
         }
         setShowModal(false);
     }
@@ -115,8 +129,35 @@ const CategoryOffersScreen = (props) => {
             let index = temp.findIndex(item => item.id === selected.id);
             temp[index].reportedBy.push(uid);
             setOffers(temp);
+            applyFilters();
         }
         setShowModal(false);
+    }
+
+    const applyFilters = (offers) => {
+        let temp = offers;
+        if (keyWord != '') {
+            let key = keyWord.toLocaleLowerCase();
+            temp = temp.filter(item => item.description.toLocaleLowerCase().indexOf(key) > -1 
+            || item.title.toLocaleLowerCase().indexOf(key) > -1);
+        }
+        if(minReward > -1 && minReward !== NaN){
+            temp = temp.filter(item => parseFloat(item.reward) >= minReward)
+        }
+        if(maxReward > -1 && maxReward !== NaN){
+            temp = temp.filter(item => parseFloat(item.reward) <= maxReward)
+        }
+        if(exchangeType && !monetaryType){
+            temp = temp.filter(item => item.type == 'exchange')
+        }
+        if(!exchangeType && monetaryType){
+            temp = temp.filter(item => item.type == 'monetary')
+        }
+        if(!exchangeType && !monetaryType){
+            temp = []
+        }
+        setFilteredOffers(temp);
+        setLoading(false);
     }
 
     return (
@@ -181,21 +222,21 @@ const CategoryOffersScreen = (props) => {
                                                 {lang.reward}:
                                             </Text>
                                             <Text style={styles.modalText}>
-                                             {selected.reward.toFixed(2)} PLN
+                                                {selected.reward.toFixed(2)} PLN
                                             </Text>
                                         </View>
                                         :
                                         <View>
-                                        <Text style={[styles.modalText, styles.modalReward]}>
-                                            {lang.inReturn}:
-                                        </Text>
-                                        <Text style={[styles.modalText, styles.modalDescription]}>
-                                            {selected.inReturn}
-                                        </Text>
+                                            <Text style={[styles.modalText, styles.modalReward]}>
+                                                {lang.inReturn}:
+                                            </Text>
+                                            <Text style={[styles.modalText, styles.modalDescription]}>
+                                                {selected.inReturn}
+                                            </Text>
                                         </View>
                                     }
 
-                                    <Text style={[styles.modalText, {fontWeight: 'bold'}]}>{lang.serviceDate}:</Text>
+                                    <Text style={[styles.modalText, { fontWeight: 'bold' }]}>{lang.serviceDate}:</Text>
                                     <Text style={styles.modalText}>{selected.serviceDate}</Text>
                                     <View style={styles.userInfo}>
                                         <Avatar.Text
@@ -226,23 +267,76 @@ const CategoryOffersScreen = (props) => {
 
                 <View style={styles.container}>
                     <Text style={styles.categoryTitle}>{category.name}</Text>
-                    <View style={styles.filters}>
-                        <Text style={styles.distanceText}>
-                            {distance} KM
-                        </Text>
-                        <Slider
-                            value={distance}
-                            onValueChange={(value) => dispatch(userDistance(value[0]))}
-                            onSlidingComplete={distanceChange}
-                            animateTransitions={true}
-                            animationType={'spring'}
-                            maximumValue={100}
-                            minimumValue={1}
-                            step={5}
-                            thumbTintColor={Colors.primary}
-                            trackStyle={{ backgroundColor: Colors.primaryAlpha }}
-                            minimumTrackTintColor={Colors.primaryAlpha}
-                        />
+                    {showFilters ?
+                        <View style={styles.filters}>
+                            <Text style={styles.filterTitle}>
+                                {distance} KM
+                            </Text>
+                            <Slider
+                                value={distance}
+                                onValueChange={(value) => dispatch(userDistance(value[0]))}
+                                onSlidingComplete={distanceChange}
+                                animateTransitions={true}
+                                animationType={'spring'}
+                                maximumValue={100}
+                                minimumValue={1}
+                                step={5}
+                                thumbTintColor={Colors.primary}
+                                trackStyle={{ backgroundColor: Colors.primaryAlpha }}
+                                minimumTrackTintColor={Colors.primaryAlpha}
+                            />
+                            <TextInput
+                                placeholder={lang.search}
+                                onChangeText={text => setKeyWord(text)}
+                                style={styles.keyWord}
+                                underlineColor={Colors.pureAlpha}
+                                activeUnderlineColor={Colors.primary}
+                            >
+                            </TextInput>
+                            <Text style={styles.filterTitle}>
+                                {lang.reward}
+                            </Text>
+                            <View style={styles.rewardContainer}>
+                                <TextInput
+                                    placeholder={lang.from}
+                                    style={styles.rewardInput}
+                                    underlineColor={Colors.pureAlpha}
+                                    activeUnderlineColor={Colors.primary}
+                                    keyboardType={'decimal-pad'}
+                                    onChangeText={text => setMinReward(parseFloat(text))}
+                                >
+                                </TextInput>
+                                <TextInput
+                                    placeholder={lang.to}
+                                    style={styles.rewardInput}
+                                    underlineColor={Colors.pureAlpha}
+                                    activeUnderlineColor={Colors.primary}
+                                    keyboardType={'decimal-pad'}
+                                    onChangeText={text => setMaxReward(parseFloat(text))}
+
+                                ></TextInput>
+                            </View>
+                            <Text style={styles.filterTitle}>
+                                {lang.offerType}
+                            </Text>
+                            <View style={styles.typeContainer}>
+                                <Text style={styles.typeLabel}>{lang.offersType[0]}</Text>
+                                <Checkbox
+                                    status={monetaryType ? 'checked' : 'unchecked'}
+                                    onPress={() => { setMonetaryType(!monetaryType) }}
+                                    color={Colors.primary}
+                                />
+                                <Text style={styles.typeLabel}>{lang.offersType[1]}</Text>
+                                <Checkbox
+                                    status={exchangeType ? 'checked' : 'unchecked'}
+                                    onPress={() => { setExchangeType(!exchangeType) }}
+                                    color={Colors.primary}
+                                />
+                            </View>
+                        </View> : null}
+
+                    <View style={styles.showFilters}>
+                        <Button type={Icons.Ionicons} icon={"filter-outline"} asText={true} func={() => setShowFilters(!showFilters)} text={lang.filters}></Button>
                     </View>
                     {loading ?
 
@@ -254,9 +348,9 @@ const CategoryOffersScreen = (props) => {
                         :
                         <View style={styles.offersContainer}>
                             {
-                                offers.length > 0 ?
+                                filteredOffers.length > 0 ?
                                     (
-                                        offers.map((item, id) => {
+                                        filteredOffers.map((item, id) => {
                                             return (
                                                 <MyOffersBlock
                                                     key={id}
@@ -280,8 +374,8 @@ const CategoryOffersScreen = (props) => {
                         </View>
                     }
                 </View>
-            </ScrollView>
-        </View>
+            </ScrollView >
+        </View >
     )
 }
 
@@ -311,7 +405,19 @@ const styles = StyleSheet.create({
         minWidth: 200,
         alignItems: 'stretch',
         justifyContent: 'center',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        padding: 20,
+        backgroundColor: Colors.primaryBackground,
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: Colors.primary
+    },
+    showFilters: {
+        flex: 1,
+        alignItems: 'stretch',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        width: 100
     },
     noOffers: {
         flex: 1,
@@ -398,5 +504,42 @@ const styles = StyleSheet.create({
     userName: {
         fontWeight: 'bold',
         fontSize: 20,
-    }
+    },
+    keyWord: {
+        borderWidth: 0,
+        backgroundColor: Colors.primaryBackground,
+        width: 300,
+        height: 30,
+        paddingVertical: 5,
+        paddingHorizontal: 5,
+        borderRadius: 15,
+        fontSize: 16,
+    },
+    rewardInput: {
+        borderWidth: 0,
+        backgroundColor: Colors.primaryBackground,
+        width: 100,
+        height: 30,
+        paddingVertical: 5,
+        paddingHorizontal: 5,
+        borderRadius: 15,
+        fontSize: 16,
+    },
+    filterTitle: {
+        marginTop: 5,
+        fontWeight: 'bold'
+    },
+    rewardContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around'
+    },
+    typeContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    typeLabel: {
+        marginLeft: 20
+    },
+
 })

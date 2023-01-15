@@ -77,6 +77,11 @@ const polish = {
     offerType: 'Typ oferty',
     inReturn: 'W zamian za',
     serviceDate : 'Data wykonania',
+    filters: 'Filtry',
+    search: 'Szukaj',
+    from: 'Od',
+    to: 'Do'
+
 }
 
 export {polish}

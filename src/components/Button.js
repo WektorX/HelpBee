@@ -1,12 +1,14 @@
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import React, { Component } from 'react'
 import Colors from '../Constants/Colors';
+import Icon from '../Components/Icons';
 
 export default class Button extends Component {
     render() {
         let style = {
             button: styles.buttonFilled,
-            text: styles.buttonFilledText
+            text: styles.buttonFilledText,
+            icon: styles.icon
         };
 
         if (this.props.outline) {
@@ -22,8 +24,10 @@ export default class Button extends Component {
             let reg = new RegExp(color, "g");
             var buttonStyleSTR = JSON.stringify(style.button).replace(reg, this.props.color);
             var textStyleSTR = JSON.stringify(style.text).replace(reg, this.props.color);
+            var iconTextStyle = JSON.stringify(style.icon).replace(reg, this.props.color)
             style.button = JSON.parse(buttonStyleSTR);
             style.text = JSON.parse(textStyleSTR);
+            style.icon = JSON.parse(iconTextStyle)
         }
 
         return (
@@ -32,6 +36,9 @@ export default class Button extends Component {
                 onPress={() => { this.props.func() }}
                 style={[styles.button, style.button]}
             >
+                {this.props.icon? 
+                <Icon style={style.icon} type={this.props.type} name={this.props.icon} />
+                : null}
                 <Text style={[styles.buttonText, style.text]}>{this.props.text}</Text>
             </TouchableOpacity>
 
@@ -57,6 +64,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.27,
         shadowRadius: 4.65,
         elevation: 6,
+        flexDirection: 'row'
     },
     buttonFilled: {
         backgroundColor: Colors.primary,
@@ -86,5 +94,11 @@ const styles = StyleSheet.create({
     },
     buttonAsTextText: {
         color: Colors.primary,
-    }
+    },
+    icon: {
+        height: 30,
+        fontSize: 30,
+        textAlign: 'center',
+        color: Colors.primary,
+    },
 })
