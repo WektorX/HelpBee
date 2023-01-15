@@ -80,10 +80,10 @@ const english = {
     filters: 'Filters',
     search: 'Search',
     from: 'From',
-    to: 'To'
-
-
-
+    to: 'To',
+    chat: 'Chat',
+    typeMsg: 'Write a message...',
+    send: 'Send',
 }
 
 export {english};

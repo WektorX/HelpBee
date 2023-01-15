@@ -239,6 +239,38 @@ async function insertRate(rating) {
     }
 }
 
+
+async function initChat(userID, workerID, offerID) {
+    try {
+        const res = await axios.post(`${baseURL}/api/chat/initChat`,
+            { employerID: userID, workerID: workerID, offerID: offerID},
+            {
+                'Content-Type': 'application/json;charset=utf-8'
+            })
+        return { status: res.status }
+    }
+    catch (e) {
+        console.log(e);
+        return { status: 500 }
+    }
+}
+
+async function sendMsgToChat(employerID, workerID, offerID, msg) {
+    try {
+        const res = await axios.post(`${baseURL}/api/chat/sendMsg`,
+            { employerID: employerID, workerID: workerID, offerID: offerID, msg: msg},
+            {
+                'Content-Type': 'application/json;charset=utf-8'
+            })
+        return { status: res.status }
+    }
+    catch (e) {
+        console.log(e);
+        return { status: 500 }
+    }
+}
+
+
 export {
     insertBasicUserData,
     updateUserLocation,
@@ -253,5 +285,7 @@ export {
     reportOffer,
     insertRate,
     restoreOffer,
-    setPreferences
+    setPreferences,
+    initChat,
+    sendMsgToChat
 }

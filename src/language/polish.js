@@ -80,8 +80,10 @@ const polish = {
     filters: 'Filtry',
     search: 'Szukaj',
     from: 'Od',
-    to: 'Do'
-
+    to: 'Do',
+    chat: 'Chat',
+    typeMsg: 'Napisz wiadomość...',
+    send: 'Wyślij'
 }
 
 export {polish}

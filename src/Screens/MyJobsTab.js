@@ -10,7 +10,7 @@ import { userJobs } from '../redux/actions/userDataAction';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import MyOffersBlock from '../Components/MyOffersBlock.js';
 import Button from '../Components/Button'
-import { resignFromOffer, insertRate } from '../API/POST';
+import { resignFromOffer, insertRate, initChat } from '../API/POST';
 import { Rating } from 'react-native-ratings';
 
 export default function MyJobs() {
@@ -118,6 +118,11 @@ export default function MyJobs() {
       setSelectedJobs(temp);
     }
     setShowModal(false)
+  }
+
+  const openChat = async(id) => {
+    const response = await initChat(selectedJobs[id].userID, selectedJobs[id].worker, selectedJobs[id].id);
+    navigation.navigate("Chat", {who: 'worker', offer: selectedJobs[id]});
   }
 
   return (
@@ -235,6 +240,7 @@ export default function MyJobs() {
                           {offer.status == 1 ?
                             <View style={{ flexDirection: 'row', marginLeft: 20, width: 70, alignItems: 'center', justifyContent: 'center' }}>
                               <Button text={lang.reject} func={() => cancel(offer.id, offer.userID, offer.title)} color={Colors.red} asText={true}></Button>
+                              <Button text={lang.chat} func={() => openChat(id)} color={Colors.green} asText={true}></Button>
                             </View>
                             :
                             <View style={{ flexDirection: 'row', marginLeft: 20, width: 100, alignItems: 'center', justifyContent: 'center' }}>

@@ -11,7 +11,7 @@ import { userOffers } from '../redux/actions/userDataAction';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import MyOffersBlock from '../Components/MyOffersBlock.js';
 import Button from '../Components/Button'
-import { acceptWorker, rejectWorker, withdrawOffer, closeOffer, insertRate } from '../API/POST';
+import { acceptWorker, rejectWorker, withdrawOffer, closeOffer, insertRate, initChat} from '../API/POST';
 import { Rating } from 'react-native-ratings';
 
 const MyOffers = () => {
@@ -102,6 +102,11 @@ const MyOffers = () => {
   const cancel = async (offerID, worker, title) => {
     const response = await withdrawOffer(offerID, title, worker, uid);
     retriveOffers();
+  }
+
+  const openChat = async(id) => {
+    const response = await initChat(selectedOffers[id].userID, selectedOffers[id].worker, selectedOffers[id].id);
+    navigation.navigate("Chat", {who: 'employer', offer: selectedOffers[id]});
   }
 
   const onRefresh = async () => {
@@ -326,7 +331,9 @@ const MyOffers = () => {
 
                               {offer.workerStatus === "requested" && !today ?
                                 <Button text={lang.accept} func={() => accept(offer.id, offer.worker, offer.title)} color={Colors.green} asText={true}></Button>
-                                : null}
+                                : 
+                                <Button text={lang.chat} func={() => openChat(id)} color={Colors.green} asText={true}></Button>
+                              }
 
                             </View>
                             : offer.status == 3 ?

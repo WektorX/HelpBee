@@ -104,7 +104,7 @@ const CategoryOffersScreen = (props) => {
             let index = temp.findIndex(item => item.id === selected.id);
             temp[index].worker = uid;
             setOffers(temp);
-            applyFilters();
+            applyFilters(temp);
         }
         setShowModal(false)
     }
@@ -117,7 +117,7 @@ const CategoryOffersScreen = (props) => {
             temp[index].worker = "";
             temp[index].workersHistory.push(uid);
             setOffers(temp);
-            applyFilters();
+            applyFilters(temp);
         }
         setShowModal(false);
     }
@@ -129,7 +129,7 @@ const CategoryOffersScreen = (props) => {
             let index = temp.findIndex(item => item.id === selected.id);
             temp[index].reportedBy.push(uid);
             setOffers(temp);
-            applyFilters();
+            applyFilters(temp);
         }
         setShowModal(false);
     }

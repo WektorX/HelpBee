@@ -170,6 +170,26 @@ async function getNewOffers(uid, distance, location, categories) {
     })
 }
 
+
+async function getMessages(employerID, workerID, offerID) {
+    return new Promise((resolve, reject) =>  {
+        axios.get(`${baseURL}/api/chat/getMessages`, {
+            params: {
+                employerID: employerID,
+                workerID: workerID,
+                offerID: offerID,
+            }
+        })
+            .then(res => {
+                resolve({ status: res.status, data: res.data })
+            })
+            .catch((err) => {
+                console.log(err);
+                reject({ status: 500, user: null });
+            })
+    })
+}
+
 export {
     hasUserFilledInData,
     getUserDataByUID,
@@ -179,5 +199,6 @@ export {
     getUserJobs,
     getUserRating,
     getNewOffers,
-    checkIfUserBlocked
+    checkIfUserBlocked,
+    getMessages
 }
