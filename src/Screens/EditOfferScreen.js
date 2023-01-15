@@ -12,6 +12,7 @@ import CategorySelect from '../Components/CategorySelect';
 import MapView from 'react-native-maps';
 import { deleteOffer } from '../API/DELETE';
 import { withdrawOffer, updateOffer, restoreOffer } from '../API/POST';
+import SegmentedControl from '@react-native-segmented-control/segmented-control';
 
 
 // TODO: add required (title, description and category)
@@ -38,6 +39,8 @@ const EditOfferScreen = (props) => {
     const [worker, setWorker] = useState(props.route.params.worker);
     const [currentDate] = useState(new Date().toISOString().slice(0, 10));
     const [status, setStatus] = useState(props.route.params.status);
+    const [type, setType] = useState(props.route.params.type);
+    const [inReturn, setInReturn] = useState(props.route.params.inReturn);
     const [region, setRegion] = useState({
         latitude: props.route.params.location._latitude,
         longitude: props.route.params.location._longitude,
@@ -85,7 +88,9 @@ const EditOfferScreen = (props) => {
             serviceDate: date,
             category: category,
             status: status,
-            reward: parseFloat(reward)
+            reward: (type === 'monetary' ? parseFloat(reward? reward: 0) : 0),
+            type: type,
+            inReturn: (type === 'monetary' ? '' : inReturn)
         }
         const response = await updateOffer(props.route.params.id, offer, worker, uid);
         // TODO: handle error
@@ -115,6 +120,12 @@ const EditOfferScreen = (props) => {
         if (status !== 2) {
             setDate(date.replace(/\//g, "-"))
         }
+    }
+
+    //change type of offer
+    const offerTypeChange = (event) => {
+        let temp = event.nativeEvent.selectedSegmentIndex;
+        setType(temp === 0 ? 'monetary' : 'exchange');
     }
 
     return (
@@ -164,16 +175,44 @@ const EditOfferScreen = (props) => {
                             </TextInput>
                         </View>
                         <View style={styles.inputView}>
-                            <Text style={styles.inputTitle}>{lang.reward}</Text>
-                            <TextInput
-                                onChangeText={(vale) => setReward(vale)}
-                                style={styles.input}
-                                maxLength={8}
-                                value={reward.toString()}
-                                keyboardType={'decimal-pad'}
-                                disabled={status === 2}>
-                            </TextInput>
+                            <Text style={styles.inputTitle}>{lang.offerType}</Text>
+                            <SegmentedControl
+                                values={lang.offersType}
+                                selectedIndex={type === 'monetary' ? 0 : 1}
+                                onChange={(event) => offerTypeChange(event)}
+                                style={styles.segmentedButton}
+                                tintColor={Colors.purple}
+                                backgroundColor={Colors.purpleBackground}
+                                fontStyle={{ color: Colors.black }}
+                                activeFontStyle={{ color: Colors.white }}
+                            />
                         </View>
+                        {type === 'monetary' ?
+                            <View style={styles.inputView}>
+                                <Text style={styles.inputTitle}>{lang.reward}</Text>
+                                <TextInput
+                                    onChangeText={(vale) => setReward(vale)}
+                                    style={styles.input}
+                                    maxLength={8}
+                                    value={reward.toString()}
+                                    keyboardType={'decimal-pad'}
+                                    disabled={status === 2}>
+                                </TextInput>
+                            </View>
+                            :
+                            <View style={styles.inputView}>
+                                <Text style={styles.inputTitle}>{lang.inReturn}</Text>
+                                <TextInput
+                                    onChangeText={(vale) => setInReturn(vale)}
+                                    style={styles.input}
+                                    maxLength={300}
+                                    multiline={true}
+                                    numberOfLines={3}
+                                    value={inReturn}
+                                    disabled={status === 2}>
+                                </TextInput>
+                            </View>
+                        }
                         <View style={styles.inputView}>
                             <Text style={styles.inputTitle}>{lang.offerDate}</Text>
                             <DatePicker
@@ -332,5 +371,11 @@ const styles = StyleSheet.create({
         color: '#fff',
         lineHeight: 20,
         margin: 20
-    }
+    },
+    segmentedButton: {
+        color: Colors.white,
+        width: '95%',
+        height: 30,
+        marginTop: 20,
+    },
 })

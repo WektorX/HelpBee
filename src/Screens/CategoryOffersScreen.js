@@ -154,11 +154,7 @@ const CategoryOffersScreen = (props) => {
                                 <View style={styles.alignView}>
 
                                     <Text style={styles.modalTitle}>{selected.title}</Text>
-                                    <Text style={[styles.modalText, styles.modalReward]}>
-                                        {lang.reward} {selected.reward.toFixed(2)} PLN
-                                    </Text>
 
-                                    <Text style={styles.modalText}>{selected.serviceDate}</Text>
                                     <MapView
                                         initialRegion={{
                                             latitude: selected.location._latitude,
@@ -175,12 +171,35 @@ const CategoryOffersScreen = (props) => {
                                             }}
                                         />
                                     </MapView>
+
                                     <Text style={[styles.modalText, styles.modalDescription]}>
                                         {selected.description}
                                     </Text>
+                                    {selected.type === 'monetary' ?
+                                        <View>
+                                            <Text style={[styles.modalText, styles.modalReward]}>
+                                                {lang.reward}:
+                                            </Text>
+                                            <Text style={styles.modalText}>
+                                             {selected.reward.toFixed(2)} PLN
+                                            </Text>
+                                        </View>
+                                        :
+                                        <View>
+                                        <Text style={[styles.modalText, styles.modalReward]}>
+                                            {lang.inReturn}:
+                                        </Text>
+                                        <Text style={[styles.modalText, styles.modalDescription]}>
+                                            {selected.inReturn}
+                                        </Text>
+                                        </View>
+                                    }
+
+                                    <Text style={[styles.modalText, {fontWeight: 'bold'}]}>{lang.serviceDate}:</Text>
+                                    <Text style={styles.modalText}>{selected.serviceDate}</Text>
                                     <View style={styles.userInfo}>
                                         <Avatar.Text
-                                            size={80}
+                                            size={60}
                                             label={selected.firstName?.charAt(0) + selected.lastName?.charAt(0)}
                                             style={[styles.userAvatar, { backgroundColor: stringToColour(selected.firstName + " " + selected.lastName) }]}
                                             color={Colors.white} />

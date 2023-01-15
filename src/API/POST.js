@@ -47,12 +47,13 @@ async function setPreferences(uid, distance, preferences) {
 }
 
 
-async function updateUserLocation(id, location) {
+async function updateUserLocation(id, location, distance) {
     try {
         const res = await axios.post(`${baseURL}/api/users/setUserLocation`,
             {
                 uid: id,
-                location: location
+                location: location,
+                distance: distance
             },
             {
                 'Content-Type': 'application/json;charset=utf-8'

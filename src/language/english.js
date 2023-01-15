@@ -72,7 +72,14 @@ const english = {
     fewNewOffers : 'There are [XX] new offers that may interest you.',
     newOfferFromCategory: 'There is a new offer that you may be interested in from category [XX].',
     employerComment : 'Employer ',
-    workerComment : 'Worker '
+    workerComment : 'Worker ',
+    offersType: ['Monetary', 'Exchange'],
+    offerType: 'Offer type',
+    inReturn: 'In exchange for',
+    serviceDate : 'Service date',
+
+
+
 }
 
 export {english};

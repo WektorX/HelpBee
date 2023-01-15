@@ -49,7 +49,7 @@ export default function Offers() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      checkForNewOffers();
+      // checkForNewOffers();
     }, MINUTE_MS);
   
     return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
@@ -104,7 +104,7 @@ export default function Offers() {
           Longitude: location.coords.longitude
         }
         handleLocationChange(locationObj);
-        updateUserLocation(uid, locationObj);
+        updateUserLocation(uid, locationObj, distance);
         setLocationPermission(true);
       }
       else {
